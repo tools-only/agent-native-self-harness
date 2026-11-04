@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f2f0e9">
+<meta name="description" content="Agent-native self-harness：Agent 从任务质量出发，创建检查与方法，在同一循环中改进产物和 harness。附 JPMorgan Q3 2021 HTML 演示实跑。">
+<title>Agent-native Self-Harness — 让质量驱动任务循环</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#top" aria-label="Agent-native Self-Harness 首页"><span class="brand-mark">A<span>↗</span></span><span>AGENT-NATIVE<br><b>SELF-HARNESS</b></span></a>
+  <nav aria-label="主导航"><a href="#method">方法</a><a href="#case">PPT 实跑</a><a href="#artifacts">Agent 创建的组件</a></nav>
+  <a class="top-link" href="https://github.com/tools-only/agent-native-self-harness" target="_blank" rel="noopener">GitHub ↗</a>
+</header>
+<main id="top">
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="pulse"></span> AN AGENT-NATIVE WORK METHOD</div>
+      <h1>先定义怎样算好。<br><em>再让质量带着任务往前走。</em></h1>
+      <p class="hero-lede">Self-harness 把 Agent 的“做任务”和“造方法”放进同一个循环：Agent 根据当前任务定义质量、建立检查与方法，再按证据选择改产物，或改进 harness。</p>
+      <div class="hero-actions"><a class="button primary" href="#case">看一次真实 PPT 任务 <span>↓</span></a><a class="text-link" href="#method">了解工作方式 <span>↗</span></a></div>
+      <p class="hero-note">领域标准、方法和组件不预先塞给 Agent；它们从任务材料和实际差距中长出来。</p>
+    </div>
+    <div class="loop-card" aria-label="质量驱动的 self-harness 循环示意">
+      <div class="loop-head"><span>THE WORK LOOP</span><span class="live-dot">AGENT-OWNED LOOP</span></div>
+      <svg class="loop-graphic" viewBox="0 0 480 285" role="img" aria-label="质量状态推动产物与 harness 的循环">
+        <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 8 4 0 8" fill="none" stroke="#b6ed62" stroke-width="1.6"/></marker></defs>
+        <path d="M145 72 C218 24 314 37 347 93" fill="none" stroke="#b6ed62" stroke-width="2" marker-end="url(#arrow)"/><path d="M364 141 C354 205 286 243 214 230" fill="none" stroke="#b6ed62" stroke-width="2" marker-end="url(#arrow)"/><path d="M160 207 C101 188 82 133 107 98" fill="none" stroke="#b6ed62" stroke-width="2" marker-end="url(#arrow)"/>
+        <rect x="32" y="99" width="143" height="82" rx="13" fill="#202d31" stroke="#54605a"/><text x="51" y="127" fill="#b6ed62" font-size="11" letter-spacing="1.4">QUALITY STATE</text><text x="51" y="151" fill="#f5f2e9" font-size="15" font-weight="700">证据 · 差距 · 标准</text><text x="51" y="168" fill="#a9b4ae" font-size="10">每次渲染后更新</text>
+        <rect x="202" y="36" width="144" height="78" rx="13" fill="#202d31" stroke="#54605a"/><text x="221" y="64" fill="#b6ed62" font-size="11" letter-spacing="1.4">AGENT DECIDES</text><text x="221" y="88" fill="#f5f2e9" font-size="15" font-weight="700">差在哪一环？</text><text x="221" y="103" fill="#a9b4ae" font-size="10">改产物，或改 harness</text>
+        <rect x="239" y="176" width="174" height="78" rx="13" fill="#202d31" stroke="#54605a"/><text x="258" y="204" fill="#b6ed62" font-size="11" letter-spacing="1.4">METHODS + ARTIFACT</text><text x="258" y="228" fill="#f5f2e9" font-size="15" font-weight="700">制作 · 检查 · 再量</text><text x="258" y="243" fill="#a9b4ae" font-size="10">方法随任务生长、复用或退役</text>
+        <circle cx="211" cy="154" r="12" fill="#b6ed62"/><text x="211" y="158" text-anchor="middle" fill="#132022" font-size="11" font-weight="800">↻</text>
+      </svg>
+      <div class="loop-foot"><span><i></i> Agent owns judgment</span><span>Runtime routes evidence</span></div>
+    </div>
+  </section>
+
+  <section class="signal-row" aria-label="演示关键结果">
+    <div><b>15</b><span>页 HTML 演示</span></div><div><b>18</b><span>次版本渲染</span></div><div><b>3</b><span>Agent 创建的组件</span></div><div><b>3 / 3</b><span>质量维度最终通过</span></div>
+  </section>
+
+  <section class="method section" id="method">
+    <div class="section-intro"><div class="eyebrow dark">HOW IT WORKS</div><h2>质量模型是主线，<br>不是交付前的附加检查。</h2><p>每个周期都从状态表开始。Agent 判断差距来自产物、方法、检查、流程还是标准；做一次干预，重渲染并重算状态。</p></div>
+    <div class="method-grid">
+      <article class="method-step"><span class="step-index">01</span><div class="step-icon">◎</div><h3>定义质量</h3><p>从受众、目的与材料中推导维度、标准和证据。质量地图由 Agent 按当前任务创建。</p><small>DIMENSIONS · STANDARDS · EVIDENCE</small></article>
+      <article class="method-step"><span class="step-index">02</span><div class="step-icon">↗</div><h3>制作并检查</h3><p>方法可以是程序、skill、数据或审稿角色。runtime 渲染并运行地图中的检查。</p><small>METHODS · CHECKS · WORKFLOW</small></article>
+      <article class="method-step"><span class="step-index">03</span><div class="step-icon">⟲</div><h3>选择下一次干预</h3><p>Agent 看差距与证据，决定修内容、用现有方法，或改变 harness 的某一环。</p><small>ADAPT THE WORK OR ITS METHOD</small></article>
+      <article class="method-step"><span class="step-index">04</span><div class="step-icon">✓</div><h3>复核标准再交付</h3><p>维度全达标后做覆盖复核。如果盲审发现漏项，先扩展标准并补齐，再交付。</p><small>QUALITY-LED HANDOFF</small></article>
+    </div>
+  </section>
+
+  <section class="case-section section" id="case">
+    <div class="case-header"><div><div class="eyebrow dark">FIELD DEMO / NOV 2026</div><h2>同一份 earnings deck，<br>在评审里把细节磨对。</h2><p>任务：面向非专业读者，制作 JPMorgan Chase 2021 年第三季度业绩 HTML 演示。Agent 使用质量差距推进修订，并创建了可复用的方法。数字来源为 JPMorgan Chase 的公开业绩公告，逐页引用随演示保留。</p></div><div class="case-badge"><span class="badge-dot"></span><b>DELIVERED</b><small>GPT-6 Luna · high<br>OpenAI Codex OAuth</small></div></div>
+    <div class="deck-showcase">
+      <div class="deck-frame"><div class="frame-bar"><span><i></i><i></i><i></i></span><label>JPMorgan Chase · Q3 2021</label><a href="assets/presentation.html" target="_blank" rel="noopener">打开演示 ↗</a></div><img src="assets/v018-contact-sheet.png" alt="JPMorgan Chase 15 页 HTML 演示终稿缩略图，v018"><div class="deck-caption"><span>FINAL RENDER · V018</span><span>15 slides · self-contained HTML</span></div></div>
+      <aside class="deck-facts"><div class="fact-label">最终质量状态</div><div class="quality-line"><span>Accuracy <small>数字与来源忠实度</small></span><b>PASS</b></div><div class="quality-line"><span>Clarity <small>面向非专业读者</small></span><b>PASS</b></div><div class="quality-line"><span>Functional <small>HTML 与逐页导航</small></span><b>PASS</b></div><div class="fact-rule"></div><p>最终 validator v4：<b>7 / 7</b> 程序检查通过。独立 coverage reviewer 也通过了 v018。</p><a class="button dark-button" href="assets/presentation.html" target="_blank" rel="noopener">浏览可交互演示 <span>↗</span></a></aside>
+    </div>
+  </section>
+
+  <section class="iteration section" id="iterations">
+    <div class="section-intro iteration-intro"><div class="eyebrow dark">THE EVIDENCE LOOP</div><h2>一次通过，不代表后来不会发现问题。</h2><p>评审意见进入下一轮决策。内容改变后继续复核；终稿必须回应具体差距。</p></div>
+    <div class="revision-layout"><div class="revision-tabs" role="group" aria-label="选择版本"><button class="revision active" data-rev="v001"><span>v001</span><small>第一次盲审</small></button><button class="revision" data-rev="v013"><span>v013</span><small>中途通过</small></button><button class="revision" data-rev="v017"><span>v017</span><small>复审再发现</small></button><button class="revision" data-rev="v018"><span>v018</span><small>终稿复核</small></button></div>
+      <article class="revision-card" aria-live="polite"><div class="revision-image"><img id="revisionImage" src="assets/v001-contact-sheet.png" alt="v001 初版演示缩略图"></div><div class="revision-copy"><div class="revision-meta"><span id="revisionStatus" class="status needs">NEEDS REVISION</span><span id="revisionVersion">REVISION 01 / 18</span></div><h3 id="revisionTitle">重要 caveat 与来源细节缺失</h3><p id="revisionText">首轮盲审指出流动性数字缺少“estimated”限定、来源注释被导航遮挡，且 AWM 页面漏掉关键的 $3.0T 资产管理规模。</p><div id="revisionEvidence" class="revision-evidence">发现 → 修订 → 再渲染。早期差距影响方法和内容，不靠清零几何告警放行。</div></div></article>
+    </div>
+  </section>
+
+  <section class="components section" id="artifacts">
+    <div class="section-heading"><div><div class="eyebrow dark">BUILT DURING THE TASK</div><h2>Agent 创建了自己的检查工具箱。</h2></div><p>三件任务内生成的组件都公开可读。它们来自这份 deck 的事实核查和评审需求，并非预先配置的 PPT 套件。</p></div>
+    <div class="component-grid"><a class="component-card" href="components/coverage-reviewer.md"><span class="component-type">SUBAGENT · REVIEW</span><b>Coverage reviewer</b><p>独立检查演示稿、来源材料与渲染证据，给出具体差距。</p><span class="open-file">查看组件 ↗</span></a><a class="component-card" href="components/earnings-deck-review.md"><span class="component-type">SKILL · METHOD</span><b>Earnings deck review</b><p>把数字、期间、会计标签、caveat、引用和可读性整理成审阅方法。</p><span class="open-file">查看组件 ↗</span></a><a class="component-card" href="components/validate-earnings-deck.py"><span class="component-type">TOOL · VALIDATOR</span><b>Deck validator v4</b><p>程序核对页数、HTML 导航、关键数值、解释文本与自包含资源。</p><span class="open-file">查看组件 ↗</span></a></div>
+    <a class="map-link" href="components/quality-map.json">查看 Agent 创建的质量地图 <span>↗</span></a>
+  </section>
+
+  <section class="principles section"><div class="principle-title"><span>THE PRINCIPLE</span><h2>让 Agent 对质量拥有方向，<br>让 runtime 把证据送到位。</h2></div><div class="principle-copy"><p>Runtime 负责渲染、执行检查、计算状态与保留证据。任务目标、质量定义、检查方法、每轮干预和组件去留由 Agent 判断。</p><p>这样一来，harness 不再是任务旁边可选的“开发模式”；它就是 Agent 推进工作时使用的地图、方法和反馈。</p></div></section>
+
+  <section class="limits"><div class="eyebrow dark">WHAT THIS DEMO SHOWS</div><p><b>这是一次真实任务演示，不是对照实验。</b>它说明该运行中 Agent 创建并使用了 reviewer、skill 和 validator，质量地图报告 3 个维度通过，盲审最终放行。单个案例不能证明这些组件带来了因果质量提升，也不能代表跨任务净收益。</p><a href="https://github.com/tools-only/agent-native-self-harness" target="_blank" rel="noopener">代码与展示文件托管于 GitHub ↗</a></section>
+</main>
+<footer><a class="brand" href="#top"><span class="brand-mark">A<span>↗</span></span><span>AGENT-NATIVE<br><b>SELF-HARNESS</b></span></a><span>任务定义质量。证据驱动下一步。</span><a href="#top">回到顶部 ↑</a></footer>
+<script src="app.js"></script>
+</body>
+</html>
+
