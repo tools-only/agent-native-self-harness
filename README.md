@@ -1,21 +1,18 @@
 # Agent-native Self-Harness demo
 
-A static project page introducing the quality-led, agent-owned self-harness loop, the real JPMorgan Chase Q3 2021 HTML presentation run, and two original GPT-6.1 Sol generated videos.
+A static project page introducing Agent-native self-evolution and two task demonstrations.
 
-## Contents
-- `index.html`, `styles.css`, `app.js`: static page source; no build step or external assets.
-- `assets/presentation.html`: delivered 15-slide deck.
-- `assets/*.png`: selected render evidence.
-- `assets/codex-baseline-gpt-6.1-sol.mp4`: original baseline Codex generated video.
-- `assets/agent-native-gpt-6.1-sol.mp4`: original Agent self-evolution generated video.
-- `assets/*-poster.jpg`: still frames used only as video preview posters.
-- `components/`: task-created reviewer, skill, validator, and quality map.
+## Demo 1 source
+- `assets/demo1/deck.html`: the requested `exports/v004/deck.html` deliverable from `ppt-jpm-imagegen-20261104-r2`.
+- `assets/demo1/v001-contact-sheet.png`, `v003-contact-sheet.png`, `v004-contact-sheet.png`: selected intermediate and final renders.
+- `components/`: the persisted Agent, prompt, skill, and tools at the delivery cutoff.
+- The trajectory view intentionally includes only the first 12 lifecycle records and stops at the v004 `deck.html` delivery event.
 
-The video files are byte-for-byte copies of the supplied MP4s. The page embeds and plays those original files with native HTML video controls; they are not recompressed or transcoded. Posters are separate still frames and do not replace the videos. Both files are 15 seconds, 1920×1080 H.264 with AAC audio.
+## Demo 2 source
+- `assets/codex-baseline-gpt-6.1-sol.mp4`: byte-for-byte copy of the supplied baseline Codex video.
+- `assets/agent-native-gpt-6.1-sol.mp4`: byte-for-byte copy of the supplied Agent-native video.
+- The MP4 files are embedded and played directly with native HTML video controls. They are not recompressed or transcoded. Poster images are separate preview frames.
 
-The PPT demo began with generic harness-learning guidance and no task-specific criteria, methods, or components preloaded. The Agent created the quality map and three components shown here during the task. The single run demonstrates the workflow and recorded evidence; it does not establish causal quality gain or cross-task net benefit.
+Both demo videos are 15 seconds, 1920×1080 H.264 with AAC audio. The PPT source is JPMorgan Chase's public Third-Quarter 2021 earnings release: https://www.sec.gov/Archives/edgar/data/19617/000001961721000446/a3q21erfexhibit991narrative.htm
 
-The presentation uses JPMorgan Chase's publicly available Third-Quarter 2021 earnings release: https://www.sec.gov/Archives/edgar/data/19617/000001961721000446/a3q21erfexhibit991narrative.htm
-
-## Local preview
-Open `index.html` directly in a browser. The site is static and uses relative links, so it also works as a GitHub Pages project site.
+Open `index.html` directly for a local preview, or publish the repository root on GitHub Pages.
