@@ -11,16 +11,17 @@
 <body>
 <header class="topbar">
   <a class="brand" href="#top" aria-label="Agent-native Self-Harness 首页"><span class="brand-mark">A<span>↗</span></span><span>AGENT-NATIVE<br><b>SELF-HARNESS</b></span></a>
-  <nav aria-label="主导航"><a href="#method">方法</a><a href="#case">PPT 实跑</a><a href="#artifacts">Agent 创建的组件</a></nav>
+  <nav aria-label="主导航"><a href="#summary">摘要</a><a href="#demo-ppt">Demo 1 · PPT</a><a href="#demo-video">Demo 2 · 视频</a></nav>
   <a class="top-link" href="https://github.com/tools-only/agent-native-self-harness" target="_blank" rel="noopener">GitHub ↗</a>
 </header>
 <main id="top">
+<section class="summary" id="summary">
   <section class="hero">
     <div class="hero-copy">
       <div class="eyebrow"><span class="pulse"></span> AN AGENT-NATIVE WORK METHOD</div>
       <h1>先定义怎样算好。<br><em>再让质量带着任务往前走。</em></h1>
       <p class="hero-lede">Self-harness 把 Agent 的“做任务”和“造方法”放进同一个循环：Agent 根据当前任务定义质量、建立检查与方法，再按证据选择改产物，或改进 harness。</p>
-      <div class="hero-actions"><a class="button primary" href="#case">看一次真实 PPT 任务 <span>↓</span></a><a class="text-link" href="#method">了解工作方式 <span>↗</span></a></div>
+      <div class="hero-actions"><a class="button primary" href="#demo-ppt">看一次真实 PPT 任务 <span>↓</span></a><a class="text-link" href="#method">了解工作方式 <span>↗</span></a></div>
       <p class="hero-note">领域标准、方法和组件不预先塞给 Agent；它们从任务材料和实际差距中长出来。</p>
     </div>
     <div class="loop-card" aria-label="质量驱动的 self-harness 循环示意">
@@ -51,8 +52,12 @@
     </div>
   </section>
 
+  <section class="principles section"><div class="principle-title"><span>THE PRINCIPLE</span><h2>让 Agent 对质量拥有方向，<br>让 runtime 把证据送到位。</h2></div><div class="principle-copy"><p>Runtime 负责渲染、执行检查、计算状态与保留证据。任务目标、质量定义、检查方法、每轮干预和组件去留由 Agent 判断。</p><p>这样一来，harness 不再是任务旁边可选的“开发模式”；它就是 Agent 推进工作时使用的地图、方法和反馈。</p></div></section>
+</section>
+
+<section class="demo-ppt" id="demo-ppt">
   <section class="case-section section" id="case">
-    <div class="case-header"><div><div class="eyebrow dark">FIELD DEMO / NOV 2026</div><h2>同一份 earnings deck，<br>在评审里把细节磨对。</h2><p>任务：面向非专业读者，制作 JPMorgan Chase 2021 年第三季度业绩 HTML 演示。Agent 使用质量差距推进修订，并创建了可复用的方法。数字来源为 JPMorgan Chase 的公开业绩公告，逐页引用随演示保留。</p></div><div class="case-badge"><span class="badge-dot"></span><b>DELIVERED</b><small>GPT-6 Luna · high<br>OpenAI Codex OAuth</small></div></div>
+    <div class="case-header"><div><div class="eyebrow dark">DEMO 1 / PPT · NOV 2026</div><h2>同一份 earnings deck，<br>在评审里把细节磨对。</h2><p>任务：面向非专业读者，制作 JPMorgan Chase 2021 年第三季度业绩 HTML 演示。Agent 使用质量差距推进修订，并创建了可复用的方法。数字来源为 JPMorgan Chase 的公开业绩公告，逐页引用随演示保留。</p></div><div class="case-badge"><span class="badge-dot"></span><b>DELIVERED</b><small>GPT-6 Luna · high<br>OpenAI Codex OAuth</small></div></div>
     <div class="deck-showcase">
       <div class="deck-frame"><div class="frame-bar"><span><i></i><i></i><i></i></span><label>JPMorgan Chase · Q3 2021</label><a href="assets/presentation.html" target="_blank" rel="noopener">打开演示 ↗</a></div><img src="assets/v018-contact-sheet.png" alt="JPMorgan Chase 15 页 HTML 演示终稿缩略图，v018"><div class="deck-caption"><span>FINAL RENDER · V018</span><span>15 slides · self-contained HTML</span></div></div>
       <aside class="deck-facts"><div class="fact-label">最终质量状态</div><div class="quality-line"><span>Accuracy <small>数字与来源忠实度</small></span><b>PASS</b></div><div class="quality-line"><span>Clarity <small>面向非专业读者</small></span><b>PASS</b></div><div class="quality-line"><span>Functional <small>HTML 与逐页导航</small></span><b>PASS</b></div><div class="fact-rule"></div><p>最终 validator v4：<b>7 / 7</b> 程序检查通过。独立 coverage reviewer 也通过了 v018。</p><a class="button dark-button" href="assets/presentation.html" target="_blank" rel="noopener">浏览可交互演示 <span>↗</span></a></aside>
@@ -72,12 +77,31 @@
     <a class="map-link" href="components/quality-map.json">查看 Agent 创建的质量地图 <span>↗</span></a>
   </section>
 
-  <section class="principles section"><div class="principle-title"><span>THE PRINCIPLE</span><h2>让 Agent 对质量拥有方向，<br>让 runtime 把证据送到位。</h2></div><div class="principle-copy"><p>Runtime 负责渲染、执行检查、计算状态与保留证据。任务目标、质量定义、检查方法、每轮干预和组件去留由 Agent 判断。</p><p>这样一来，harness 不再是任务旁边可选的“开发模式”；它就是 Agent 推进工作时使用的地图、方法和反馈。</p></div></section>
+  
+</section>
 
-  <section class="limits"><div class="eyebrow dark">WHAT THIS DEMO SHOWS</div><p><b>这是一次真实任务演示，不是对照实验。</b>它说明该运行中 Agent 创建并使用了 reviewer、skill 和 validator，质量地图报告 3 个维度通过，盲审最终放行。单个案例不能证明这些组件带来了因果质量提升，也不能代表跨任务净收益。</p><a href="https://github.com/tools-only/agent-native-self-harness" target="_blank" rel="noopener">代码与展示文件托管于 GitHub ↗</a></section>
+<section class="video-demo section" id="demo-video">
+  <div class="video-heading"><div><div class="eyebrow dark">DEMO 2 / VIDEO · GPT-6.1 SOL</div><h2>基线 Codex 与 Agent 自进化方法</h2><p>两段均为 15 秒生成视频：左侧由基线 Codex 生成，右侧由 Agent 自进化方法生成，均使用 GPT-6.1 Sol。页面直接播放原始 1080p MP4，保留音轨，不二次压缩或转码。这是两种方法的成品展示，不是受控对照评测。</p></div><span class="video-spec">ORIGINAL FILES<br>1920 × 1080 · H.264 · AAC</span></div>
+  <div class="video-grid">
+    <article class="video-card">
+      <div class="video-card-head"><span class="video-index">A</span><div><span class="video-tag">BASELINE</span><h3>Codex</h3><small>GPT-6.1 Sol · 15 sec</small></div></div>
+      <div class="video-frame"><video controls preload="metadata" playsinline poster="assets/codex-baseline-poster.jpg" aria-label="基线 Codex GPT-6.1 Sol 原始视频"><source src="assets/codex-baseline-gpt-6.1-sol.mp4" type="video/mp4">浏览器不支持 MP4 播放，请<a href="assets/codex-baseline-gpt-6.1-sol.mp4">打开原视频</a>。</video></div>
+      <a class="video-file" href="assets/codex-baseline-gpt-6.1-sol.mp4" download>打开 / 下载原视频 ↗</a>
+    </article>
+    <article class="video-card evolved">
+      <div class="video-card-head"><span class="video-index">B</span><div><span class="video-tag">AGENT-NATIVE SELF-HARNESS</span><h3>Agent 自进化方法</h3><small>GPT-6.1 Sol · 15 sec</small></div></div>
+      <div class="video-frame"><video controls preload="metadata" playsinline poster="assets/agent-native-poster.jpg" aria-label="Agent 自进化方法 GPT-6.1 Sol 原始视频"><source src="assets/agent-native-gpt-6.1-sol.mp4" type="video/mp4">浏览器不支持 MP4 播放，请<a href="assets/agent-native-gpt-6.1-sol.mp4">打开原视频</a>。</video></div>
+      <a class="video-file" href="assets/agent-native-gpt-6.1-sol.mp4" download>打开 / 下载原视频 ↗</a>
+    </article>
+  </div>
+</section>
+
+<section class="limits"><div class="eyebrow dark">WHAT THIS DEMO SHOWS</div><p><b>这是一次真实任务演示，不是对照实验。</b>它说明该运行中 Agent 创建并使用了 reviewer、skill 和 validator，质量地图报告 3 个维度通过，盲审最终放行。单个案例不能证明这些组件带来了因果质量提升，也不能代表跨任务净收益。</p><a href="https://github.com/tools-only/agent-native-self-harness" target="_blank" rel="noopener">代码与展示文件托管于 GitHub ↗</a></section>
 </main>
 <footer><a class="brand" href="#top"><span class="brand-mark">A<span>↗</span></span><span>AGENT-NATIVE<br><b>SELF-HARNESS</b></span></a><span>任务定义质量。证据驱动下一步。</span><a href="#top">回到顶部 ↑</a></footer>
 <script src="app.js"></script>
 </body>
 </html>
+
+
 
