@@ -1,7 +1,8 @@
-// Demo 1: tile scenes (play once in view, replay on hover/focus) and the stage studio.
+// Demo sections (PPT, Kaggle): tile scenes (play once in view, replay on hover/focus) and the stage studio.
 {
-const section = document.querySelector("#demo-ppt");
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+document.querySelectorAll(".evo").forEach(section => {
+const prefix = section.dataset.prefix;
 const tiles = [...section.querySelectorAll("[data-tile]")];
 const playing = new Set();
 
@@ -84,7 +85,7 @@ playButton.addEventListener("click", () => autoplay(!timer));
 
 // Tile links point at #stage-N, so a click (or tap) jumps to the studio on that stage.
 const fromHash = () => {
-  const match = location.hash.match(/^#stage-(\d+)$/);
+  const match = location.hash.match(new RegExp(`^#${prefix}stage-(\\d+)$`));
   if (match && panels[match[1]]) { autoplay(false); show(Number(match[1])); }
 };
 addEventListener("hashchange", fromHash);
@@ -92,7 +93,7 @@ tiles.forEach((tile, i) => tile.addEventListener("click", () => { autoplay(false
 show(0);
 fromHash();
 
-if (!reduceMotion && !location.hash.startsWith("#stage-")) {
+if (!reduceMotion && !location.hash.startsWith(`#${prefix}stage-`)) {
   const studioObserver = new IntersectionObserver(entries => {
     if (!entries[0].isIntersecting) return;
     studioObserver.disconnect();
@@ -100,4 +101,5 @@ if (!reduceMotion && !location.hash.startsWith("#stage-")) {
   }, { threshold: 0.45 });
   studioObserver.observe(studio);
 }
+});
 }

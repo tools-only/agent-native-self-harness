@@ -1,4 +1,4 @@
-/* Demo 1 — Lumno material with the site's green accent. Desktop layout. All colors live in variables. */
+/* Demo sections (PPT, Kaggle) — Lumno material with the site's green accent. Desktop layout. All colors live in variables. */
 .evo{
   --card:#fff;--cell-hover:#f9f9f8;--hair:rgba(32,38,46,.08);--card-shadow:0 30px 60px -36px rgba(47,42,34,.32);
   --text:#2f2a22;--muted:#6f706a;--faint:#9a9b95;--pane:#fafafa;--pane-ring:rgba(32,38,46,.07);
@@ -252,6 +252,40 @@
 .source-sheet figcaption{display:grid;gap:4px;text-align:center;font-size:12px;color:var(--muted)}
 .source-sheet figcaption span:first-child{font-weight:700;color:var(--text)}
 
+/* Kaggle workspace: score trajectory instead of a contact sheet */
+.chart-box{display:flex}
+.score-chart{flex:1;min-width:0;margin:0;display:flex;flex-direction:column;padding:10px 12px 6px;border-radius:10px;background:var(--card);box-shadow:0 0 0 1px var(--hair),0 14px 28px -18px var(--dim)}
+.score-chart svg{flex:1;min-height:0;width:100%;overflow:visible}
+.chart-legend{display:flex;gap:14px;font-size:10.5px;color:var(--muted)}
+.chart-legend span::before{content:"";display:inline-block;width:8px;height:8px;margin-right:5px;border-radius:50%;vertical-align:-1px}
+.chart-legend .k-cv::before{background:var(--accent)}
+.chart-legend .k-lb::before{background:var(--used);border-radius:1px;transform:rotate(45deg) scale(.85)}
+.chart-legend .k-cand::before{background:var(--card);box-shadow:inset 0 0 0 1.5px var(--faint)}
+.score-chart .band{fill:var(--accent-soft)}
+.score-chart .grid{stroke:var(--hair)}
+.score-chart text{font:10px var(--mono);fill:var(--faint)}
+.score-chart .axis.now{fill:var(--accent);font-weight:700}
+.score-chart .axis.future{opacity:.45}
+.score-chart .best{stroke:var(--used);stroke-dasharray:3 4;opacity:.45}
+.score-chart .best-label{fill:var(--used)}
+.score-chart .cv-line{fill:none;stroke:var(--accent);stroke-width:2}
+.score-chart .lb-line{fill:none;stroke:var(--used);stroke-width:2}
+.score-chart circle.sub{fill:var(--accent);stroke:var(--card);stroke-width:2}
+.score-chart rect.lb{fill:var(--used);stroke:var(--card);stroke-width:1.5}
+.score-chart circle.cand{fill:var(--card);stroke:var(--faint);stroke-width:1.5}
+.score-chart circle.cand.now{stroke:var(--text)}
+.score-chart .pt-label{fill:var(--text);font-weight:600}
+.score-chart .pt-label.cand{fill:var(--muted);font-weight:500}
+.score-chart .pt-label.lb{fill:var(--used)}
+.score-chart .pending{fill:var(--updated);font-weight:700}
+.score-chart .pending-line{stroke:var(--updated);stroke-dasharray:2 4}
+.ws-files{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:2px}
+.ws-files li{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:10px;padding:4px 8px;border-radius:7px;background:var(--card);box-shadow:inset 0 0 0 1px var(--hair);font-size:11px;line-height:1.4;color:var(--muted)}
+.ws-files code{font:600 10.5px/1.4 var(--mono);color:var(--text);overflow-wrap:anywhere}
+.file.folded{display:flex;flex-wrap:wrap;gap:3px 4px;align-items:baseline}
+.file.folded span{font-size:10px;color:var(--faint);margin-right:2px}
+.file.folded code{font:500 10px var(--mono);color:var(--muted);padding:0 4px;border-radius:4px;box-shadow:inset 0 0 0 1px var(--hair)}
+
 .tree>li{margin-bottom:2px}
 .dir-row{display:flex;align-items:center;gap:7px;font:700 11.5px var(--mono)}
 .dir-row .dot{width:8px;height:8px;border-radius:2px;background:var(--lane)}
@@ -265,7 +299,7 @@
 .file p{flex:1 1 auto;margin:0;font:10.5px/1.4 var(--mono);color:var(--faint)}
 .file.empty{padding:1px 7px}
 .file.empty code{color:var(--faint);font-weight:400;font-size:10.5px}
-.file.mem{display:grid;grid-template-columns:92px minmax(0,1fr);column-gap:8px;align-items:start}
+.file.mem{display:grid;grid-template-columns:fit-content(150px) minmax(0,1fr);column-gap:8px;align-items:start}
 .notes{margin:0;padding:0;list-style:none;font:10.5px/1.4 var(--mono);color:var(--faint)}
 .notes li{display:inline-block;margin-right:8px;white-space:nowrap}
 .notes li::before{content:"•";margin-right:4px;color:var(--lane)}
@@ -281,7 +315,7 @@
 
 /* stage content re-enters each time a stage becomes active */
 .stage-panel[data-active] :is(.loop-steps li,.events li){animation:fade-up .45s var(--ease-out) both;animation-delay:calc(var(--i) * 70ms + .1s)}
-.stage-panel[data-active] .sheet{animation:panel-in .5s var(--ease-out) .12s both}
+.stage-panel[data-active] :is(.sheet,.score-chart){animation:panel-in .5s var(--ease-out) .12s both}
 .stage-panel[data-active] .slide-mark{animation:ring-in .5s var(--spring) .6s both}
 .stage-panel[data-active] .file.is-new{animation:file-new .6s var(--spring) .45s both}
 .stage-panel[data-active] .file.is-updated{animation:file-flash 1s var(--ease-out) .45s both}
@@ -299,6 +333,9 @@
 .proof-compare span{position:absolute;left:8px;top:8px;padding:2px 8px;border-radius:6px;background:var(--card);font:700 10px/1.6 var(--mono);box-shadow:0 0 0 1px var(--hair)}
 .proof-compare .after span{background:var(--accent);color:var(--card)}
 .evo-footnote{margin:16px 6px 0;font-size:11.5px;line-height:1.7;color:var(--faint)}
+
+.stage-panel[data-active] .score-chart :is(.now,.pt-label,.pending,.pending-line){animation:chart-in .6s var(--ease-out) .55s both}
+@keyframes chart-in{from{opacity:0}}
 
 @media (prefers-reduced-motion:reduce){
   .evo *,.evo *::before,.evo *::after{animation:none!important;transition:none!important}

@@ -1,9 +1,13 @@
-"""Build the Demo 1 section of index.html from data/demo1.json.
+"""Build the demo sections of index.html from data/*.json (Demo 1 · PPT, Demo 2 · Kaggle).
+
+Each data file names its own section id, marker and stage-link prefix, and is rendered
+between <!-- MARKER:START --> and <!-- MARKER:END --> in index.html.
 
 Usage (from the site root):
-  python tools/build_demo1.py            # rebuild index.html
-  python tools/build_demo1.py --sync     # copy renders from sync.source_root first
-  python tools/build_demo1.py --watch    # rebuild whenever the data or assets change
+  python tools/build_demos.py                      # rebuild every demo
+  python tools/build_demos.py data/kaggle.json     # rebuild one demo
+  python tools/build_demos.py --sync               # copy files listed in each sync block first
+  python tools/build_demos.py --watch              # rebuild whenever data or assets change
 """
 import argparse
 import json
@@ -13,11 +17,11 @@ from html import escape
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-START, END = "<!-- DEMO1:START -->", "<!-- DEMO1:END -->"
+DEMOS = [ROOT / "data" / "demo1.json", ROOT / "data" / "kaggle.json"]
 STATE_LABELS = {"new": "新增", "updated": "更新", "used": "调用", "kept": "保留"}
 LOOP_LABELS = ["观察", "判断", "改 harness", "工作区结果"]
 
-# Each scene is a tiny wireframe: action -> result. Stages pick one by name in demo1.json.
+# Each scene is a tiny wireframe: action -> result. Stages pick one by name in the demo JSON.
 SCENES = {
     "loop": '''<div class="scene scene-loop">
   <svg class="loop-ring" viewBox="0 0 126 118"><path class="loop-path" pathLength="1" d="M63 26a33 33 0 1 1-28.6 16.5"/><path class="loop-arrow" pathLength="1" d="m31 36 3 8 8-3"/></svg>
@@ -63,10 +67,14 @@ def load(data_path):
     for key, comp in data["components"].items():
         if comp["lane"] not in lanes:
             problems.append(f"component {key}: unknown lane {comp['lane']}")
-    assets = [stage["workspace"]["image"] for stage in data["stages"]]
+    assets = [stage["workspace"].get("image") for stage in data["stages"]]
     assets += [stage["workspace"].get("link") for stage in data["stages"]]
-    assets += [data["proof"]["before"][1], data["proof"]["after"][1], data["proof"]["link"]]
+    if "proof" in data:
+        assets += [data["proof"]["before"][1], data["proof"]["after"][1], data["proof"]["link"]]
     assets += [comp.get("link") for comp in data["components"].values()]
+    for point in data.get("chart", {}).get("points", []):
+        if not 0 <= point["stage"] < len(data["stages"]):
+            problems.append(f"chart point {point['label']}: stage {point['stage']} out of range")
     for n, stage in enumerate(data["stages"]):
         if stage["scene"] not in SCENES:
             problems.append(f"stage {n}: unknown scene {stage['scene']} (choose from {', '.join(SCENES)})")
@@ -78,27 +86,30 @@ def load(data_path):
         for event in stage["events"]:
             if event.get("lane", "prompts") not in lanes:
                 problems.append(f"stage {n}: unknown event lane {event['lane']}")
+        if stage["workspace"].get("chart") and "chart" not in data:
+            problems.append(f"stage {n}: workspace uses the chart but the file has no chart block")
     problems += [f"missing asset: {path}" for path in assets if path and not (ROOT / path).exists()]
     if problems:
-        raise SystemExit("demo1.json has problems:\n  " + "\n  ".join(problems))
+        raise SystemExit(f"{data_path.name} has problems:\n  " + "\n  ".join(problems))
     return data
 
 
 def render(data):
     e = escape
     comps, lanes, stages = data["components"], data["lanes"], data["stages"]
-    out = [f'''<section class="evo section" id="demo-ppt">
+    sid, prefix = data["id"], data["prefix"]
+    out = [f'''<section class="evo section" id="{sid}" data-prefix="{prefix}">
   <header class="evo-intro">
     <div><div class="eyebrow dark">{e(data["eyebrow"])}</div><h2>{data["title"]}</h2></div>
     <p>{e(data["intro"])}</p>
   </header>
-  <div class="evo-metrics" aria-label="Demo 1 演进结果">''']
+  <div class="evo-metrics" aria-label="演进结果">''']
     out += [f'    <span><b>{e(v)}</b>{e(label)}</span>' for v, label in data["metrics"]]
     out.append(f'''  </div>
 
-  <div class="feature-grid" aria-label="Demo 1 的 {len(stages)} 个演进阶段">''')
+  <div class="feature-grid" aria-label="{len(stages)} 个演进阶段">''')
     for n, s in enumerate(stages):
-        out.append(f'''    <a class="feature-tile" href="#stage-{n}" data-tile data-stage="{n}">
+        out.append(f'''    <a class="feature-tile" href="#{prefix}stage-{n}" data-tile data-stage="{n}">
       <div class="art-panel" aria-hidden="true">
         {SCENES[s["scene"]]}
       </div>
@@ -110,13 +121,13 @@ def render(data):
         <div class="tile-delta"><span>{e(s["tile_delta"][0])}</span><span>{e(s["tile_delta"][1])}</span></div>
       </div>
     </a>''')
-    out.append('''  </div>
+    out.append(f'''  </div>
 
-  <div class="studio" id="demo1-studio" data-studio>
+  <div class="studio" id="{sid}-studio" data-studio>
     <div class="studio-bar">
       <div class="stepper" role="tablist" aria-label="选择阶段">''')
     for n, s in enumerate(stages):
-        out.append(f'        <button type="button" role="tab" id="stage-{n}" data-step="{n}" aria-controls="stage-panel-{n}" aria-selected="{str(n == 0).lower()}"><b>{n:02d}</b><span>{e(s["label"])}</span></button>')
+        out.append(f'        <button type="button" role="tab" id="{prefix}stage-{n}" data-step="{n}" aria-controls="{prefix}stage-panel-{n}" aria-selected="{str(n == 0).lower()}"><b>{n:02d}</b><span>{e(s["label"])}</span></button>')
     out.append(f'''      </div>
       <div class="studio-controls">
         <button type="button" data-prev aria-label="上一阶段">←</button>
@@ -133,8 +144,10 @@ def render(data):
         count = sum(1 for key in harness if comps[key].get("counted", True))
         used = [key for key, state in harness.items() if "used" in state.split()]
         changed = [key for key, state in harness.items() if {"new", "updated"} & set(state.split())]
-        used_chips = "".join(f'<span class="chip lane-{comps[k]["lane"]}">{e(dirs[comps[k]["lane"]] + comps[k]["path"])}</span>' for k in used) or '<span class="none">无</span>'
-        out.append(f'''      <article class="stage-panel" id="stage-panel-{n}" role="tabpanel" aria-labelledby="stage-{n}"{" data-active" if n == 0 else ""}>
+        used_chips = "".join(f'<span class="chip lane-{comps[k]["lane"]}">{e(dirs[comps[k]["lane"]] + comps[k]["path"])}</span>' for k in used[:3]) or '<span class="none">无</span>'
+        if len(used) > 3:
+            used_chips += f'<span class="none">+{len(used) - 3}</span>'
+        out.append(f'''      <article class="stage-panel" id="{prefix}stage-panel-{n}" role="tabpanel" aria-labelledby="{prefix}stage-{n}"{" data-active" if n == 0 else ""}>
         <header class="stage-head">
           <div class="stage-copy"><span class="stage-kicker">{n:02d} · {e(s["batches"])}</span><h3>{e(s["title"])}</h3><p>{e(s["summary"])}</p></div>
           <div class="stage-side">
@@ -148,8 +161,8 @@ def render(data):
             <ol class="loop-steps">''')
         previous_count = count
         out += [f'              <li style="--i:{i}"><span>{LOOP_LABELS[i]}</span><p>{e(text)}</p></li>' for i, text in enumerate(s["loop"])]
-        out.append('''            </ol>
-            <div class="pane-head sub"><b>EVENTS</b><span>运行记录（UTC）</span></div>
+        out.append(f'''            </ol>
+            <div class="pane-head sub"><b>EVENTS</b><span>{e(data["events_note"])}</span></div>
             <ol class="events">''')
         for i, ev in enumerate(s["events"]):
             lane = ev.get("lane", "runtime")
@@ -165,18 +178,70 @@ def render(data):
         for i, name in enumerate(data["rail"]):
             state = "current" if i == ws["rail"] else "done" if i < ws["rail"] else ""
             out.append(f'              <li class="{state}">{e(name)}</li>')
-        link = f'<a class="work-link" href="{e(ws["link"])}" target="_blank" rel="noopener">打开 deck.html ↗</a>' if ws.get("link") else ""
+        link = f'<a class="work-link" href="{e(ws["link"])}" target="_blank" rel="noopener">打开 {e(Path(ws["link"]).name)} ↗</a>' if ws.get("link") else ""
         out.append(f'            </ol>{link}</div>')
-        if ws["image"]:
+        box = "sheet-box"
+        if ws.get("image"):
             mark = ""
             if ws.get("highlight"):
                 x, y, w, h = ws["highlight"]
                 mark = f'<span class="slide-mark" style="left:{x}%;top:{y}%;width:{w}%;height:{h}%"><b>p14</b></span>'
             figure = f'<figure class="sheet"><img src="{e(ws["image"])}" alt="{e(ws["label"])}：全部幻灯片缩略图" loading="lazy" width="1440" height="1470">{mark}</figure>'
+        elif ws.get("chart"):
+            # Score trajectory: one column per stage; points of later stages stay hidden.
+            c, box = data["chart"], "sheet-box chart-box"
+            W, H, L, R, T, B = 440, 330, 44, 10, 14, 24
+            lo, hi = c["range"]
+            col = (W - L - R) / len(stages)
+            y_of = lambda v: T + (hi - v) / (hi - lo) * (H - T - B)
+            placed = []
+            for st in range(len(stages)):
+                group = [p for p in c["points"] if p["stage"] == st]
+                placed += [(p, L + (st + .5) * col + (k - (len(group) - 1) / 2) * 15) for k, p in enumerate(group)]
+            svg = [f'<rect class="band" x="{L + n * col:.1f}" y="{T - 6}" width="{col:.1f}" height="{H - T - B + 12}" rx="8"/>']
+            for tick in c["ticks"]:
+                svg.append(f'<line class="grid" x1="{L}" x2="{W - R}" y1="{y_of(tick):.1f}" y2="{y_of(tick):.1f}"/><text class="axis" x="{L - 8}" y="{y_of(tick) + 3:.1f}" text-anchor="end">{tick:.3f}</text>')
+            for st, stage in enumerate(stages):
+                state = "now" if st == n else "future" if st > n else ""
+                svg.append(f'<text class="axis {state}" x="{L + (st + .5) * col:.1f}" y="{H - 6}" text-anchor="middle">{st:02d}</text>')
+            shown = [(p, x) for p, x in placed if p["stage"] <= n]
+            submitted = [(p, x) for p, x in shown if "lb" in p]
+            if submitted:
+                best = max(p["lb"] for p, _ in submitted)
+                svg.append(f'<line class="best" x1="{L}" x2="{W - R}" y1="{y_of(best):.1f}" y2="{y_of(best):.1f}"/><text class="best-label" x="{L + 4}" y="{y_of(best) - 5:.1f}">最佳 LB {best:.5f}</text>')
+                svg.append('<polyline class="cv-line" points="' + " ".join(f'{x:.1f},{y_of(p["cv"]):.1f}' for p, x in submitted) + '"/>')
+                svg.append('<polyline class="lb-line" points="' + " ".join(f'{x:.1f},{y_of(p["lb"]):.1f}' for p, x in submitted) + '"/>')
+            labels = []
+            for p, x in shown:
+                now = " now" if p["stage"] == n else ""
+                kind = "sub" if "lb" in p else "cand"
+                svg.append(f'<circle class="{kind}{now}" cx="{x:.1f}" cy="{y_of(p["cv"]):.1f}" r="{5 if kind == "sub" else 4}"/>')
+                if "lb" in p:
+                    svg.append(f'<rect class="lb{now}" x="{x - 4.5:.1f}" y="{y_of(p["lb"]) - 4.5:.1f}" width="9" height="9" transform="rotate(45 {x:.1f} {y_of(p["lb"]):.1f})"/>')
+                if now:
+                    labels.append((y_of(p["cv"]), f'{p["label"]} · CV {p["cv"]:.5f}', kind))
+                    if "lb" in p:
+                        labels.append((y_of(p["lb"]), f'LB {p["lb"]:.5f}', "lb"))
+            xs = [x for p, x in shown if p["stage"] == n] or [L + (n + .5) * col]
+            # Labels sit right of the current column, or left of it when they would run off the chart.
+            right = max(xs) + 10 + 120 <= W - R
+            label_x, anchor = (max(xs) + 10, "start") if right else (min(xs) - 10, "end")
+            last = -99
+            for y, text, kind in sorted(labels):
+                last = max(y, last + 13)
+                svg.append(f'<text class="pt-label {kind}" x="{label_x:.1f}" y="{last + 3.5:.1f}" text-anchor="{anchor}">{e(text)}</text>')
+            if c.get("pending") and n >= c["pending"]["stage"]:
+                px = L + (c["pending"]["stage"] + .5) * col
+                svg.append(f'<text class="pending" x="{px:.1f}" y="{T + 14}" text-anchor="middle">{e(c["pending"]["label"])}</text><line class="pending-line" x1="{px:.1f}" x2="{px:.1f}" y1="{T + 22}" y2="{H - B}"/>')
+            legend = '<figcaption class="chart-legend"><span class="k-cv">提交 CV</span><span class="k-lb">Public LB</span><span class="k-cand">未提交候选 CV</span></figcaption>'
+            figure = f'<figure class="score-chart">{legend}<svg viewBox="0 0 {W} {H}" role="img" aria-label="{e(ws["label"])}：分数轨迹">{"".join(svg)}</svg></figure>'
         else:
             lines = "".join(f"<span>{e(line)}</span>" for line in ws["source"])
             figure = f'<figure class="sheet source-sheet"><div class="source-doc"><i></i><i></i><i></i><i></i><i></i><i></i></div><figcaption>{lines}</figcaption></figure>'
-        out.append(f'''            <div class="sheet-box">{figure}</div>
+        files = ""
+        if ws.get("files"):
+            files = '<ul class="ws-files">' + "".join(f"<li><code>{e(name)}</code><span>{e(text)}</span></li>" for name, text in ws["files"]) + "</ul>"
+        out.append(f'''            <div class="{box}">{figure}</div>{files}
           </section>
           <section class="pane tree-pane" aria-label="Harness 文件树">
             <div class="pane-head"><b>HARNESS</b><span>harness/ · 当前组件</span></div>
@@ -186,7 +251,12 @@ def render(data):
             out.append(f'              <li class="dir lane-{lane["id"]}"><div class="dir-row"><span class="dot"></span><b>{e(lane["dir"])}</b><small>{e(lane["label"])} · {len(keys)}</small></div><ul>')
             if not keys:
                 out.append('                <li class="file empty"><code>（空）</code></li>')
-            for key in keys:
+            # Long lanes fold earlier, untouched files into one row of names.
+            folded = [key for key in keys if lane.get("fold") and harness[key] == "kept"]
+            if folded:
+                names = "".join(f"<code>{e(comps[key]['path'])}</code>" for key in folded)
+                out.append(f'                <li class="file folded"><span>此前 {len(folded)} 项 · 保留</span>{names}</li>')
+            for key in [key for key in keys if key not in folded]:
                 comp, states = comps[key], harness[key].split()
                 badges = "".join(f'<em class="st-{st}">{STATE_LABELS[st]}</em>' for st in states)
                 version = f'<span class="ver">{e(s["versions"][key])}</span>' if key in s["versions"] else ""
@@ -203,10 +273,12 @@ def render(data):
           </section>
         </div>
       </article>''')
-    p = data["proof"]
-    out.append(f'''    </div>
+    out.append('''    </div>
   </div>
-
+''')
+    if "proof" in data:
+        p = data["proof"]
+        out.append(f'''
   <section class="proof-panel" aria-labelledby="proof-title">
     <div class="proof-copy">
       <span class="eyebrow dark">WORKSPACE RESULT</span>
@@ -219,8 +291,8 @@ def render(data):
       <i aria-hidden="true">→</i>
       <figure class="after"><span>{e(p["after"][0])}</span><img src="{e(p["after"][1])}" alt="{e(p["after"][2])}" loading="lazy"></figure>
     </div>
-  </section>
-
+  </section>''')
+    out.append(f'''
   <p class="evo-footnote">{e(data["footnote"])}</p>
 </section>''')
     return "\n".join(out)
@@ -229,25 +301,28 @@ def render(data):
 def build(data_path, page_path):
     data = load(data_path)
     page = page_path.read_text(encoding="utf-8")
-    if START not in page or END not in page:
-        raise SystemExit(f"{page_path} needs {START} and {END} markers around the Demo 1 section")
-    head, rest = page.split(START, 1)
-    tail = rest.split(END, 1)[1]
-    page_path.write_text(f"{head}{START}\n{render(data)}\n{END}{tail}", encoding="utf-8", newline="\n")
-    print(f"built {page_path.name}: {len(data['stages'])} stages, {len(data['components'])} components")
+    start, end = f"<!-- {data['marker']}:START -->", f"<!-- {data['marker']}:END -->"
+    if start not in page or end not in page:
+        raise SystemExit(f"{page_path} needs {start} and {end} markers around the {data['id']} section")
+    head, rest = page.split(start, 1)
+    tail = rest.split(end, 1)[1]
+    page_path.write_text(f"{head}{start}\n{render(data)}\n{end}{tail}", encoding="utf-8", newline="\n")
+    print(f"built {data['id']}: {len(data['stages'])} stages, {len(data['components'])} components")
     return data
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--data", type=Path, default=ROOT / "data" / "demo1.json")
+    parser.add_argument("data", type=Path, nargs="*", default=DEMOS, help="demo data files (default: all demos)")
     parser.add_argument("--page", type=Path, default=ROOT / "index.html")
-    parser.add_argument("--sync", action="store_true", help="copy files listed in sync.files from sync.source_root")
+    parser.add_argument("--sync", action="store_true", help="copy files listed in each sync block from its source_root")
     parser.add_argument("--watch", action="store_true", help="rebuild when the data file or referenced assets change")
     args = parser.parse_args()
 
-    if args.sync:
-        sync = json.loads(args.data.read_text(encoding="utf-8"))["sync"]
+    for data_path in args.data if args.sync else []:
+        sync = json.loads(data_path.read_text(encoding="utf-8")).get("sync")
+        if not sync:
+            continue
         for src, dest in sync["files"]:
             source = Path(sync["source_root"]) / src
             if not source.exists():
@@ -256,10 +331,11 @@ def main():
             shutil.copy2(source, ROOT / dest)
             print(f"synced {dest}")
 
-    build(args.data, args.page)
+    for data_path in args.data:
+        build(data_path, args.page)
     if not args.watch:
         return
-    print("watching data/demo1.json, assets/ and components/ (Ctrl+C to stop)")
+    print("watching data/, assets/ and components/ (Ctrl+C to stop)")
     watched = lambda: {p: p.stat().st_mtime for d in ("data", "assets", "components") for p in (ROOT / d).rglob("*") if p.is_file()}
     seen = watched()
     while True:
@@ -268,7 +344,8 @@ def main():
         if now != seen:
             seen = now
             try:  # keep watching while the JSON is mid-edit
-                build(args.data, args.page)
+                for data_path in args.data:
+                    build(data_path, args.page)
             except (SystemExit, ValueError, KeyError) as error:
                 print(f"not rebuilt: {error!r}")
 

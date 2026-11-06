@@ -7,8 +7,7 @@
 <meta name="description" content="Agent-native self-evolution：Agent 在任务中设计和修改 prompt、loop 与可复用 harness 组件，由 runtime 组装成自身的执行环境。">
 <title>Agent-native Self-Harness — Agent 自进化</title>
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="demo1.css">
-<link rel="stylesheet" href="kaggle-demo.css">
+<link rel="stylesheet" href="demo.css">
 </head>
 <body>
 <header class="topbar">
@@ -56,19 +55,19 @@
 </section>
 
 <!-- DEMO1:START -->
-<section class="evo section" id="demo-ppt">
+<section class="evo section" id="demo-ppt" data-prefix="">
   <header class="evo-intro">
     <div><div class="eyebrow dark">DEMO 1 / PPT · SELF-HARNESS RUN</div><h2>从原始 loop，到一套<br><em>能生产 PPT 的 harness。</em></h2></div>
     <p>同一次 JPMorgan Chase 3Q21 演示稿任务中，Agent 先发现问题，再创建、修改和调用组件。六张卡片概括每个阶段；下方工作台逐阶段回放推理轨迹、harness 文件与 PPT 工作区的同步变化。</p>
   </header>
-  <div class="evo-metrics" aria-label="Demo 1 演进结果">
+  <div class="evo-metrics" aria-label="演进结果">
     <span><b>0 → 7</b>Agent 保存的组件</span>
     <span><b>v001 → v004</b>完整渲染版本</span>
     <span><b>0 → 2</b>成品内嵌插图</span>
     <span><b>15 / 15</b>页面保留引用</span>
   </div>
 
-  <div class="feature-grid" aria-label="Demo 1 的 6 个演进阶段">
+  <div class="feature-grid" aria-label="6 个演进阶段">
     <a class="feature-tile" href="#stage-0" data-tile data-stage="0">
       <div class="art-panel" aria-hidden="true">
         <div class="scene scene-loop">
@@ -163,7 +162,7 @@
     </a>
   </div>
 
-  <div class="studio" id="demo1-studio" data-studio>
+  <div class="studio" id="demo-ppt-studio" data-studio>
     <div class="studio-bar">
       <div class="stepper" role="tablist" aria-label="选择阶段">
         <button type="button" role="tab" id="stage-0" data-step="0" aria-controls="stage-panel-0" aria-selected="true"><b>00</b><span>原始 loop</span></button>
@@ -564,6 +563,7 @@
     </div>
   </div>
 
+
   <section class="proof-panel" aria-labelledby="proof-title">
     <div class="proof-copy">
       <span class="eyebrow dark">WORKSPACE RESULT</span>
@@ -581,19 +581,531 @@
   <p class="evo-footnote">research、visual_asset、design_review 三个角色由 demo 配置提供（demo/ppt-roles），不是 Agent 创建，页面从第 01 阶段起列在 agents/ 中。memory 栏按版本轮次整理 design_review 与 acceptance_check 的结论；本次运行没有保存 memory 组件。阶段说明依据 lifecycle、组件调用、审阅和渲染记录整理，是行动摘要，不是模型内部思维的逐字记录。本次运行共 328 批，页面只展示前 12 批；运行未调用正式交付动作，独立 HTML 交付包在运行结束后另行整理。</p>
 </section>
 <!-- DEMO1:END -->
-<section class="kaggle-demo section" id="demo-kaggle">
-  <div class="kaggle-heading">
-    <div><div class="eyebrow dark">DEMO 2 / KAGGLE · LIVE RUN SNAPSHOT</div><h2>从原始 loop，到<br><em>持续进化的竞赛工作流。</em></h2><p>按原始任务 loop、每个实验阶段和反馈窗口回放 agent 创建的 harness、Python 工具脚本与 workspace 交付件。工具代码按本 demo 口径包含 agent 写入并执行的 Python 脚本；正式登记的组件与实验脚本分开说明。</p></div>
-    <div class="kaggle-live"><span class="kaggle-live-dot"></span><b data-kaggle-status>正在运行</b><small data-kaggle-updated>更新于 2026-11-06 14:22（UTC+8）</small></div>
+<!-- KAGGLE:START -->
+<section class="evo section" id="demo-kaggle" data-prefix="kaggle-">
+  <header class="evo-intro">
+    <div><div class="eyebrow dark">DEMO 2 / KAGGLE · S6E11 · 运行中</div><h2>从原始 loop，到<br><em>持续进化的竞赛工作流。</em></h2></div>
+    <p>同一次 Kaggle 表格竞赛中，Agent 从基础 loop 写出验证与诊断脚本，把经验沉淀为 skill、memory 与反思，再用它们筛选实验和提交。六张卡片概括每个阶段；下方工作台逐阶段回放推理轨迹、harness 文件与分数的同步变化。</p>
+  </header>
+  <div class="evo-metrics" aria-label="演进结果">
+    <span><b>0.94685 → 0.94794</b>Public LB</span>
+    <span><b>0 → 28</b>Agent 创建的组件</span>
+    <span><b>3</b>已计分提交 · 排名 513 / 841</span>
+    <span><b>41</b>写入并执行的 Python 脚本</span>
   </div>
-  <div class="kaggle-stats" data-kaggle-stats></div>
-  <div class="kaggle-layout">
-    <nav class="kaggle-timeline" aria-label="Kaggle 运行阶段" data-kaggle-stages></nav>
-    <article class="kaggle-stage-detail" data-kaggle-detail aria-live="polite"></article>
-  </div>
-  <p class="kaggle-footnote">数据来自运行目录 `s6e11-agent-20261106-011741` 的提交账本、Python 执行账本、harness 组件文件与反思记录。CV 是本地交叉验证结果，LB 是 Kaggle public leaderboard 回执；未提交的 CV 不代表 Kaggle 分数。当前阶段显示最近一次有记录的执行状态，运行中结果会继续变化。</p>
-</section>
 
+  <div class="feature-grid" aria-label="6 个演进阶段">
+    <a class="feature-tile" href="#kaggle-stage-0" data-tile data-stage="0">
+      <div class="art-panel" aria-hidden="true">
+        <div class="scene scene-loop">
+  <svg class="loop-ring" viewBox="0 0 126 118"><path class="loop-path" pathLength="1" d="M63 26a33 33 0 1 1-28.6 16.5"/><path class="loop-arrow" pathLength="1" d="m31 36 3 8 8-3"/></svg>
+  <span class="agent-node"></span>
+  <span class="slot slot-a"></span><span class="slot slot-b"></span><span class="slot slot-c"></span>
+</div>
+      </div>
+      <div class="tile-copy">
+        <span class="icon-chip" aria-hidden="true"><svg viewBox="0 0 24 24"><path pathLength="1" d="M19 8a8 8 0 1 0 1.2 8"/><path pathLength="1" d="M19 3v5h-5"/></svg></span>
+        <span class="tile-kicker">00 · 11/05 · START</span>
+        <h3>原始 loop</h3>
+        <p>只有 system prompt 和运行时 skill。Agent 写出基线脚本并完成第一次提交。</p>
+        <div class="tile-delta"><span>+3 个脚本</span><span>LB 0.94685</span></div>
+      </div>
+    </a>
+    <a class="feature-tile" href="#kaggle-stage-1" data-tile data-stage="1">
+      <div class="art-panel" aria-hidden="true">
+        <div class="scene scene-review">
+  <span class="mini-window review-window"><span class="tabstrip"><i class="tab active"></i></span><i class="bar heading w52"></i><i class="bar w62"></i><i class="metric m1"></i><i class="metric m2"></i><i class="missing-art"></i></span>
+  <span class="lens"></span><span class="issue-ring"></span>
+</div>
+      </div>
+      <div class="tile-copy">
+        <span class="icon-chip" aria-hidden="true"><svg viewBox="0 0 24 24"><circle pathLength="1" cx="10.5" cy="10.5" r="5.5"/><path pathLength="1" d="m15 15 4.5 4.5"/></svg></span>
+        <span class="tile-kicker">01 · 11/05</span>
+        <h3>验证与诊断</h3>
+        <p>11 个诊断与实验脚本排除泄漏、比较模型类，再做一次融合提交。</p>
+        <div class="tile-delta"><span>+11 个脚本</span><span>LB 0.94725</span></div>
+      </div>
+    </a>
+    <a class="feature-tile" href="#kaggle-stage-2" data-tile data-stage="2">
+      <div class="art-panel" aria-hidden="true">
+        <div class="scene scene-extend">
+  <span class="mini-card builder-stack"><i class="version-dot d1"></i><i class="version-dot d2"></i><i class="version-dot d3"></i><i class="version-dot d4"></i><i class="bar heading w30"></i><i class="bar w24"></i></span>
+  <span class="mini-window art-window"><span class="tabstrip"><i class="tab active"></i></span><i class="bar heading w38"></i><i class="art-slot"><i class="art-sun"></i><i class="art-hill"></i></i><i class="check-badge"></i></span>
+</div>
+      </div>
+      <div class="tile-copy">
+        <span class="icon-chip" aria-hidden="true"><svg viewBox="0 0 24 24"><path pathLength="1" d="m12 3 8 4-8 4-8-4z"/><path pathLength="1" d="m4 12 8 4 8-4"/><path pathLength="1" d="m4 17 8 4 8-4"/></svg></span>
+        <span class="tile-kicker">02 · 11/06</span>
+        <h3>沉淀组件</h3>
+        <p>第三次提交后复盘，把验证经验写成 playbook skill、findings memory 和反思。</p>
+        <div class="tile-delta"><span>+1 skill · +2 memory</span><span>LB 0.94794</span></div>
+      </div>
+    </a>
+    <a class="feature-tile" href="#kaggle-stage-3" data-tile data-stage="3">
+      <div class="art-panel" aria-hidden="true">
+        <div class="scene scene-gate">
+  <span class="mini-window checklist"><span class="tabstrip"><i class="tab active"></i></span><i class="check-row r1"><b></b><i class="bar w42"></i></i><i class="check-row r2"><b></b><i class="bar w34"></i></i><i class="check-row r3"><b></b><i class="bar w38"></i></i><i class="check-row r4"><b></b><i class="bar w28"></i></i></span>
+  <span class="mini-card file-card"><i class="file-fold"></i><i class="bar heading w24"></i><i class="bar w18"></i></span>
+</div>
+      </div>
+      <div class="tile-copy">
+        <span class="icon-chip" aria-hidden="true"><svg viewBox="0 0 24 24"><path pathLength="1" d="M12 3 19 6v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path pathLength="1" d="m8.5 12 2.4 2.4 4.8-5"/></svg></span>
+        <span class="tile-kicker">03 · 11/06</span>
+        <h3>反思选实验</h3>
+        <p>按 playbook 先 smoke test 再缩小 GAM；融合候选增益不足，按门槛不提交。</p>
+        <div class="tile-delta"><span>+1 反思 · 调用 skill</span><span>候选不提交</span></div>
+      </div>
+    </a>
+    <a class="feature-tile" href="#kaggle-stage-4" data-tile data-stage="4">
+      <div class="art-panel" aria-hidden="true">
+        <div class="scene scene-tool">
+  <span class="mini-card tool-card"><i class="tool-glyph"></i><i class="bar heading w34"></i><i class="bar w28"></i></span>
+  <span class="connector"></span>
+  <span class="mini-window deck-window"><span class="tabstrip"><i class="tab active"></i><i class="tab"></i></span><i class="bar heading w34"></i><i class="bar w42"></i><i class="bar w30"></i><i class="result-line"></i></span>
+</div>
+      </div>
+      <div class="tile-copy">
+        <span class="icon-chip" aria-hidden="true"><svg viewBox="0 0 24 24"><path pathLength="1" d="M14 6l4 4-8 8H6v-4z"/><path pathLength="1" d="M12 8l4 4"/></svg></span>
+        <span class="tile-kicker">04 · 11/06 · 恢复</span>
+        <h3>浅层模型</h3>
+        <p>运行恢复后扫描复杂度，集中训练 num_leaves=4–5 的多 seed 模型。</p>
+        <div class="tile-delta"><span>+2 个脚本</span><span>CV 0.94762</span></div>
+      </div>
+    </a>
+    <a class="feature-tile" href="#kaggle-stage-5" data-tile data-stage="5">
+      <div class="art-panel" aria-hidden="true">
+        <div class="scene scene-auditor">
+  <span class="mini-window final-deck"><span class="tabstrip"><i class="tab active"></i></span><i class="bar heading w34"></i><i class="bar w30"></i><i class="final-art"></i><i class="approval-seal"></i></span>
+  <span class="mini-card auditor-card"><i class="eye"></i><i class="bar w18"></i></span>
+</div>
+      </div>
+      <div class="tile-copy">
+        <span class="icon-chip" aria-hidden="true"><svg viewBox="0 0 24 24"><path pathLength="1" d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><circle pathLength="1" cx="12" cy="12" r="2.5"/></svg></span>
+        <span class="tile-kicker">05 · 11/06 · 运行中</span>
+        <h3>融合验证</h3>
+        <p>blend2 用配对 bootstrap 估计融合增益，再决定是否消耗提交。</p>
+        <div class="tile-delta"><span>+1 个脚本</span><span>运行中</span></div>
+      </div>
+    </a>
+  </div>
+
+  <div class="studio" id="demo-kaggle-studio" data-studio>
+    <div class="studio-bar">
+      <div class="stepper" role="tablist" aria-label="选择阶段">
+        <button type="button" role="tab" id="kaggle-stage-0" data-step="0" aria-controls="kaggle-stage-panel-0" aria-selected="true"><b>00</b><span>原始 loop</span></button>
+        <button type="button" role="tab" id="kaggle-stage-1" data-step="1" aria-controls="kaggle-stage-panel-1" aria-selected="false"><b>01</b><span>验证与诊断</span></button>
+        <button type="button" role="tab" id="kaggle-stage-2" data-step="2" aria-controls="kaggle-stage-panel-2" aria-selected="false"><b>02</b><span>沉淀组件</span></button>
+        <button type="button" role="tab" id="kaggle-stage-3" data-step="3" aria-controls="kaggle-stage-panel-3" aria-selected="false"><b>03</b><span>反思选实验</span></button>
+        <button type="button" role="tab" id="kaggle-stage-4" data-step="4" aria-controls="kaggle-stage-panel-4" aria-selected="false"><b>04</b><span>浅层模型</span></button>
+        <button type="button" role="tab" id="kaggle-stage-5" data-step="5" aria-controls="kaggle-stage-panel-5" aria-selected="false"><b>05</b><span>融合验证</span></button>
+      </div>
+      <div class="studio-controls">
+        <button type="button" data-prev aria-label="上一阶段">←</button>
+        <button type="button" data-play aria-pressed="false"><span>自动回放</span></button>
+        <button type="button" data-next aria-label="下一阶段">→</button>
+      </div>
+    </div>
+    <div class="studio-progress" aria-hidden="true"><i></i></div>
+    <div class="studio-panels">
+      <article class="stage-panel" id="kaggle-stage-panel-0" role="tabpanel" aria-labelledby="kaggle-stage-0" data-active>
+        <header class="stage-head">
+          <div class="stage-copy"><span class="stage-kicker">00 · 11/05 · START</span><h3>任务接入与原始工作区</h3><p>Agent 从基础任务 loop 开始：读取比赛规则和数据、固定验证方案，写出第一个可运行的建模脚本。system prompt 与 self_evolution skill 由运行时提供，不计入 Agent 组件。</p></div>
+          <div class="stage-side">
+            <div class="stage-count"><b>0 → 3</b><span>Agent 组件 · 4 个变更 · 3 个被调用</span></div>
+            <div class="stage-used"><b>本阶段调用</b><span class="chip lane-tools">work/baseline.py</span><span class="chip lane-tools">work/fe.py</span><span class="chip lane-tools">work/run_cv.py</span></div>
+          </div>
+        </header>
+        <div class="stage-grid">
+          <section class="pane trace-pane" aria-label="Agent 轨迹">
+            <div class="pane-head"><b>AGENT TRACE</b><span>一次 loop 的四步</span></div>
+            <ol class="loop-steps">
+              <li style="--i:0"><span>观察</span><p>读取比赛规则、数据结构与 AUC 指标</p></li>
+              <li style="--i:1"><span>判断</span><p>先建立可信验证，再追分数</p></li>
+              <li style="--i:2"><span>改 harness</span><p>不保存组件；用 run_python 写基线、特征与 CV 脚本</p></li>
+              <li style="--i:3"><span>工作区结果</span><p>首个 LightGBM 基线：CV 0.94613 → LB 0.94685</p></li>
+            </ol>
+            <div class="pane-head sub"><b>EVENTS</b><span>运行记录（日期）</span></div>
+            <ol class="events">
+              <li style="--i:4"><time>11/05</time><span class="chip lane-runtime">setup</span><p>读取 competition.json、instructions.md 与环境说明</p></li>
+              <li style="--i:5"><time>11/05</time><span class="chip lane-tools">run_python</span><p>baseline.py / fe.py / run_cv.py 首次执行</p></li>
+              <li style="--i:6"><time>11/05</time><span class="chip lane-runtime">submit #1</span><p>提交 #58031672，Public LB 0.94685</p></li>
+            </ol>
+          </section>
+          <section class="pane work-pane" aria-label="工作区交付件">
+            <div class="pane-head"><b>WORKSPACE</b><strong class="work-label">#1 baseline · LB 0.94685</strong></div>
+            <ul class="checks"><li>StratifiedKFold(5, seed=42)</li><li>CV 0.94613</li><li>提交 #58031672</li></ul>
+            <div class="rail-row"><ol class="rail">
+              <li class="done">DATA</li>
+              <li class="current">#1 baseline</li>
+              <li class="">#2 blend3</li>
+              <li class="">#3 ens_tuned</li>
+              <li class="">候选 ens_nl4</li>
+            </ol></div>
+            <div class="sheet-box chart-box"><figure class="score-chart"><figcaption class="chart-legend"><span class="k-cv">提交 CV</span><span class="k-lb">Public LB</span><span class="k-cand">未提交候选 CV</span></figcaption><svg viewBox="0 0 440 330" role="img" aria-label="#1 baseline · LB 0.94685：分数轨迹"><rect class="band" x="44.0" y="8" width="64.3" height="304" rx="8"/><line class="grid" x1="44" x2="430" y1="281.7" y2="281.7"/><text class="axis" x="36" y="284.7" text-anchor="end">0.944</text><line class="grid" x1="44" x2="430" y1="220.8" y2="220.8"/><text class="axis" x="36" y="223.8" text-anchor="end">0.945</text><line class="grid" x1="44" x2="430" y1="160.0" y2="160.0"/><text class="axis" x="36" y="163.0" text-anchor="end">0.946</text><line class="grid" x1="44" x2="430" y1="99.2" y2="99.2"/><text class="axis" x="36" y="102.2" text-anchor="end">0.947</text><line class="grid" x1="44" x2="430" y1="38.3" y2="38.3"/><text class="axis" x="36" y="41.3" text-anchor="end">0.948</text><text class="axis now" x="76.2" y="324" text-anchor="middle">00</text><text class="axis future" x="140.5" y="324" text-anchor="middle">01</text><text class="axis future" x="204.8" y="324" text-anchor="middle">02</text><text class="axis future" x="269.2" y="324" text-anchor="middle">03</text><text class="axis future" x="333.5" y="324" text-anchor="middle">04</text><text class="axis future" x="397.8" y="324" text-anchor="middle">05</text><line class="best" x1="44" x2="430" y1="108.3" y2="108.3"/><text class="best-label" x="48" y="103.3">最佳 LB 0.94685</text><polyline class="cv-line" points="76.2,152.1"/><polyline class="lb-line" points="76.2,108.3"/><circle class="sub now" cx="76.2" cy="152.1" r="5"/><rect class="lb now" x="71.7" y="103.8" width="9" height="9" transform="rotate(45 76.2 108.3)"/><text class="pt-label lb" x="86.2" y="111.8" text-anchor="start">LB 0.94685</text><text class="pt-label sub" x="86.2" y="155.6" text-anchor="start">baseline · CV 0.94613</text></svg></figure></div><ul class="ws-files"><li><code>competition.json · instructions.md</code><span>比赛规则、数据结构、指标与环境说明</span></li><li><code>train.pkl · test.pkl</code><span>本地训练与测试数据准备完成</span></li><li><code>baseline.py · fe.py · run_cv.py</code><span>首个 LightGBM 基线、特征处理与交叉验证</span></li></ul>
+          </section>
+          <section class="pane tree-pane" aria-label="Harness 文件树">
+            <div class="pane-head"><b>HARNESS</b><span>harness/ · 当前组件</span></div>
+            <ul class="tree">
+              <li class="dir lane-prompts"><div class="dir-row"><span class="dot"></span><b>prompts/</b><small>Prompt · 1</small></div><ul>
+                <li class="file "><div class="file-row"><code>system_prompt</code></div><p># 比赛目标、工作区规则、run_python 与 Kaggle 工具</p></li>
+              </ul></li>
+              <li class="dir lane-skills"><div class="dir-row"><span class="dot"></span><b>skills/</b><small>Skills · 1</small></div><ul>
+                <li class="file "><div class="file-row"><code>self_evolution/SKILL.md</code></div><p># 反思并创建 prompt / memory / skill / tool / subagent</p></li>
+              </ul></li>
+              <li class="dir lane-memory"><div class="dir-row"><span class="dot"></span><b>memory/</b><small>记忆与反思 · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-agents"><div class="dir-row"><span class="dot"></span><b>agents/</b><small>Subagents · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-tools"><div class="dir-row"><span class="dot"></span><b>work/</b><small>Python tools · 4</small></div><ul>
+                <li class="file is-new is-used"><div class="file-row"><code>baseline.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># LightGBM 基线训练及 OOF 预测</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>fe.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 共享数值 / 类别 / 布尔特征工程与编码</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>run_cv.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 分折训练并保存 OOF / test 预测</p></li>
+                <li class="file is-new"><div class="file-row"><code>snippets/001–003</code><em class="st-new">新增</em></div><p># 早期 inline 检查，输出留在执行账本</p></li>
+              </ul></li>
+            </ul>
+          </section>
+        </div>
+      </article>
+      <article class="stage-panel" id="kaggle-stage-panel-1" role="tabpanel" aria-labelledby="kaggle-stage-1">
+        <header class="stage-head">
+          <div class="stage-copy"><span class="stage-kicker">01 · 11/05</span><h3>建立评估器，排除捷径</h3><p>Agent 用多组数据诊断和模型对照判断验证是否可信、模型复杂度该往哪走，随后做出一次融合提交。这一阶段的脚本都是一次性实验，还没有沉淀成组件。</p></div>
+          <div class="stage-side">
+            <div class="stage-count"><b>3 → 14</b><span>Agent 组件 · 12 个变更 · 11 个被调用</span></div>
+            <div class="stage-used"><b>本阶段调用</b><span class="chip lane-tools">work/diag1.py</span><span class="chip lane-tools">work/diag2.py</span><span class="chip lane-tools">work/diag3.py</span><span class="none">+8</span></div>
+          </div>
+        </header>
+        <div class="stage-grid">
+          <section class="pane trace-pane" aria-label="Agent 轨迹">
+            <div class="pane-head"><b>AGENT TRACE</b><span>一次 loop 的四步</span></div>
+            <ol class="loop-steps">
+              <li style="--i:0"><span>观察</span><p>基线可用，但验证是否可信、有无泄漏还未知</p></li>
+              <li style="--i:1"><span>判断</span><p>先排除泄漏与捷径，再比较模型类</p></li>
+              <li style="--i:2"><span>改 harness</span><p>写 11 个诊断 / 实验脚本；提交门槛等流程尚未成文</p></li>
+              <li style="--i:3"><span>工作区结果</span><p>三模型 rank blend：CV 0.94647 → LB 0.94725</p></li>
+            </ol>
+            <div class="pane-head sub"><b>EVENTS</b><span>运行记录（日期）</span></div>
+            <ol class="events">
+              <li style="--i:4"><time>11/05</time><span class="chip lane-tools">diag3 · diag4</span><p>ID AUC 0.4985；无重复记录与行哈希重合</p></li>
+              <li style="--i:5"><time>11/05</time><span class="chip lane-tools">diag6</span><p>跨半精确值编码无明显收益</p></li>
+              <li style="--i:6" class="fail"><time>11/05</time><span class="chip lane-tools">exp_bank</span><p>交互特征 bank CV 0.94451，低于基线</p></li>
+              <li style="--i:7"><time>11/05</time><span class="chip lane-runtime">submit #2</span><p>提交 #58038198 · blend3，LB 0.94725</p></li>
+            </ol>
+          </section>
+          <section class="pane work-pane" aria-label="工作区交付件">
+            <div class="pane-head"><b>WORKSPACE</b><strong class="work-label">#2 blend3 · LB 0.94725</strong></div>
+            <ul class="checks"><li>CV 0.94647</li><li>3 个候选低于基线</li><li>提交 #58038198</li></ul>
+            <div class="rail-row"><ol class="rail">
+              <li class="done">DATA</li>
+              <li class="done">#1 baseline</li>
+              <li class="current">#2 blend3</li>
+              <li class="">#3 ens_tuned</li>
+              <li class="">候选 ens_nl4</li>
+            </ol></div>
+            <div class="sheet-box chart-box"><figure class="score-chart"><figcaption class="chart-legend"><span class="k-cv">提交 CV</span><span class="k-lb">Public LB</span><span class="k-cand">未提交候选 CV</span></figcaption><svg viewBox="0 0 440 330" role="img" aria-label="#2 blend3 · LB 0.94725：分数轨迹"><rect class="band" x="108.3" y="8" width="64.3" height="304" rx="8"/><line class="grid" x1="44" x2="430" y1="281.7" y2="281.7"/><text class="axis" x="36" y="284.7" text-anchor="end">0.944</text><line class="grid" x1="44" x2="430" y1="220.8" y2="220.8"/><text class="axis" x="36" y="223.8" text-anchor="end">0.945</text><line class="grid" x1="44" x2="430" y1="160.0" y2="160.0"/><text class="axis" x="36" y="163.0" text-anchor="end">0.946</text><line class="grid" x1="44" x2="430" y1="99.2" y2="99.2"/><text class="axis" x="36" y="102.2" text-anchor="end">0.947</text><line class="grid" x1="44" x2="430" y1="38.3" y2="38.3"/><text class="axis" x="36" y="41.3" text-anchor="end">0.948</text><text class="axis " x="76.2" y="324" text-anchor="middle">00</text><text class="axis now" x="140.5" y="324" text-anchor="middle">01</text><text class="axis future" x="204.8" y="324" text-anchor="middle">02</text><text class="axis future" x="269.2" y="324" text-anchor="middle">03</text><text class="axis future" x="333.5" y="324" text-anchor="middle">04</text><text class="axis future" x="397.8" y="324" text-anchor="middle">05</text><line class="best" x1="44" x2="430" y1="84.0" y2="84.0"/><text class="best-label" x="48" y="79.0">最佳 LB 0.94725</text><polyline class="cv-line" points="76.2,152.1 163.0,131.4"/><polyline class="lb-line" points="76.2,108.3 163.0,84.0"/><circle class="sub" cx="76.2" cy="152.1" r="5"/><rect class="lb" x="71.7" y="103.8" width="9" height="9" transform="rotate(45 76.2 108.3)"/><circle class="cand now" cx="118.0" cy="250.6" r="4"/><circle class="cand now" cx="133.0" cy="220.8" r="4"/><circle class="cand now" cx="148.0" cy="185.6" r="4"/><circle class="sub now" cx="163.0" cy="131.4" r="5"/><rect class="lb now" x="158.5" y="79.5" width="9" height="9" transform="rotate(45 163.0 84.0)"/><text class="pt-label lb" x="173.0" y="87.5" text-anchor="start">LB 0.94725</text><text class="pt-label sub" x="173.0" y="134.9" text-anchor="start">blend3 · CV 0.94647</text><text class="pt-label cand" x="173.0" y="189.1" text-anchor="start">XGBoost · CV 0.94558</text><text class="pt-label cand" x="173.0" y="224.3" text-anchor="start">CatBoost · CV 0.94500</text><text class="pt-label cand" x="173.0" y="254.1" text-anchor="start">bank · CV 0.94451</text></svg></figure></div><ul class="ws-files"><li><code>泄漏 / 结构诊断</code><span>ID AUC 0.4985；无重复记录与行哈希重合</span></li><li><code>候选对照</code><span>CatBoost 0.94500 · XGBoost 0.94558 · bank 0.94451</span></li><li><code>submissions/blend3.csv</code><span>LGBM / CatBoost / XGBoost rank blend</span></li><li><code>ledger.md · OOF 预测</code><span>保留候选验证结果，供后续融合</span></li></ul>
+          </section>
+          <section class="pane tree-pane" aria-label="Harness 文件树">
+            <div class="pane-head"><b>HARNESS</b><span>harness/ · 当前组件</span></div>
+            <ul class="tree">
+              <li class="dir lane-prompts"><div class="dir-row"><span class="dot"></span><b>prompts/</b><small>Prompt · 1</small></div><ul>
+                <li class="file "><div class="file-row"><code>system_prompt</code></div><p># 比赛目标、工作区规则、run_python 与 Kaggle 工具</p></li>
+              </ul></li>
+              <li class="dir lane-skills"><div class="dir-row"><span class="dot"></span><b>skills/</b><small>Skills · 1</small></div><ul>
+                <li class="file "><div class="file-row"><code>self_evolution/SKILL.md</code></div><p># 反思并创建 prompt / memory / skill / tool / subagent</p></li>
+              </ul></li>
+              <li class="dir lane-memory"><div class="dir-row"><span class="dot"></span><b>memory/</b><small>记忆与反思 · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-agents"><div class="dir-row"><span class="dot"></span><b>agents/</b><small>Subagents · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-tools"><div class="dir-row"><span class="dot"></span><b>work/</b><small>Python tools · 16</small></div><ul>
+                <li class="file folded"><span>此前 4 项 · 保留</span><code>baseline.py</code><code>fe.py</code><code>run_cv.py</code><code>snippets/001–003</code></li>
+                <li class="file is-new is-used"><div class="file-row"><code>diag1.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 数值变量相关性与特征结构</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>diag2.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 多项式 LR 复杂度与验证 AUC</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>diag3.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 对抗验证与近邻重复结构</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>diag4.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 留一近邻 AUC，检查记忆 / 泄漏</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>diag5.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 线性树等模型对照</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>diag6.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 跨半精确值编码与 MLP 候选</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>diag_prec.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 数值精度、舍入与小数部分信号</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>exp_bank.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 批量交互特征构建与验证</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>exp_pair.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 两两组合的 target-free 分箱</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>exp_rg.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># Optuna 调参与分段 AUC</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>tune_lgb.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># LightGBM 参数搜索</p></li>
+                <li class="file is-new"><div class="file-row"><code>snippets/004–010</code><em class="st-new">新增</em></div><p># inline 数据检查与实验辅助</p></li>
+              </ul></li>
+            </ul>
+          </section>
+        </div>
+      </article>
+      <article class="stage-panel" id="kaggle-stage-panel-2" role="tabpanel" aria-labelledby="kaggle-stage-2">
+        <header class="stage-head">
+          <div class="stage-copy"><span class="stage-kicker">02 · 11/06</span><h3>把经验写成 skill 与 memory</h3><p>第三次提交提升后，Agent 的复盘从模型层转向评估流程：本地 CV 与 public LB 偏差稳定，但提交门槛和昂贵实验的预检需要改进。下一轮 prompt 开始自动列出这些组件。</p></div>
+          <div class="stage-side">
+            <div class="stage-count"><b>14 → 21</b><span>Agent 组件 · 9 个变更 · 4 个被调用</span></div>
+            <div class="stage-used"><b>本阶段调用</b><span class="chip lane-tools">work/ens.py</span><span class="chip lane-tools">work/final_ens.py</span><span class="chip lane-tools">work/stack.py</span><span class="none">+1</span></div>
+          </div>
+        </header>
+        <div class="stage-grid">
+          <section class="pane trace-pane" aria-label="Agent 轨迹">
+            <div class="pane-head"><b>AGENT TRACE</b><span>一次 loop 的四步</span></div>
+            <ol class="loop-steps">
+              <li style="--i:0"><span>观察</span><p>tuned 浅层 LGBM + XGB 融合提升；CV→LB 偏差稳定</p></li>
+              <li style="--i:1"><span>判断</span><p>瓶颈从模型转向评估流程与提交门槛</p></li>
+              <li style="--i:2"><span>改 harness</span><p>新建 playbook skill、findings memory 与提交复盘</p></li>
+              <li style="--i:3"><span>工作区结果</span><p>ens_tuned：CV 0.94736 → LB 0.94794，排名 513 / 841</p></li>
+            </ol>
+            <div class="pane-head sub"><b>EVENTS</b><span>运行记录（日期）</span></div>
+            <ol class="events">
+              <li style="--i:4"><time>11/06</time><span class="chip lane-tools">final_ens</span><p>3 组浅层多 seed LGBM + 浅层 XGBoost</p></li>
+              <li style="--i:5"><time>11/06</time><span class="chip lane-runtime">submit #3</span><p>提交 #58041397 · ens_tuned，LB 0.94794</p></li>
+              <li style="--i:6"><time>11/06</time><span class="chip lane-skills">save skill</span><p>pg_tabular_auc_playbook@v1</p></li>
+              <li style="--i:7"><time>11/06</time><span class="chip lane-memory">save memory</span><p>pg_s6e11_findings@v1 · checkpoint-58041397.md</p></li>
+              <li style="--i:8"><time>11/06</time><span class="chip lane-prompts">prompt</span><p>下一轮 system prompt 列出组件名称、版本与功能</p></li>
+            </ol>
+          </section>
+          <section class="pane work-pane" aria-label="工作区交付件">
+            <div class="pane-head"><b>WORKSPACE</b><strong class="work-label">#3 ens_tuned · LB 0.94794</strong></div>
+            <ul class="checks"><li>CV 0.94736</li><li>排名 513 / 841</li><li>提交 #58041397</li></ul>
+            <div class="rail-row"><ol class="rail">
+              <li class="done">DATA</li>
+              <li class="done">#1 baseline</li>
+              <li class="done">#2 blend3</li>
+              <li class="current">#3 ens_tuned</li>
+              <li class="">候选 ens_nl4</li>
+            </ol></div>
+            <div class="sheet-box chart-box"><figure class="score-chart"><figcaption class="chart-legend"><span class="k-cv">提交 CV</span><span class="k-lb">Public LB</span><span class="k-cand">未提交候选 CV</span></figcaption><svg viewBox="0 0 440 330" role="img" aria-label="#3 ens_tuned · LB 0.94794：分数轨迹"><rect class="band" x="172.7" y="8" width="64.3" height="304" rx="8"/><line class="grid" x1="44" x2="430" y1="281.7" y2="281.7"/><text class="axis" x="36" y="284.7" text-anchor="end">0.944</text><line class="grid" x1="44" x2="430" y1="220.8" y2="220.8"/><text class="axis" x="36" y="223.8" text-anchor="end">0.945</text><line class="grid" x1="44" x2="430" y1="160.0" y2="160.0"/><text class="axis" x="36" y="163.0" text-anchor="end">0.946</text><line class="grid" x1="44" x2="430" y1="99.2" y2="99.2"/><text class="axis" x="36" y="102.2" text-anchor="end">0.947</text><line class="grid" x1="44" x2="430" y1="38.3" y2="38.3"/><text class="axis" x="36" y="41.3" text-anchor="end">0.948</text><text class="axis " x="76.2" y="324" text-anchor="middle">00</text><text class="axis " x="140.5" y="324" text-anchor="middle">01</text><text class="axis now" x="204.8" y="324" text-anchor="middle">02</text><text class="axis future" x="269.2" y="324" text-anchor="middle">03</text><text class="axis future" x="333.5" y="324" text-anchor="middle">04</text><text class="axis future" x="397.8" y="324" text-anchor="middle">05</text><line class="best" x1="44" x2="430" y1="42.0" y2="42.0"/><text class="best-label" x="48" y="37.0">最佳 LB 0.94794</text><polyline class="cv-line" points="76.2,152.1 163.0,131.4 204.8,77.3"/><polyline class="lb-line" points="76.2,108.3 163.0,84.0 204.8,42.0"/><circle class="sub" cx="76.2" cy="152.1" r="5"/><rect class="lb" x="71.7" y="103.8" width="9" height="9" transform="rotate(45 76.2 108.3)"/><circle class="cand" cx="118.0" cy="250.6" r="4"/><circle class="cand" cx="133.0" cy="220.8" r="4"/><circle class="cand" cx="148.0" cy="185.6" r="4"/><circle class="sub" cx="163.0" cy="131.4" r="5"/><rect class="lb" x="158.5" y="79.5" width="9" height="9" transform="rotate(45 163.0 84.0)"/><circle class="sub now" cx="204.8" cy="77.3" r="5"/><rect class="lb now" x="200.3" y="37.5" width="9" height="9" transform="rotate(45 204.8 42.0)"/><text class="pt-label lb" x="214.8" y="45.5" text-anchor="start">LB 0.94794</text><text class="pt-label sub" x="214.8" y="80.8" text-anchor="start">ens_tuned · CV 0.94736</text></svg></figure></div><ul class="ws-files"><li><code>ens_tuned.csv</code><span>3 组浅层多 seed LGBM + 浅层 XGBoost，logit 融合</span></li><li><code>oof_tunedA/B/C · oof_xgbs</code><span>成员 OOF 与 test 预测，供后续融合</span></li><li><code>提交门槛策略</code><span>按 CV 增益决定是否提交；初版 fold 标准过严，待校准</span></li></ul>
+          </section>
+          <section class="pane tree-pane" aria-label="Harness 文件树">
+            <div class="pane-head"><b>HARNESS</b><span>harness/ · 当前组件</span></div>
+            <ul class="tree">
+              <li class="dir lane-prompts"><div class="dir-row"><span class="dot"></span><b>prompts/</b><small>Prompt · 1</small></div><ul>
+                <li class="file is-updated"><div class="file-row"><code>system_prompt</code><span class="ver">+组件索引</span><em class="st-updated">更新</em></div><p># 比赛目标、工作区规则、run_python 与 Kaggle 工具</p></li>
+              </ul></li>
+              <li class="dir lane-skills"><div class="dir-row"><span class="dot"></span><b>skills/</b><small>Skills · 2</small></div><ul>
+                <li class="file "><div class="file-row"><code>self_evolution/SKILL.md</code></div><p># 反思并创建 prompt / memory / skill / tool / subagent</p></li>
+                <li class="file is-new"><div class="file-row"><code>pg_tabular_auc_playbook</code><span class="ver">v1</span><em class="st-new">新增</em></div><p># 验证优先、低成本泄漏探针、复杂度方向测试、融合评估与提交筛选</p></li>
+              </ul></li>
+              <li class="dir lane-memory"><div class="dir-row"><span class="dot"></span><b>memory/</b><small>记忆与反思 · 2</small></div><ul>
+                <li class="file mem is-new"><div class="file-row"><code>pg_s6e11_findings</code><span class="ver">v1</span><em class="st-new">新增</em></div><ul class="notes"><li>有效 / 无效方法清单</li><li>CV→LB 约 +0.0006</li><li>比赛特定建模发现</li></ul></li>
+                <li class="file mem is-new"><div class="file-row"><code>checkpoint-58041397.md</code><em class="st-new">新增</em></div><ul class="notes"><li>复盘第 3 次提交</li><li>瓶颈转向评估流程</li><li>提交门槛待校准</li></ul></li>
+              </ul></li>
+              <li class="dir lane-agents"><div class="dir-row"><span class="dot"></span><b>agents/</b><small>Subagents · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-tools"><div class="dir-row"><span class="dot"></span><b>work/</b><small>Python tools · 21</small></div><ul>
+                <li class="file folded"><span>此前 16 项 · 保留</span><code>baseline.py</code><code>fe.py</code><code>run_cv.py</code><code>snippets/001–003</code><code>diag1.py</code><code>diag2.py</code><code>diag3.py</code><code>diag4.py</code><code>diag5.py</code><code>diag6.py</code><code>diag_prec.py</code><code>exp_bank.py</code><code>exp_pair.py</code><code>exp_rg.py</code><code>tune_lgb.py</code><code>snippets/004–010</code></li>
+                <li class="file is-new is-used"><div class="file-row"><code>ens.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># CatBoost 成员的 OOF / test 预测</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>final_ens.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># tuned 多配置 LGBM + 浅层 XGBoost</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>stack.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 基于成员 OOF 的二层融合</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>stack2.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 成员 AUC、相关性与 stacking 设计</p></li>
+                <li class="file is-new"><div class="file-row"><code>snippets/011–014</code><em class="st-new">新增</em></div><p># 融合成员核查</p></li>
+              </ul></li>
+            </ul>
+          </section>
+        </div>
+      </article>
+      <article class="stage-panel" id="kaggle-stage-panel-3" role="tabpanel" aria-labelledby="kaggle-stage-3">
+        <header class="stage-head">
+          <div class="stage-copy"><span class="stage-kicker">03 · 11/06</span><h3>用反思约束后续选择</h3><p>Agent 按 playbook 修正 GAM 的特征构造，继续比较模型类与融合方案。反思记录提出 smoke-test-first 和按复杂度方向选实验；提交门槛仍标注需要校准。</p></div>
+          <div class="stage-side">
+            <div class="stage-count"><b>21 → 25</b><span>Agent 组件 · 5 个变更 · 5 个被调用</span></div>
+            <div class="stage-used"><b>本阶段调用</b><span class="chip lane-skills">skills/pg_tabular_auc_playbook</span><span class="chip lane-memory">memory/pg_s6e11_findings</span><span class="chip lane-tools">work/gam.py</span><span class="none">+2</span></div>
+          </div>
+        </header>
+        <div class="stage-grid">
+          <section class="pane trace-pane" aria-label="Agent 轨迹">
+            <div class="pane-head"><b>AGENT TRACE</b><span>一次 loop 的四步</span></div>
+            <ol class="loop-steps">
+              <li style="--i:0"><span>观察</span><p>GAM 原设计 CV 0.94387，交互扩展无效</p></li>
+              <li style="--i:1"><span>判断</span><p>按 playbook：先 smoke test，再缩小设计</p></li>
+              <li style="--i:2"><span>改 harness</span><p>写入 window-3.md；skill 与 memory 约束实验选择</p></li>
+              <li style="--i:3"><span>工作区结果</span><p>blend_nl4 CV 0.94745，只高 0.00009，不提交</p></li>
+            </ol>
+            <div class="pane-head sub"><b>EVENTS</b><span>运行记录（日期）</span></div>
+            <ol class="events">
+              <li style="--i:4"><time>11/06</time><span class="chip lane-tools">gam</span><p>原设计 CV 0.94387</p></li>
+              <li style="--i:5"><time>11/06</time><span class="chip lane-tools">gam2</span><p>main effects + bool-bool crosses 后 CV 0.94526</p></li>
+              <li style="--i:6"><time>11/06</time><span class="chip lane-tools">blend_nl4</span><p>CV 0.94745，增益不足，不消耗提交</p></li>
+              <li style="--i:7" class="fail"><time>11/06</time><span class="chip lane-tools">snippet-016</span><p>读取历史代码时因占位文本语法失败</p></li>
+              <li style="--i:8"><time>11/06</time><span class="chip lane-memory">save reflection</span><p>window-3.md 记录策略变更与待验证事项</p></li>
+            </ol>
+          </section>
+          <section class="pane work-pane" aria-label="工作区交付件">
+            <div class="pane-head"><b>WORKSPACE</b><strong class="work-label">候选 CV 0.94745 · 未提交</strong></div>
+            <ul class="checks"><li>最佳已提交 LB 0.94794</li><li>GAM 0.94387 → 0.94526</li><li>增益 +0.00009，不提交</li></ul>
+            <div class="rail-row"><ol class="rail">
+              <li class="done">DATA</li>
+              <li class="done">#1 baseline</li>
+              <li class="done">#2 blend3</li>
+              <li class="current">#3 ens_tuned</li>
+              <li class="">候选 ens_nl4</li>
+            </ol></div>
+            <div class="sheet-box chart-box"><figure class="score-chart"><figcaption class="chart-legend"><span class="k-cv">提交 CV</span><span class="k-lb">Public LB</span><span class="k-cand">未提交候选 CV</span></figcaption><svg viewBox="0 0 440 330" role="img" aria-label="候选 CV 0.94745 · 未提交：分数轨迹"><rect class="band" x="237.0" y="8" width="64.3" height="304" rx="8"/><line class="grid" x1="44" x2="430" y1="281.7" y2="281.7"/><text class="axis" x="36" y="284.7" text-anchor="end">0.944</text><line class="grid" x1="44" x2="430" y1="220.8" y2="220.8"/><text class="axis" x="36" y="223.8" text-anchor="end">0.945</text><line class="grid" x1="44" x2="430" y1="160.0" y2="160.0"/><text class="axis" x="36" y="163.0" text-anchor="end">0.946</text><line class="grid" x1="44" x2="430" y1="99.2" y2="99.2"/><text class="axis" x="36" y="102.2" text-anchor="end">0.947</text><line class="grid" x1="44" x2="430" y1="38.3" y2="38.3"/><text class="axis" x="36" y="41.3" text-anchor="end">0.948</text><text class="axis " x="76.2" y="324" text-anchor="middle">00</text><text class="axis " x="140.5" y="324" text-anchor="middle">01</text><text class="axis " x="204.8" y="324" text-anchor="middle">02</text><text class="axis now" x="269.2" y="324" text-anchor="middle">03</text><text class="axis future" x="333.5" y="324" text-anchor="middle">04</text><text class="axis future" x="397.8" y="324" text-anchor="middle">05</text><line class="best" x1="44" x2="430" y1="42.0" y2="42.0"/><text class="best-label" x="48" y="37.0">最佳 LB 0.94794</text><polyline class="cv-line" points="76.2,152.1 163.0,131.4 204.8,77.3"/><polyline class="lb-line" points="76.2,108.3 163.0,84.0 204.8,42.0"/><circle class="sub" cx="76.2" cy="152.1" r="5"/><rect class="lb" x="71.7" y="103.8" width="9" height="9" transform="rotate(45 76.2 108.3)"/><circle class="cand" cx="118.0" cy="250.6" r="4"/><circle class="cand" cx="133.0" cy="220.8" r="4"/><circle class="cand" cx="148.0" cy="185.6" r="4"/><circle class="sub" cx="163.0" cy="131.4" r="5"/><rect class="lb" x="158.5" y="79.5" width="9" height="9" transform="rotate(45 163.0 84.0)"/><circle class="sub" cx="204.8" cy="77.3" r="5"/><rect class="lb" x="200.3" y="37.5" width="9" height="9" transform="rotate(45 204.8 42.0)"/><circle class="cand now" cx="254.2" cy="289.6" r="4"/><circle class="cand now" cx="269.2" cy="205.0" r="4"/><circle class="cand now" cx="284.2" cy="71.8" r="4"/><text class="pt-label cand" x="294.2" y="75.3" text-anchor="start">blend_nl4 · CV 0.94745</text><text class="pt-label cand" x="294.2" y="208.5" text-anchor="start">GAM v2 · CV 0.94526</text><text class="pt-label cand" x="294.2" y="293.1" text-anchor="start">GAM · CV 0.94387</text></svg></figure></div><ul class="ws-files"><li><code>GAM 候选</code><span>main effects + bool-bool crosses 后 CV 0.94526</span></li><li><code>blend_nl4.py</code><span>GAM 与浅层 GBDT 融合，CV 0.94745</span></li><li><code>r000001–r000047.txt</code><span>阶段输出；部分调用记录在 tools.jsonl</span></li></ul>
+          </section>
+          <section class="pane tree-pane" aria-label="Harness 文件树">
+            <div class="pane-head"><b>HARNESS</b><span>harness/ · 当前组件</span></div>
+            <ul class="tree">
+              <li class="dir lane-prompts"><div class="dir-row"><span class="dot"></span><b>prompts/</b><small>Prompt · 1</small></div><ul>
+                <li class="file "><div class="file-row"><code>system_prompt</code></div><p># 比赛目标、工作区规则、run_python 与 Kaggle 工具</p></li>
+              </ul></li>
+              <li class="dir lane-skills"><div class="dir-row"><span class="dot"></span><b>skills/</b><small>Skills · 2</small></div><ul>
+                <li class="file "><div class="file-row"><code>self_evolution/SKILL.md</code></div><p># 反思并创建 prompt / memory / skill / tool / subagent</p></li>
+                <li class="file is-used"><div class="file-row"><code>pg_tabular_auc_playbook</code><span class="ver">v1</span><em class="st-used">调用</em></div><p># 验证优先、低成本泄漏探针、复杂度方向测试、融合评估与提交筛选</p></li>
+              </ul></li>
+              <li class="dir lane-memory"><div class="dir-row"><span class="dot"></span><b>memory/</b><small>记忆与反思 · 3</small></div><ul>
+                <li class="file mem is-used"><div class="file-row"><code>pg_s6e11_findings</code><span class="ver">v1</span><em class="st-used">调用</em></div><ul class="notes"><li>有效 / 无效方法清单</li><li>CV→LB 约 +0.0006</li><li>比赛特定建模发现</li></ul></li>
+                <li class="file mem is-kept"><div class="file-row"><code>checkpoint-58041397.md</code><em class="st-kept">保留</em></div><ul class="notes"><li>复盘第 3 次提交</li><li>瓶颈转向评估流程</li><li>提交门槛待校准</li></ul></li>
+                <li class="file mem is-new"><div class="file-row"><code>window-3.md</code><em class="st-new">新增</em></div><ul class="notes"><li>smoke test 优先</li><li>按复杂度方向选实验</li><li>提交门槛仍需校准</li></ul></li>
+              </ul></li>
+              <li class="dir lane-agents"><div class="dir-row"><span class="dot"></span><b>agents/</b><small>Subagents · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-tools"><div class="dir-row"><span class="dot"></span><b>work/</b><small>Python tools · 25</small></div><ul>
+                <li class="file folded"><span>此前 21 项 · 保留</span><code>baseline.py</code><code>fe.py</code><code>run_cv.py</code><code>snippets/001–003</code><code>diag1.py</code><code>diag2.py</code><code>diag3.py</code><code>diag4.py</code><code>diag5.py</code><code>diag6.py</code><code>diag_prec.py</code><code>exp_bank.py</code><code>exp_pair.py</code><code>exp_rg.py</code><code>tune_lgb.py</code><code>snippets/004–010</code><code>ens.py</code><code>final_ens.py</code><code>stack.py</code><code>stack2.py</code><code>snippets/011–014</code></li>
+                <li class="file is-new is-used"><div class="file-row"><code>gam.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 样条 / GAM 候选交叉验证</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>gam2.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 先 smoke test，再训练受限 GAM</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>blend_nl4.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 新旧成员融合并比较 OOF AUC</p></li>
+                <li class="file is-new"><div class="file-row"><code>snippets/015–016</code><em class="st-new">新增</em></div><p># 候选盘点；1 条因历史占位文本语法失败</p></li>
+              </ul></li>
+            </ul>
+          </section>
+        </div>
+      </article>
+      <article class="stage-panel" id="kaggle-stage-panel-4" role="tabpanel" aria-labelledby="kaggle-stage-4">
+        <header class="stage-head">
+          <div class="stage-copy"><span class="stage-kicker">04 · 11/06 · 恢复</span><h3>恢复后扩大浅层模型</h3><p>运行恢复后，Agent 根据复杂度扫描集中训练 num_leaves=4–5 的多 seed 五折模型，本地 CV 超过已提交的冠军。这一窗口没有新建 prompt、skill、memory 或 subagent。</p></div>
+          <div class="stage-side">
+            <div class="stage-count"><b>25 → 27</b><span>Agent 组件 · 2 个变更 · 2 个被调用</span></div>
+            <div class="stage-used"><b>本阶段调用</b><span class="chip lane-tools">work/ladder.py</span><span class="chip lane-tools">work/nl4.py</span></div>
+          </div>
+        </header>
+        <div class="stage-grid">
+          <section class="pane trace-pane" aria-label="Agent 轨迹">
+            <div class="pane-head"><b>AGENT TRACE</b><span>一次 loop 的四步</span></div>
+            <ol class="loop-steps">
+              <li style="--i:0"><span>观察</span><p>运行恢复；此前 skill 与 memory 仍在工作区</p></li>
+              <li style="--i:1"><span>判断</span><p>复杂度扫描显示浅层树更稳</p></li>
+              <li style="--i:2"><span>改 harness</span><p>无新组件；写 ladder.py 与 nl4.py</p></li>
+              <li style="--i:3"><span>工作区结果</span><p>nl4a CV 0.94762，本地最高</p></li>
+            </ol>
+            <div class="pane-head sub"><b>EVENTS</b><span>运行记录（日期）</span></div>
+            <ol class="events">
+              <li style="--i:4"><time>11/06</time><span class="chip lane-runtime">resume</span><p>运行恢复，组件目录保持不变</p></li>
+              <li style="--i:5"><time>11/06</time><span class="chip lane-tools">ladder</span><p>扫描 num_leaves = 2–32</p></li>
+              <li style="--i:6"><time>11/06</time><span class="chip lane-tools">nl4</span><p>nl4a 0.94762 · nl4b 0.94761 · nl4c 0.94751</p></li>
+            </ol>
+          </section>
+          <section class="pane work-pane" aria-label="工作区交付件">
+            <div class="pane-head"><b>WORKSPACE</b><strong class="work-label">nl4a · CV 0.94762（本地最高）</strong></div>
+            <ul class="checks"><li>nl4b 0.94761</li><li>nl4c 0.94751</li><li>尚无新提交</li></ul>
+            <div class="rail-row"><ol class="rail">
+              <li class="done">DATA</li>
+              <li class="done">#1 baseline</li>
+              <li class="done">#2 blend3</li>
+              <li class="current">#3 ens_tuned</li>
+              <li class="">候选 ens_nl4</li>
+            </ol></div>
+            <div class="sheet-box chart-box"><figure class="score-chart"><figcaption class="chart-legend"><span class="k-cv">提交 CV</span><span class="k-lb">Public LB</span><span class="k-cand">未提交候选 CV</span></figcaption><svg viewBox="0 0 440 330" role="img" aria-label="nl4a · CV 0.94762（本地最高）：分数轨迹"><rect class="band" x="301.3" y="8" width="64.3" height="304" rx="8"/><line class="grid" x1="44" x2="430" y1="281.7" y2="281.7"/><text class="axis" x="36" y="284.7" text-anchor="end">0.944</text><line class="grid" x1="44" x2="430" y1="220.8" y2="220.8"/><text class="axis" x="36" y="223.8" text-anchor="end">0.945</text><line class="grid" x1="44" x2="430" y1="160.0" y2="160.0"/><text class="axis" x="36" y="163.0" text-anchor="end">0.946</text><line class="grid" x1="44" x2="430" y1="99.2" y2="99.2"/><text class="axis" x="36" y="102.2" text-anchor="end">0.947</text><line class="grid" x1="44" x2="430" y1="38.3" y2="38.3"/><text class="axis" x="36" y="41.3" text-anchor="end">0.948</text><text class="axis " x="76.2" y="324" text-anchor="middle">00</text><text class="axis " x="140.5" y="324" text-anchor="middle">01</text><text class="axis " x="204.8" y="324" text-anchor="middle">02</text><text class="axis " x="269.2" y="324" text-anchor="middle">03</text><text class="axis now" x="333.5" y="324" text-anchor="middle">04</text><text class="axis future" x="397.8" y="324" text-anchor="middle">05</text><line class="best" x1="44" x2="430" y1="42.0" y2="42.0"/><text class="best-label" x="48" y="37.0">最佳 LB 0.94794</text><polyline class="cv-line" points="76.2,152.1 163.0,131.4 204.8,77.3"/><polyline class="lb-line" points="76.2,108.3 163.0,84.0 204.8,42.0"/><circle class="sub" cx="76.2" cy="152.1" r="5"/><rect class="lb" x="71.7" y="103.8" width="9" height="9" transform="rotate(45 76.2 108.3)"/><circle class="cand" cx="118.0" cy="250.6" r="4"/><circle class="cand" cx="133.0" cy="220.8" r="4"/><circle class="cand" cx="148.0" cy="185.6" r="4"/><circle class="sub" cx="163.0" cy="131.4" r="5"/><rect class="lb" x="158.5" y="79.5" width="9" height="9" transform="rotate(45 163.0 84.0)"/><circle class="sub" cx="204.8" cy="77.3" r="5"/><rect class="lb" x="200.3" y="37.5" width="9" height="9" transform="rotate(45 204.8 42.0)"/><circle class="cand" cx="254.2" cy="289.6" r="4"/><circle class="cand" cx="269.2" cy="205.0" r="4"/><circle class="cand" cx="284.2" cy="71.8" r="4"/><circle class="cand now" cx="318.5" cy="68.1" r="4"/><circle class="cand now" cx="333.5" cy="62.1" r="4"/><circle class="cand now" cx="348.5" cy="61.4" r="4"/><text class="pt-label cand" x="308.5" y="64.9" text-anchor="end">nl4a · CV 0.94762</text><text class="pt-label cand" x="308.5" y="77.9" text-anchor="end">nl4b · CV 0.94761</text><text class="pt-label cand" x="308.5" y="90.9" text-anchor="end">nl4c · CV 0.94751</text></svg></figure></div><ul class="ws-files"><li><code>ladder.py 扫描结果</code><span>num_leaves 2–32 的复杂度曲线</span></li><li><code>nl4a / b / c 五折模型</code><span>CV 0.94762 / 0.94761 / 0.94751</span></li></ul>
+          </section>
+          <section class="pane tree-pane" aria-label="Harness 文件树">
+            <div class="pane-head"><b>HARNESS</b><span>harness/ · 当前组件</span></div>
+            <ul class="tree">
+              <li class="dir lane-prompts"><div class="dir-row"><span class="dot"></span><b>prompts/</b><small>Prompt · 1</small></div><ul>
+                <li class="file "><div class="file-row"><code>system_prompt</code></div><p># 比赛目标、工作区规则、run_python 与 Kaggle 工具</p></li>
+              </ul></li>
+              <li class="dir lane-skills"><div class="dir-row"><span class="dot"></span><b>skills/</b><small>Skills · 2</small></div><ul>
+                <li class="file "><div class="file-row"><code>self_evolution/SKILL.md</code></div><p># 反思并创建 prompt / memory / skill / tool / subagent</p></li>
+                <li class="file is-kept"><div class="file-row"><code>pg_tabular_auc_playbook</code><span class="ver">v1</span><em class="st-kept">保留</em></div><p># 验证优先、低成本泄漏探针、复杂度方向测试、融合评估与提交筛选</p></li>
+              </ul></li>
+              <li class="dir lane-memory"><div class="dir-row"><span class="dot"></span><b>memory/</b><small>记忆与反思 · 3</small></div><ul>
+                <li class="file mem is-kept"><div class="file-row"><code>pg_s6e11_findings</code><span class="ver">v1</span><em class="st-kept">保留</em></div><ul class="notes"><li>有效 / 无效方法清单</li><li>CV→LB 约 +0.0006</li><li>比赛特定建模发现</li></ul></li>
+                <li class="file mem is-kept"><div class="file-row"><code>checkpoint-58041397.md</code><em class="st-kept">保留</em></div><ul class="notes"><li>复盘第 3 次提交</li><li>瓶颈转向评估流程</li><li>提交门槛待校准</li></ul></li>
+                <li class="file mem is-kept"><div class="file-row"><code>window-3.md</code><em class="st-kept">保留</em></div><ul class="notes"><li>smoke test 优先</li><li>按复杂度方向选实验</li><li>提交门槛仍需校准</li></ul></li>
+              </ul></li>
+              <li class="dir lane-agents"><div class="dir-row"><span class="dot"></span><b>agents/</b><small>Subagents · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-tools"><div class="dir-row"><span class="dot"></span><b>work/</b><small>Python tools · 27</small></div><ul>
+                <li class="file folded"><span>此前 25 项 · 保留</span><code>baseline.py</code><code>fe.py</code><code>run_cv.py</code><code>snippets/001–003</code><code>diag1.py</code><code>diag2.py</code><code>diag3.py</code><code>diag4.py</code><code>diag5.py</code><code>diag6.py</code><code>diag_prec.py</code><code>exp_bank.py</code><code>exp_pair.py</code><code>exp_rg.py</code><code>tune_lgb.py</code><code>snippets/004–010</code><code>ens.py</code><code>final_ens.py</code><code>stack.py</code><code>stack2.py</code><code>snippets/011–014</code><code>gam.py</code><code>gam2.py</code><code>blend_nl4.py</code><code>snippets/015–016</code></li>
+                <li class="file is-new is-used"><div class="file-row"><code>ladder.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 扫描 num_leaves = 2–32 的复杂度</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code>nl4.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># num_leaves = 4–5 五折多 seed LGBM</p></li>
+              </ul></li>
+            </ul>
+          </section>
+        </div>
+      </article>
+      <article class="stage-panel" id="kaggle-stage-panel-5" role="tabpanel" aria-labelledby="kaggle-stage-5">
+        <header class="stage-head">
+          <div class="stage-copy"><span class="stage-kicker">05 · 11/06 · 运行中</span><h3>融合验证，等待提交决定</h3><p>Agent 把新模型与旧候选做 logit 融合，用配对 bootstrap 估计增益，再决定是否消耗提交机会。截至 11/06 14:22（UTC+8）还没有新的提交回执。</p></div>
+          <div class="stage-side">
+            <div class="stage-count"><b>27 → 28</b><span>Agent 组件 · 2 个变更 · 1 个被调用</span></div>
+            <div class="stage-used"><b>本阶段调用</b><span class="chip lane-tools">work/blend2.py</span></div>
+          </div>
+        </header>
+        <div class="stage-grid">
+          <section class="pane trace-pane" aria-label="Agent 轨迹">
+            <div class="pane-head"><b>AGENT TRACE</b><span>一次 loop 的四步</span></div>
+            <ol class="loop-steps">
+              <li style="--i:0"><span>观察</span><p>新浅层模型 CV 比冠军高约 0.00026</p></li>
+              <li style="--i:1"><span>判断</span><p>先估计融合增益是否可靠，再决定提交</p></li>
+              <li style="--i:2"><span>改 harness</span><p>无新组件；Python 脚本仍未进入 prompt 目录</p></li>
+              <li style="--i:3"><span>工作区结果</span><p>blend2.py 运行中，生成 ens_nl4.csv 候选</p></li>
+            </ol>
+            <div class="pane-head sub"><b>EVENTS</b><span>运行记录（日期）</span></div>
+            <ol class="events">
+              <li style="--i:4"><time>11/06</time><span class="chip lane-tools">blend2</span><p>搜索新旧 OOF 的 logit 融合权重</p></li>
+              <li style="--i:5"><time>11/06</time><span class="chip lane-tools">snippet-017</span><p>列出 OOF / pred 文件与候选提交</p></li>
+              <li style="--i:6"><time>14:22</time><span class="chip lane-runtime">status</span><p>尚无新提交回执；累计费用约 $1.31</p></li>
+            </ol>
+          </section>
+          <section class="pane work-pane" aria-label="工作区交付件">
+            <div class="pane-head"><b>WORKSPACE</b><strong class="work-label">ens_nl4.csv · 融合验证中</strong></div>
+            <ul class="checks"><li>blend2.py 运行中</li><li>尚无新回执</li><li>费用约 $1.31</li></ul>
+            <div class="rail-row"><ol class="rail">
+              <li class="done">DATA</li>
+              <li class="done">#1 baseline</li>
+              <li class="done">#2 blend3</li>
+              <li class="done">#3 ens_tuned</li>
+              <li class="current">候选 ens_nl4</li>
+            </ol></div>
+            <div class="sheet-box chart-box"><figure class="score-chart"><figcaption class="chart-legend"><span class="k-cv">提交 CV</span><span class="k-lb">Public LB</span><span class="k-cand">未提交候选 CV</span></figcaption><svg viewBox="0 0 440 330" role="img" aria-label="ens_nl4.csv · 融合验证中：分数轨迹"><rect class="band" x="365.7" y="8" width="64.3" height="304" rx="8"/><line class="grid" x1="44" x2="430" y1="281.7" y2="281.7"/><text class="axis" x="36" y="284.7" text-anchor="end">0.944</text><line class="grid" x1="44" x2="430" y1="220.8" y2="220.8"/><text class="axis" x="36" y="223.8" text-anchor="end">0.945</text><line class="grid" x1="44" x2="430" y1="160.0" y2="160.0"/><text class="axis" x="36" y="163.0" text-anchor="end">0.946</text><line class="grid" x1="44" x2="430" y1="99.2" y2="99.2"/><text class="axis" x="36" y="102.2" text-anchor="end">0.947</text><line class="grid" x1="44" x2="430" y1="38.3" y2="38.3"/><text class="axis" x="36" y="41.3" text-anchor="end">0.948</text><text class="axis " x="76.2" y="324" text-anchor="middle">00</text><text class="axis " x="140.5" y="324" text-anchor="middle">01</text><text class="axis " x="204.8" y="324" text-anchor="middle">02</text><text class="axis " x="269.2" y="324" text-anchor="middle">03</text><text class="axis " x="333.5" y="324" text-anchor="middle">04</text><text class="axis now" x="397.8" y="324" text-anchor="middle">05</text><line class="best" x1="44" x2="430" y1="42.0" y2="42.0"/><text class="best-label" x="48" y="37.0">最佳 LB 0.94794</text><polyline class="cv-line" points="76.2,152.1 163.0,131.4 204.8,77.3"/><polyline class="lb-line" points="76.2,108.3 163.0,84.0 204.8,42.0"/><circle class="sub" cx="76.2" cy="152.1" r="5"/><rect class="lb" x="71.7" y="103.8" width="9" height="9" transform="rotate(45 76.2 108.3)"/><circle class="cand" cx="118.0" cy="250.6" r="4"/><circle class="cand" cx="133.0" cy="220.8" r="4"/><circle class="cand" cx="148.0" cy="185.6" r="4"/><circle class="sub" cx="163.0" cy="131.4" r="5"/><rect class="lb" x="158.5" y="79.5" width="9" height="9" transform="rotate(45 163.0 84.0)"/><circle class="sub" cx="204.8" cy="77.3" r="5"/><rect class="lb" x="200.3" y="37.5" width="9" height="9" transform="rotate(45 204.8 42.0)"/><circle class="cand" cx="254.2" cy="289.6" r="4"/><circle class="cand" cx="269.2" cy="205.0" r="4"/><circle class="cand" cx="284.2" cy="71.8" r="4"/><circle class="cand" cx="318.5" cy="68.1" r="4"/><circle class="cand" cx="333.5" cy="62.1" r="4"/><circle class="cand" cx="348.5" cy="61.4" r="4"/><text class="pending" x="397.8" y="28" text-anchor="middle">blend2 运行中</text><line class="pending-line" x1="397.8" x2="397.8" y1="36" y2="306"/></svg></figure></div><ul class="ws-files"><li><code>blend2.py</code><span>搜索新旧 OOF logit 融合权重，配对 bootstrap 比较</span></li><li><code>ens_nl4.csv</code><span>融合候选与诊断，待决定是否提交</span></li></ul>
+          </section>
+          <section class="pane tree-pane" aria-label="Harness 文件树">
+            <div class="pane-head"><b>HARNESS</b><span>harness/ · 当前组件</span></div>
+            <ul class="tree">
+              <li class="dir lane-prompts"><div class="dir-row"><span class="dot"></span><b>prompts/</b><small>Prompt · 1</small></div><ul>
+                <li class="file "><div class="file-row"><code>system_prompt</code></div><p># 比赛目标、工作区规则、run_python 与 Kaggle 工具</p></li>
+              </ul></li>
+              <li class="dir lane-skills"><div class="dir-row"><span class="dot"></span><b>skills/</b><small>Skills · 2</small></div><ul>
+                <li class="file "><div class="file-row"><code>self_evolution/SKILL.md</code></div><p># 反思并创建 prompt / memory / skill / tool / subagent</p></li>
+                <li class="file is-kept"><div class="file-row"><code>pg_tabular_auc_playbook</code><span class="ver">v1</span><em class="st-kept">保留</em></div><p># 验证优先、低成本泄漏探针、复杂度方向测试、融合评估与提交筛选</p></li>
+              </ul></li>
+              <li class="dir lane-memory"><div class="dir-row"><span class="dot"></span><b>memory/</b><small>记忆与反思 · 3</small></div><ul>
+                <li class="file mem is-kept"><div class="file-row"><code>pg_s6e11_findings</code><span class="ver">v1</span><em class="st-kept">保留</em></div><ul class="notes"><li>有效 / 无效方法清单</li><li>CV→LB 约 +0.0006</li><li>比赛特定建模发现</li></ul></li>
+                <li class="file mem is-kept"><div class="file-row"><code>checkpoint-58041397.md</code><em class="st-kept">保留</em></div><ul class="notes"><li>复盘第 3 次提交</li><li>瓶颈转向评估流程</li><li>提交门槛待校准</li></ul></li>
+                <li class="file mem is-kept"><div class="file-row"><code>window-3.md</code><em class="st-kept">保留</em></div><ul class="notes"><li>smoke test 优先</li><li>按复杂度方向选实验</li><li>提交门槛仍需校准</li></ul></li>
+              </ul></li>
+              <li class="dir lane-agents"><div class="dir-row"><span class="dot"></span><b>agents/</b><small>Subagents · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-tools"><div class="dir-row"><span class="dot"></span><b>work/</b><small>Python tools · 29</small></div><ul>
+                <li class="file folded"><span>此前 27 项 · 保留</span><code>baseline.py</code><code>fe.py</code><code>run_cv.py</code><code>snippets/001–003</code><code>diag1.py</code><code>diag2.py</code><code>diag3.py</code><code>diag4.py</code><code>diag5.py</code><code>diag6.py</code><code>diag_prec.py</code><code>exp_bank.py</code><code>exp_pair.py</code><code>exp_rg.py</code><code>tune_lgb.py</code><code>snippets/004–010</code><code>ens.py</code><code>final_ens.py</code><code>stack.py</code><code>stack2.py</code><code>snippets/011–014</code><code>gam.py</code><code>gam2.py</code><code>blend_nl4.py</code><code>snippets/015–016</code><code>ladder.py</code><code>nl4.py</code></li>
+                <li class="file is-new is-used"><div class="file-row"><code>blend2.py</code><em class="st-new">新增</em><em class="st-used">调用</em></div><p># logit 融合权重搜索 + 配对 bootstrap</p></li>
+                <li class="file is-new"><div class="file-row"><code>snippets/017</code><em class="st-new">新增</em></div><p># 列出 OOF / pred 与候选提交</p></li>
+              </ul></li>
+            </ul>
+          </section>
+        </div>
+      </article>
+    </div>
+  </div>
+
+
+  <p class="evo-footnote">数据来自运行目录 s6e11-agent-20261106-011741 的提交账本、Python 执行账本、harness 组件文件与反思记录。system prompt 与 self_evolution skill 由运行时提供，不计入 Agent 组件；work/ 中由 Agent 写入并经 run_python 执行的脚本按本页口径计为 tools，17 段 inline snippet 合并为 5 组显示、不计入组件数。CV 是本地交叉验证结果，LB 是 Kaggle public leaderboard 回执；未提交候选只有 CV。运行仍在继续，数据截至 2026-11-06 14:22（UTC+8），模型 deepseek-v4.1-flash，累计费用约 $1.31。</p>
+</section>
+<!-- KAGGLE:END -->
 <section class="video-demo section" id="demo-video">
   <div class="video-heading"><div><div class="eyebrow dark">DEMO 3 / VIDEO · GPT-6.1 SOL</div><h2>基线 Codex 与 Agent 自进化方法</h2><p>两段均为 15 秒生成视频：左侧由基线 Codex 生成，右侧由 Agent 自进化方法生成，均使用 GPT-6.1 Sol。页面直接播放原始 1080p MP4，保留音轨，不二次压缩或转码。这是两种方法的成品展示，不是受控对照评测。</p></div><span class="video-spec">ORIGINAL FILES<br>1920 × 1080 · H.264 · AAC</span></div>
   <div class="video-grid">
@@ -606,8 +1118,7 @@
 </main>
 <footer><a class="brand" href="#top"><span class="brand-mark">A<span>↗</span></span><span>AGENT-NATIVE<br><b>SELF-HARNESS</b></span></a><span>Agent 塑造执行系统。Runtime 组装可复用能力。</span><a href="#top">回到顶部 ↑</a></footer>
 <script src="app.js"></script>
-<script src="demo1.js"></script>
-<script src="kaggle-demo.js"></script>
+<script src="demo.js"></script>
 </body>
 </html>
 

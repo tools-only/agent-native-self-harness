@@ -1,4 +1,8 @@
 {
+  "id": "demo-ppt",
+  "marker": "DEMO1",
+  "prefix": "",
+  "events_note": "运行记录（UTC）",
   "eyebrow": "DEMO 1 / PPT · SELF-HARNESS RUN",
   "title": "从原始 loop，到一套<br><em>能生产 PPT 的 harness。</em>",
   "intro": "同一次 JPMorgan Chase 3Q21 演示稿任务中，Agent 先发现问题，再创建、修改和调用组件。六张卡片概括每个阶段；下方工作台逐阶段回放推理轨迹、harness 文件与 PPT 工作区的同步变化。",
