@@ -1,0 +1,631 @@
+{
+  "eyebrow": "DEMO 1 / PPT · SELF-HARNESS RUN",
+  "title": "从原始 loop，到一套<br><em>能生产 PPT 的 harness。</em>",
+  "intro": "同一次 JPMorgan Chase 3Q21 演示稿任务中，Agent 先发现问题，再创建、修改和调用组件。六张卡片概括每个阶段；下方工作台逐阶段回放推理轨迹、harness 文件与 PPT 工作区的同步变化。",
+  "metrics": [
+    [
+      "0 → 7",
+      "Agent 保存的组件"
+    ],
+    [
+      "v001 → v004",
+      "完整渲染版本"
+    ],
+    [
+      "0 → 2",
+      "成品内嵌插图"
+    ],
+    [
+      "15 / 15",
+      "页面保留引用"
+    ]
+  ],
+  "lanes": [
+    {
+      "id": "prompts",
+      "label": "Prompt",
+      "dir": "prompts/"
+    },
+    {
+      "id": "skills",
+      "label": "Skills",
+      "dir": "skills/"
+    },
+    {
+      "id": "tools",
+      "label": "Tools",
+      "dir": "tools/"
+    },
+    {
+      "id": "agents",
+      "label": "Subagents",
+      "dir": "agents/"
+    },
+    {
+      "id": "memory",
+      "label": "审阅摘要",
+      "dir": "memory/"
+    }
+  ],
+  "components": {
+    "auditorPrompt": {
+      "lane": "prompts",
+      "path": "acceptance_check.md",
+      "summary": "约束审阅角色只读取证据，给出 pass / fail",
+      "link": "components/prompts/acceptance_check.md"
+    },
+    "acceptanceSkill": {
+      "lane": "skills",
+      "path": "acceptance_check/SKILL.md",
+      "summary": "保存可复用的交付验收流程",
+      "link": "components/skills/acceptance_check.md"
+    },
+    "builder": {
+      "lane": "tools",
+      "path": "earnings_deck_builder.py",
+      "summary": "把业绩故事数据生成 15 页幻灯片场景",
+      "link": "components/tools/earnings_deck_builder.py"
+    },
+    "acceptance": {
+      "lane": "tools",
+      "path": "acceptance_check.py",
+      "summary": "检查页数、引用、告警、插图、导航与打印",
+      "link": "components/tools/acceptance_check.py"
+    },
+    "deckAcceptance": {
+      "lane": "tools",
+      "path": "deck_acceptance.py",
+      "summary": "对演示稿做一次独立的程序化检查",
+      "link": "components/tools/deck_acceptance.py"
+    },
+    "publisher": {
+      "lane": "tools",
+      "path": "publish_deck_html.py",
+      "summary": "把已验证的渲染导出为自包含 deck.html",
+      "link": "components/tools/publish_deck_html.py"
+    },
+    "researchRole": {
+      "lane": "agents",
+      "path": "research",
+      "summary": "阅读业绩材料，提出 15 页叙事结构",
+      "counted": false
+    },
+    "visualRole": {
+      "lane": "agents",
+      "path": "visual_asset",
+      "summary": "构思插图并调用图像生成",
+      "counted": false
+    },
+    "reviewRole": {
+      "lane": "agents",
+      "path": "design_review",
+      "summary": "检查渲染页面中的视觉问题",
+      "counted": false
+    },
+    "auditorAgent": {
+      "lane": "agents",
+      "path": "acceptance_check.md",
+      "summary": "只读交付审阅角色，不修改已批准的 deck",
+      "link": "components/agents/acceptance_check.md"
+    },
+    "memV001": {
+      "lane": "memory",
+      "path": "v001-review.md",
+      "counted": false,
+      "summary": [
+        "p14 仅文字与 KPI 卡",
+        "版式问题",
+        "全稿无插图（需 2–4 张）"
+      ]
+    },
+    "memV004": {
+      "lane": "memory",
+      "path": "v004-check.md",
+      "counted": false,
+      "summary": [
+        "15 页均有引用",
+        "0 告警",
+        "2 张插图",
+        "键盘与打印可用"
+      ]
+    },
+    "memDeck": {
+      "lane": "memory",
+      "path": "deck-check.md",
+      "counted": false,
+      "summary": [
+        "PASS",
+        "0 告警 · 2 张插图",
+        "131 KB 自包含 HTML，源自 v004"
+      ]
+    },
+    "memAudit": {
+      "lane": "memory",
+      "path": "batch11-12.md",
+      "counted": false,
+      "summary": [
+        "已批准 deck 不再修改",
+        "v5 复查均正常返回"
+      ]
+    }
+  },
+  "rail": [
+    "SOURCE",
+    "v001",
+    "v003",
+    "v004",
+    "deck.html"
+  ],
+  "stages": [
+    {
+      "label": "原始 loop",
+      "batches": "BATCH 01 · START",
+      "scene": "loop",
+      "tile_text": "组件目录为空。Agent 只有基础 loop：读取任务、调用模型、观察结果。",
+      "tile_delta": [
+        "Agent 组件 0",
+        "工作区：原始材料"
+      ],
+      "title": "只有任务 loop，没有命名工具",
+      "summary": "运行开始时，harness 目录为空。Agent 只有基础 loop：读取任务、调用模型、观察结果，再决定要沉淀什么。",
+      "loop": [
+        "组件目录返回 No named programs",
+        "先理解材料，再决定沉淀什么方法",
+        "暂不保存组件，先调用 list_programs 确认现状",
+        "工作区只有任务说明和原始业绩材料"
+      ],
+      "harness": {},
+      "versions": {},
+      "events": [
+        {
+          "time": "03:01:19",
+          "tag": "lifecycle",
+          "text": "第 1 批开始，组件目录没有命名程序"
+        },
+        {
+          "time": "03:01:30",
+          "tag": "runtime",
+          "text": "Agent 调用 list_programs 检查可用程序"
+        }
+      ],
+      "workspace": {
+        "rail": 0,
+        "image": null,
+        "label": "原始材料",
+        "source": [
+          "JPMorgan Chase 3Q21 earnings release",
+          "目标：15 页、带来源引用的 HTML 演示稿"
+        ],
+        "checks": [
+          "尚无渲染版本",
+          "尚无验收标准"
+        ]
+      }
+    },
+    {
+      "label": "第一件工具",
+      "batches": "BATCH 01",
+      "scene": "tool",
+      "tile_text": "建页步骤被写成 builder。v1 调用失败，修订为 v2 后生成首版 15 页。",
+      "tile_delta": [
+        "+ builder v2",
+        "首版 v001"
+      ],
+      "title": "把重复建页过程写成生成器",
+      "summary": "Agent 先让 research 整理叙事，再把 15 页的构建过程写成 earnings_deck_builder。第一次调用失败后，它立即修改并生成首版渲染。",
+      "loop": [
+        "research 给出 15 页叙事；图像角色未返回图片",
+        "页面结构重复，适合交给程序生成",
+        "新增 builder v1，失败后修订为 v2",
+        "得到 v001：15 页，0 张插图，0 个边界告警"
+      ],
+      "harness": {
+        "researchRole": "used",
+        "visualRole": "used",
+        "reviewRole": "",
+        "builder": "new used"
+      },
+      "versions": {
+        "builder": "v2"
+      },
+      "events": [
+        {
+          "time": "03:02:23",
+          "tag": "research",
+          "lane": "agents",
+          "text": "整理 15 页业绩叙事"
+        },
+        {
+          "time": "03:03:35",
+          "tag": "visual_asset",
+          "lane": "agents",
+          "text": "图像生成没有返回图片",
+          "fail": true
+        },
+        {
+          "time": "03:04:40",
+          "tag": "save builder v1",
+          "lane": "tools",
+          "text": "新增 earnings_deck_builder"
+        },
+        {
+          "time": "03:05:41",
+          "tag": "builder v1",
+          "lane": "tools",
+          "text": "调用失败：run() 缺少 env 参数",
+          "fail": true
+        },
+        {
+          "time": "03:05:52",
+          "tag": "builder v2",
+          "lane": "tools",
+          "text": "修订后调用成功，生成 15 页"
+        }
+      ],
+      "workspace": {
+        "rail": 1,
+        "image": "assets/demo1/v001-contact-sheet.png",
+        "label": "v001 · 15 页总览",
+        "checks": [
+          "15 页全部生成",
+          "0 张插图",
+          "0 个渲染边界告警"
+        ]
+      }
+    },
+    {
+      "label": "发现缺口",
+      "batches": "BATCH 02",
+      "scene": "review",
+      "tile_text": "审阅指出第 14 页只有文字和 KPI 卡片，整套稿件没有插图。",
+      "tile_delta": [
+        "调用 design_review",
+        "v001 待修订"
+      ],
+      "title": "首版通过几何检查，但视觉叙事不足",
+      "summary": "设计审阅指出第 14 页只依赖文字和 KPI 卡片，整套稿件也没有插图。Agent 决定修改可复用的版式与故事呈现方式。",
+      "loop": [
+        "design_review：第 14 页缺少视觉叙事",
+        "问题来自可复用模板，应该修改生成方法",
+        "调用 design_review；审阅结论记入 memory",
+        "v001 被标记为需要修订"
+      ],
+      "harness": {
+        "researchRole": "",
+        "visualRole": "",
+        "reviewRole": "used",
+        "builder": "kept",
+        "memV001": "new"
+      },
+      "versions": {
+        "builder": "v2"
+      },
+      "events": [
+        {
+          "time": "03:06:17",
+          "tag": "render",
+          "text": "v001 渲染完成：15 页，0 张图片，无告警"
+        },
+        {
+          "time": "03:06:57",
+          "tag": "design_review",
+          "lane": "agents",
+          "text": "指出第 14 页缺少图像与视觉变化"
+        },
+        {
+          "time": "03:06:57",
+          "tag": "decision",
+          "text": "选择 revise，继续修改而非接受首版"
+        }
+      ],
+      "workspace": {
+        "rail": 1,
+        "image": "assets/demo1/v001-contact-sheet.png",
+        "label": "v001 · 第 14 页被标记",
+        "highlight": [
+          33.333,
+          80.0,
+          33.333,
+          18.367
+        ],
+        "checks": [
+          "第 14 页：只有文字和 KPI 卡片",
+          "整套稿件：没有插图",
+          "决定：修改可复用生成方法"
+        ]
+      }
+    },
+    {
+      "label": "扩展能力",
+      "batches": "BATCH 03",
+      "scene": "extend",
+      "tile_text": "builder 更新到 v5 并支持插图；Agent 新建两个检查程序验证 v004。",
+      "tile_delta": [
+        "builder v2→v5 · +2 tools",
+        "v004 · 2 张插图"
+      ],
+      "title": "生成器学会插图，验收开始程序化",
+      "summary": "Agent 将 builder 连续更新到 v5，放大标签与引用，并支持故事插图。随后它创建两个检查程序，用来判断新渲染是否满足要求。",
+      "loop": [
+        "审阅反馈：缺少插图，标签与引用偏小",
+        "修改生成方法，同时为质量判断建立工具",
+        "builder v2 → v5；新增两个验收工具",
+        "v004：15 页，2 张内嵌插图，0 个告警"
+      ],
+      "harness": {
+        "researchRole": "",
+        "visualRole": "",
+        "reviewRole": "",
+        "builder": "updated used",
+        "acceptance": "new used",
+        "deckAcceptance": "new used",
+        "memV001": "kept",
+        "memV004": "new"
+      },
+      "versions": {
+        "builder": "v5",
+        "acceptance": "v2",
+        "deckAcceptance": "v1"
+      },
+      "events": [
+        {
+          "time": "03:08:15",
+          "tag": "save builder v3",
+          "lane": "tools",
+          "text": "builder 加入插图位与更大的标签"
+        },
+        {
+          "time": "03:08:59",
+          "tag": "save builder v5",
+          "lane": "tools",
+          "text": "builder 连续修订到 v5"
+        },
+        {
+          "time": "03:09:42",
+          "tag": "render",
+          "text": "v003 渲染完成：15 页，2 张图片"
+        },
+        {
+          "time": "03:11:35",
+          "tag": "save acceptance v1",
+          "lane": "tools",
+          "text": "新增 acceptance_check"
+        },
+        {
+          "time": "03:13:00",
+          "tag": "save deck_acceptance",
+          "lane": "tools",
+          "text": "新增 deck_acceptance v1"
+        },
+        {
+          "time": "03:14:42",
+          "tag": "acceptance v2",
+          "lane": "tools",
+          "text": "引用、告警、插图、导航与打印全部通过"
+        }
+      ],
+      "workspace": {
+        "rail": 3,
+        "image": "assets/demo1/v004-contact-sheet.png",
+        "label": "v004 · 第 14 页加入插图",
+        "highlight": [
+          33.333,
+          80.0,
+          33.333,
+          18.367
+        ],
+        "checks": [
+          "v003 → v004 两次重渲染",
+          "第 14 页加入街区插图",
+          "acceptance_check 返回 PASS"
+        ]
+      }
+    },
+    {
+      "label": "固化质量门槛",
+      "batches": "BATCH 04–06",
+      "scene": "gate",
+      "tile_text": "验收程序迭代到 v5，并保存为 skill；发布工具从 v004 导出 HTML。",
+      "tile_delta": [
+        "+ skill · + publisher",
+        "deck.html PASS"
+      ],
+      "title": "验收方法和 HTML 发布方法被保存下来",
+      "summary": "Agent 将验收程序迭代到 v5，并保存为可复用 skill。随后它创建 publish_deck_html，从已验证的 v004 导出自包含 HTML，再次运行验收。",
+      "loop": [
+        "v004 已可读，需要可重复的放行标准",
+        "把检查过程保存为 skill，并补充发布工具",
+        "acceptance v3 → v5；新增 skill 与 publisher",
+        "生成 deck.html，验收保持 PASS"
+      ],
+      "harness": {
+        "researchRole": "",
+        "visualRole": "",
+        "reviewRole": "",
+        "builder": "kept",
+        "acceptance": "updated used",
+        "deckAcceptance": "kept",
+        "publisher": "new used",
+        "acceptanceSkill": "new",
+        "memV001": "kept",
+        "memV004": "kept",
+        "memDeck": "new"
+      },
+      "versions": {
+        "builder": "v5",
+        "acceptance": "v5",
+        "deckAcceptance": "v1",
+        "publisher": "v1",
+        "acceptanceSkill": "v1"
+      },
+      "events": [
+        {
+          "time": "03:15:48",
+          "tag": "save acceptance v3",
+          "lane": "tools",
+          "text": "验收项加入键盘导航与打印分页"
+        },
+        {
+          "time": "03:16:31",
+          "tag": "self_component",
+          "lane": "skills",
+          "text": "保存 acceptance_check skill"
+        },
+        {
+          "time": "03:18:22",
+          "tag": "save publisher v1",
+          "lane": "tools",
+          "text": "新增 publish_deck_html"
+        },
+        {
+          "time": "03:18:51",
+          "tag": "publisher v1",
+          "lane": "tools",
+          "text": "从 v004 导出 131,364 字节的自包含 HTML"
+        },
+        {
+          "time": "03:20:48",
+          "tag": "acceptance v5",
+          "lane": "tools",
+          "text": "deck.html 验收通过"
+        }
+      ],
+      "workspace": {
+        "rail": 4,
+        "image": "assets/demo1/v004-contact-sheet.png",
+        "label": "deck.html · 来自 v004",
+        "link": "assets/demo1/deck.html",
+        "checks": [
+          "15 页来源引用：PASS",
+          "0 个渲染告警：PASS",
+          "2 张内嵌插图：PASS",
+          "键盘导航与打印分页：PASS"
+        ]
+      }
+    },
+    {
+      "label": "独立审阅",
+      "batches": "BATCH 08–12",
+      "scene": "auditor",
+      "tile_text": "Agent 保持已批准的 deck 不变，新增只读审阅角色和对应 prompt。",
+      "tile_delta": [
+        "+ auditor · + prompt",
+        "v004 保持稳定"
+      ],
+      "title": "加入只读审阅者，形成完整套件",
+      "summary": "Agent 没有继续修改已批准的 deck，而是新增只读审阅角色和对应指令，并继续调用验收工具确认交付状态。",
+      "loop": [
+        "正式交付动作要求验收绑定",
+        "保持成品不变，增加独立证据审阅",
+        "新增 auditor agent 与 prompt",
+        "成品保持 v004；验收工具继续返回结果"
+      ],
+      "harness": {
+        "researchRole": "",
+        "visualRole": "",
+        "reviewRole": "",
+        "builder": "kept",
+        "acceptance": "used",
+        "deckAcceptance": "kept",
+        "publisher": "kept",
+        "acceptanceSkill": "kept",
+        "auditorPrompt": "new",
+        "auditorAgent": "new",
+        "memV001": "kept",
+        "memV004": "kept",
+        "memDeck": "kept",
+        "memAudit": "new"
+      },
+      "versions": {
+        "builder": "v5",
+        "acceptance": "v5",
+        "deckAcceptance": "v1",
+        "publisher": "v1",
+        "acceptanceSkill": "v1",
+        "auditorPrompt": "v1",
+        "auditorAgent": "v1"
+      },
+      "events": [
+        {
+          "time": "03:22:36",
+          "tag": "lifecycle",
+          "text": "说明不再修改已批准的 deck，转为独立审阅"
+        },
+        {
+          "time": "03:22:36",
+          "tag": "save auditor",
+          "lane": "agents",
+          "text": "新增只读审阅角色与对应 prompt"
+        },
+        {
+          "time": "03:23:22",
+          "tag": "acceptance v5",
+          "lane": "tools",
+          "text": "第 11 批再次检查交付物"
+        },
+        {
+          "time": "03:25:10",
+          "tag": "acceptance v5",
+          "lane": "tools",
+          "text": "第 12 批再次检查交付物"
+        }
+      ],
+      "workspace": {
+        "rail": 4,
+        "image": "assets/demo1/v004-contact-sheet.png",
+        "label": "v004 · 已批准，保持不变",
+        "link": "assets/demo1/deck.html",
+        "checks": [
+          "已批准的 deck 未再修改",
+          "新增只读交付审阅角色",
+          "第 11–12 批继续调用 acceptance_check v5"
+        ]
+      }
+    }
+  ],
+  "proof": {
+    "title": "同一页，因 harness 改变而改变",
+    "text": "第 14 页从文字与 KPI 卡片，变为带内容插图的版本。成品保留 15 页、来源引用和零渲染告警。",
+    "before": [
+      "v001",
+      "assets/demo1/v001-slide14.png",
+      "v001 第 14 页，只有文字与 KPI 卡片"
+    ],
+    "after": [
+      "v004",
+      "assets/demo1/v004-slide14.png",
+      "v004 第 14 页，加入街区插图"
+    ],
+    "link": "assets/demo1/deck.html"
+  },
+  "footnote": "research、visual_asset、design_review 三个角色由 demo 配置提供（demo/ppt-roles），不是 Agent 创建，页面从第 01 阶段起列在 agents/ 中。memory 栏按版本轮次整理 design_review 与 acceptance_check 的结论；本次运行没有保存 memory 组件。阶段说明依据 lifecycle、组件调用、审阅和渲染记录整理，是行动摘要，不是模型内部思维的逐字记录。本次运行共 328 批，页面只展示前 12 批；运行未调用正式交付动作，独立 HTML 交付包在运行结束后另行整理。",
+  "sync": {
+    "source_root": "D:/agent/.codex/worktrees/ppt-first-render-review/autoresearch_pi_project/runs/ppt-jpm-imagegen-20261104-r2",
+    "files": [
+      [
+        "exports/v001/contact-sheet.png",
+        "assets/demo1/v001-contact-sheet.png"
+      ],
+      [
+        "exports/v003/contact-sheet.png",
+        "assets/demo1/v003-contact-sheet.png"
+      ],
+      [
+        "exports/v004/contact-sheet.png",
+        "assets/demo1/v004-contact-sheet.png"
+      ],
+      [
+        "exports/v001/slide-14.png",
+        "assets/demo1/v001-slide14.png"
+      ],
+      [
+        "exports/v004/slide-14.png",
+        "assets/demo1/v004-slide14.png"
+      ],
+      [
+        "exports/v004/deck.html",
+        "assets/demo1/deck.html"
+      ]
+    ]
+  }
+}

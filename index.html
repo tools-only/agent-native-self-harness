@@ -7,11 +7,13 @@
 <meta name="description" content="Agent-native self-evolution：Agent 在任务中设计和修改 prompt、loop 与可复用 harness 组件，由 runtime 组装成自身的执行环境。">
 <title>Agent-native Self-Harness — Agent 自进化</title>
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="demo1.css">
+<link rel="stylesheet" href="kaggle-demo.css">
 </head>
 <body>
 <header class="topbar">
   <a class="brand" href="#top" aria-label="Agent-native Self-Harness 首页"><span class="brand-mark">A<span>↗</span></span><span>AGENT-NATIVE<br><b>SELF-HARNESS</b></span></a>
-  <nav aria-label="主导航"><a href="#summary">摘要</a><a href="#demo-ppt">Demo 1 · PPT</a><a href="#demo-video">Demo 2 · 视频</a></nav>
+  <nav aria-label="主导航"><a href="#summary">摘要</a><a href="#demo-ppt">Demo 1 · PPT</a><a href="#demo-kaggle">Demo 2 · Kaggle</a><a href="#demo-video">Demo 3 · 视频</a></nav>
   <a class="top-link" href="https://github.com/tools-only/agent-native-self-harness" target="_blank" rel="noopener">GitHub ↗</a>
 </header>
 <main id="top">
@@ -53,71 +55,559 @@
   </section>
 </section>
 
-<section class="demo-ppt" id="demo-ppt">
-  <div class="demo-title section">
-    <div><div class="eyebrow dark">DEMO 1 / PPT · R2</div><h2>从自建方法，到 v004 交付件。</h2><p>JPMorgan Chase 2021 年第三季度业绩 HTML 演示。演化轨迹展示前 12 个执行批次；交付件为该次运行最终验收的 `deck.html`。</p></div>
-    <div class="demo-run-badge"><b>GPT-6 Luna</b><span>Codex OAuth · 15 slides</span><span>v004 · 2 inline illustrations</span></div>
+<!-- DEMO1:START -->
+<section class="evo section" id="demo-ppt">
+  <header class="evo-intro">
+    <div><div class="eyebrow dark">DEMO 1 / PPT · SELF-HARNESS RUN</div><h2>从原始 loop，到一套<br><em>能生产 PPT 的 harness。</em></h2></div>
+    <p>同一次 JPMorgan Chase 3Q21 演示稿任务中，Agent 先发现问题，再创建、修改和调用组件。六张卡片概括每个阶段；下方工作台逐阶段回放推理轨迹、harness 文件与 PPT 工作区的同步变化。</p>
+  </header>
+  <div class="evo-metrics" aria-label="Demo 1 演进结果">
+    <span><b>0 → 7</b>Agent 保存的组件</span>
+    <span><b>v001 → v004</b>完整渲染版本</span>
+    <span><b>0 → 2</b>成品内嵌插图</span>
+    <span><b>15 / 15</b>页面保留引用</span>
   </div>
-  <div class="demo-shell">
-    <div class="demo-tabs" role="tablist" aria-label="Demo 1 展示内容">
-      <button class="demo-tab active" id="tab-deliverable" role="tab" aria-selected="true" aria-controls="panel-deliverable" data-panel="panel-deliverable">最终交付件</button>
-      <button class="demo-tab" id="tab-trajectory" role="tab" aria-selected="false" aria-controls="panel-trajectory" data-panel="panel-trajectory">前 12 批演化轨迹</button>
-      <button class="demo-tab" id="tab-harness" role="tab" aria-selected="false" aria-controls="panel-harness" data-panel="panel-harness">Harness 沉淀</button>
+
+  <div class="feature-grid" aria-label="Demo 1 的 6 个演进阶段">
+    <a class="feature-tile" href="#stage-0" data-tile data-stage="0">
+      <div class="art-panel" aria-hidden="true">
+        <div class="scene scene-loop">
+  <svg class="loop-ring" viewBox="0 0 126 118"><path class="loop-path" pathLength="1" d="M63 26a33 33 0 1 1-28.6 16.5"/><path class="loop-arrow" pathLength="1" d="m31 36 3 8 8-3"/></svg>
+  <span class="agent-node"></span>
+  <span class="slot slot-a"></span><span class="slot slot-b"></span><span class="slot slot-c"></span>
+</div>
+      </div>
+      <div class="tile-copy">
+        <span class="icon-chip" aria-hidden="true"><svg viewBox="0 0 24 24"><path pathLength="1" d="M19 8a8 8 0 1 0 1.2 8"/><path pathLength="1" d="M19 3v5h-5"/></svg></span>
+        <span class="tile-kicker">00 · BATCH 01 · START</span>
+        <h3>原始 loop</h3>
+        <p>组件目录为空。Agent 只有基础 loop：读取任务、调用模型、观察结果。</p>
+        <div class="tile-delta"><span>Agent 组件 0</span><span>工作区：原始材料</span></div>
+      </div>
+    </a>
+    <a class="feature-tile" href="#stage-1" data-tile data-stage="1">
+      <div class="art-panel" aria-hidden="true">
+        <div class="scene scene-tool">
+  <span class="mini-card tool-card"><i class="tool-glyph"></i><i class="bar heading w34"></i><i class="bar w28"></i></span>
+  <span class="connector"></span>
+  <span class="mini-window deck-window"><span class="tabstrip"><i class="tab active"></i><i class="tab"></i></span><i class="bar heading w34"></i><i class="bar w42"></i><i class="bar w30"></i><i class="result-line"></i></span>
+</div>
+      </div>
+      <div class="tile-copy">
+        <span class="icon-chip" aria-hidden="true"><svg viewBox="0 0 24 24"><path pathLength="1" d="M14 6l4 4-8 8H6v-4z"/><path pathLength="1" d="M12 8l4 4"/></svg></span>
+        <span class="tile-kicker">01 · BATCH 01</span>
+        <h3>第一件工具</h3>
+        <p>建页步骤被写成 builder。v1 调用失败，修订为 v2 后生成首版 15 页。</p>
+        <div class="tile-delta"><span>+ builder v2</span><span>首版 v001</span></div>
+      </div>
+    </a>
+    <a class="feature-tile" href="#stage-2" data-tile data-stage="2">
+      <div class="art-panel" aria-hidden="true">
+        <div class="scene scene-review">
+  <span class="mini-window review-window"><span class="tabstrip"><i class="tab active"></i></span><i class="bar heading w52"></i><i class="bar w62"></i><i class="metric m1"></i><i class="metric m2"></i><i class="missing-art"></i></span>
+  <span class="lens"></span><span class="issue-ring"></span>
+</div>
+      </div>
+      <div class="tile-copy">
+        <span class="icon-chip" aria-hidden="true"><svg viewBox="0 0 24 24"><circle pathLength="1" cx="10.5" cy="10.5" r="5.5"/><path pathLength="1" d="m15 15 4.5 4.5"/></svg></span>
+        <span class="tile-kicker">02 · BATCH 02</span>
+        <h3>发现缺口</h3>
+        <p>审阅指出第 14 页只有文字和 KPI 卡片，整套稿件没有插图。</p>
+        <div class="tile-delta"><span>调用 design_review</span><span>v001 待修订</span></div>
+      </div>
+    </a>
+    <a class="feature-tile" href="#stage-3" data-tile data-stage="3">
+      <div class="art-panel" aria-hidden="true">
+        <div class="scene scene-extend">
+  <span class="mini-card builder-stack"><i class="version-dot d1"></i><i class="version-dot d2"></i><i class="version-dot d3"></i><i class="version-dot d4"></i><i class="bar heading w30"></i><i class="bar w24"></i></span>
+  <span class="mini-window art-window"><span class="tabstrip"><i class="tab active"></i></span><i class="bar heading w38"></i><i class="art-slot"><i class="art-sun"></i><i class="art-hill"></i></i><i class="check-badge"></i></span>
+</div>
+      </div>
+      <div class="tile-copy">
+        <span class="icon-chip" aria-hidden="true"><svg viewBox="0 0 24 24"><path pathLength="1" d="m12 3 8 4-8 4-8-4z"/><path pathLength="1" d="m4 12 8 4 8-4"/><path pathLength="1" d="m4 17 8 4 8-4"/></svg></span>
+        <span class="tile-kicker">03 · BATCH 03</span>
+        <h3>扩展能力</h3>
+        <p>builder 更新到 v5 并支持插图；Agent 新建两个检查程序验证 v004。</p>
+        <div class="tile-delta"><span>builder v2→v5 · +2 tools</span><span>v004 · 2 张插图</span></div>
+      </div>
+    </a>
+    <a class="feature-tile" href="#stage-4" data-tile data-stage="4">
+      <div class="art-panel" aria-hidden="true">
+        <div class="scene scene-gate">
+  <span class="mini-window checklist"><span class="tabstrip"><i class="tab active"></i></span><i class="check-row r1"><b></b><i class="bar w42"></i></i><i class="check-row r2"><b></b><i class="bar w34"></i></i><i class="check-row r3"><b></b><i class="bar w38"></i></i><i class="check-row r4"><b></b><i class="bar w28"></i></i></span>
+  <span class="mini-card file-card"><i class="file-fold"></i><i class="bar heading w24"></i><i class="bar w18"></i></span>
+</div>
+      </div>
+      <div class="tile-copy">
+        <span class="icon-chip" aria-hidden="true"><svg viewBox="0 0 24 24"><path pathLength="1" d="M12 3 19 6v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path pathLength="1" d="m8.5 12 2.4 2.4 4.8-5"/></svg></span>
+        <span class="tile-kicker">04 · BATCH 04–06</span>
+        <h3>固化质量门槛</h3>
+        <p>验收程序迭代到 v5，并保存为 skill；发布工具从 v004 导出 HTML。</p>
+        <div class="tile-delta"><span>+ skill · + publisher</span><span>deck.html PASS</span></div>
+      </div>
+    </a>
+    <a class="feature-tile" href="#stage-5" data-tile data-stage="5">
+      <div class="art-panel" aria-hidden="true">
+        <div class="scene scene-auditor">
+  <span class="mini-window final-deck"><span class="tabstrip"><i class="tab active"></i></span><i class="bar heading w34"></i><i class="bar w30"></i><i class="final-art"></i><i class="approval-seal"></i></span>
+  <span class="mini-card auditor-card"><i class="eye"></i><i class="bar w18"></i></span>
+</div>
+      </div>
+      <div class="tile-copy">
+        <span class="icon-chip" aria-hidden="true"><svg viewBox="0 0 24 24"><path pathLength="1" d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><circle pathLength="1" cx="12" cy="12" r="2.5"/></svg></span>
+        <span class="tile-kicker">05 · BATCH 08–12</span>
+        <h3>独立审阅</h3>
+        <p>Agent 保持已批准的 deck 不变，新增只读审阅角色和对应 prompt。</p>
+        <div class="tile-delta"><span>+ auditor · + prompt</span><span>v004 保持稳定</span></div>
+      </div>
+    </a>
+  </div>
+
+  <div class="studio" id="demo1-studio" data-studio>
+    <div class="studio-bar">
+      <div class="stepper" role="tablist" aria-label="选择阶段">
+        <button type="button" role="tab" id="stage-0" data-step="0" aria-controls="stage-panel-0" aria-selected="true"><b>00</b><span>原始 loop</span></button>
+        <button type="button" role="tab" id="stage-1" data-step="1" aria-controls="stage-panel-1" aria-selected="false"><b>01</b><span>第一件工具</span></button>
+        <button type="button" role="tab" id="stage-2" data-step="2" aria-controls="stage-panel-2" aria-selected="false"><b>02</b><span>发现缺口</span></button>
+        <button type="button" role="tab" id="stage-3" data-step="3" aria-controls="stage-panel-3" aria-selected="false"><b>03</b><span>扩展能力</span></button>
+        <button type="button" role="tab" id="stage-4" data-step="4" aria-controls="stage-panel-4" aria-selected="false"><b>04</b><span>固化质量门槛</span></button>
+        <button type="button" role="tab" id="stage-5" data-step="5" aria-controls="stage-panel-5" aria-selected="false"><b>05</b><span>独立审阅</span></button>
+      </div>
+      <div class="studio-controls">
+        <button type="button" data-prev aria-label="上一阶段">←</button>
+        <button type="button" data-play aria-pressed="false"><span>自动回放</span></button>
+        <button type="button" data-next aria-label="下一阶段">→</button>
+      </div>
     </div>
-
-    <section class="demo-panel" id="panel-deliverable" role="tabpanel" aria-labelledby="tab-deliverable">
-      <div class="delivery-head"><div><span class="component-type">DELIVERY · V004</span><h3>JPMorgan Chase · Third Quarter 2021</h3><p>独立 HTML 演示稿，可键盘翻页并打印；成品与渲染证据均来自指定 r2 运行。</p></div><a class="button dark-button" href="assets/demo1/deck.html" target="_blank" rel="noopener">单独打开 deck.html <span>↗</span></a></div>
-      <div class="delivery-grid">
-        <div class="deck-embed-wrap"><iframe class="deck-embed" src="assets/demo1/deck.html" title="JPMorgan Chase Q3 2021 v004 HTML deck" loading="lazy"></iframe><div class="deck-caption"><span>SELF-CONTAINED HTML · 15 SLIDES</span><a href="assets/demo1/deck.html" download>下载 deck.html ↓</a></div></div>
-        <aside class="deck-facts delivery-facts"><div class="fact-label">V004 acceptance</div><div class="quality-line"><span>15 slides <small>15 页准确</small></span><b>PASS</b></div><div class="quality-line"><span>Source citations <small>数据逐页引用</small></span><b>PASS</b></div><div class="quality-line"><span>Inline visuals <small>两张自包含插图</small></span><b>2</b></div><div class="quality-line"><span>Bounds warnings <small>布局边界告警</small></span><b>0</b></div><div class="fact-rule"></div><p>Agent-authored acceptance_check@v5：键盘导航、离线运行与打印分页均通过。</p></aside>
-      </div>
-      <div class="delivery-contact"><a href="assets/demo1/v004-contact-sheet.png" target="_blank" rel="noopener"><img src="assets/demo1/v004-contact-sheet.png" alt="v004 最终 15 页联系表"></a><div><b>V004 最终渲染缩略图</b><span>点击图片查看大图。成品 iframe 可直接逐页浏览。</span></div></div>
-    </section>
-
-    <section class="demo-panel" id="panel-trajectory" role="tabpanel" aria-labelledby="tab-trajectory" hidden>
-      <div class="trajectory-heading"><div><span class="component-type">EXECUTION BATCHES 01–12</span><h3>前 12 个执行批次：方法形成与交付验证</h3><p>按 r2 生命周期账本的 batch 字段排列。v004 `deck.html` 在第 6 批已导出；此处不展示第 12 批之后的轨迹。</p></div><span class="cutoff-badge">CUTOFF<br><b>12 / 328</b></span></div>
-      <ol class="trajectory-list">
-        <li><span>01 · TASK</span><b>从空组件目录起步</b><p>初始目录没有命名程序。Agent 创建 earnings_deck_builder v1，发现调用签名错误后自行修订为 v2，并生成 15 页场景。</p></li>
-        <li><span>02 · REVIEW</span><b>看见首轮渲染的视觉缺口</b><p>首轮渲染无几何告警；design_review 指出第 14 页以文字和 KPI 卡片为主，视觉叙事不足，Agent 决定继续改进。</p></li>
-        <li><span>03 · BUILD</span><b>扩展生成与验收能力</b><p>Agent 多次迭代 builder，放大标签和引用、支持故事插图；并创建 acceptance_check 与 deck_acceptance 工具。</p></li>
-        <li><span>04 · VERIFY</span><b>确认 v004 渲染质量</b><p>全尺寸检查确认插图与社区页清晰；15 页、引用、无边界告警、离线导航和打印检查通过，并保存验收 skill。</p></li>
-        <li><span>05 · EXPORT</span><b>创建 HTML 发布工具</b><p>Agent 修订 acceptance_check，并创建 publish_deck_html，将经验证的渲染导出为独立 HTML。</p></li>
-        <li><span>06 · DELIVER</span><b>导出并验收 deck.html</b><p>从 v004 渲染独立导出最终交付件；15 页、来源引用、两张内嵌图像、离线导航与打印通过。</p></li>
-        <li><span>07 · TASK</span><b>继续检查交付闭环</b><p>运行继续推进；生命周期账本只记录新批次开始，没有记录该批次的结算说明。</p></li>
-        <li><span>08 · HARNESS</span><b>增加只读审阅角色</b><p>Agent 明确不改已批准的 deck，新增 acceptance auditor 角色，为交付提供独立、基于证据的 pass/fail。</p></li>
-        <li><span>09 · TASK</span><b>继续处理验收绑定问题</b><p>批次开始记录显示 Agent 继续处理验收与交付环节；账本没有该批次的结算说明。</p></li>
-        <li><span>10 · TASK</span><b>延续交付检查</b><p>日志记录新批次开始，但没有足够证据说明该批次的具体变更或结果。</p></li>
-        <li><span>11 · CHECK</span><b>再次运行 acceptance_check</b><p>组件运行账本记录 Agent 调用 acceptance_check；未记录新的组件保存。</p></li>
-        <li><span>12 · CHECK</span><b>继续运行验收</b><p>组件运行账本再次记录 acceptance_check 调用。此展示在前 12 批截断，不把后续日志混入轨迹。</p></li>
-      </ol>
-      <div class="checkpoint-strip"><a href="assets/demo1/v001-contact-sheet.png" target="_blank" rel="noopener"><img src="assets/demo1/v001-contact-sheet.png" alt="v001 初始渲染"><span>V001 · 初始渲染</span></a><a href="assets/demo1/v003-contact-sheet.png" target="_blank" rel="noopener"><img src="assets/demo1/v003-contact-sheet.png" alt="v003 中间渲染"><span>V003 · 中间渲染</span></a><a href="assets/demo1/v004-contact-sheet.png" target="_blank" rel="noopener"><img src="assets/demo1/v004-contact-sheet.png" alt="v004 验收渲染"><span>V004 · 交付渲染</span></a></div>
-      <p class="run-note"><b>范围说明：</b>运行共 328 批；页面轨迹只展示第 1–12 批。`deck.html` 于第 6 批交付，运行后续完成时的最终 acceptance_check@v5 确认 15 页、零告警、两张内嵌视觉、键盘导航与打印分页通过。</p>
-    </section>
-
-    <section class="demo-panel" id="panel-harness" role="tabpanel" aria-labelledby="tab-harness" hidden>
-      <div class="trajectory-heading"><div><span class="component-type">PERSISTED HARNESS · AT DELIVERY CUTOFF</span><h3>任务产物之外，保存下来的可复用能力</h3><p>这些文件在 r2 的 workspace 中形成可读、可修改的 harness 组件。点击文件名可查看原始内容。</p></div><span class="cutoff-badge">7 FILES<br><b>4 TYPES</b></span></div>
-      <div class="harness-groups">
-        <article class="harness-group"><div class="harness-kind">SUBAGENT + PROMPT</div><h4>Acceptance check</h4><p>一个只读交付审阅角色及其指令，要求给出证据化的 pass/fail，且不能改写 deck。</p><a href="components/agents/acceptance_check.md">agents/acceptance_check.md ↗</a><a href="components/prompts/acceptance_check.md">prompts/acceptance_check.md ↗</a></article>
-        <article class="harness-group"><div class="harness-kind">SKILL</div><h4>Acceptance protocol</h4><p>固定验收标准：页数、来源引用、渲染边界、导航、打印分页和内嵌图像。</p><a href="components/skills/acceptance_check.md">skills/acceptance_check/SKILL.md ↗</a></article>
-        <article class="harness-group"><div class="harness-kind">TOOLS · 4</div><h4>Build, inspect, export</h4><p>从叙事构建 slide scene；运行程序化验收；做独立 deck 审查；发布自包含 HTML。</p><a href="components/tools/earnings_deck_builder.py">earnings_deck_builder.py ↗</a><a href="components/tools/acceptance_check.py">acceptance_check.py ↗</a><a href="components/tools/deck_acceptance.py">deck_acceptance.py ↗</a><a href="components/tools/publish_deck_html.py">publish_deck_html.py ↗</a></article>
-      </div>
-      <div class="harness-foot"><span>DELIVERY STATE</span><p>程序组件与 review skill 在任务中经过修改和调用；保存的版本随同 deck.html 一起留在 workspace，供下一份任务继续复用。</p></div>
-    </section>
+    <div class="studio-progress" aria-hidden="true"><i></i></div>
+    <div class="studio-panels">
+      <article class="stage-panel" id="stage-panel-0" role="tabpanel" aria-labelledby="stage-0" data-active>
+        <header class="stage-head">
+          <div class="stage-copy"><span class="stage-kicker">00 · BATCH 01 · START</span><h3>只有任务 loop，没有命名工具</h3><p>运行开始时，harness 目录为空。Agent 只有基础 loop：读取任务、调用模型、观察结果，再决定要沉淀什么。</p></div>
+          <div class="stage-side">
+            <div class="stage-count"><b>0 → 0</b><span>Agent 组件 · 0 个变更 · 0 个被调用</span></div>
+            <div class="stage-used"><b>本阶段调用</b><span class="none">无</span></div>
+          </div>
+        </header>
+        <div class="stage-grid">
+          <section class="pane trace-pane" aria-label="Agent 轨迹">
+            <div class="pane-head"><b>AGENT TRACE</b><span>一次 loop 的四步</span></div>
+            <ol class="loop-steps">
+              <li style="--i:0"><span>观察</span><p>组件目录返回 No named programs</p></li>
+              <li style="--i:1"><span>判断</span><p>先理解材料，再决定沉淀什么方法</p></li>
+              <li style="--i:2"><span>改 harness</span><p>暂不保存组件，先调用 list_programs 确认现状</p></li>
+              <li style="--i:3"><span>工作区结果</span><p>工作区只有任务说明和原始业绩材料</p></li>
+            </ol>
+            <div class="pane-head sub"><b>EVENTS</b><span>运行记录（UTC）</span></div>
+            <ol class="events">
+              <li style="--i:4"><time>03:01:19</time><span class="chip lane-runtime">lifecycle</span><p>第 1 批开始，组件目录没有命名程序</p></li>
+              <li style="--i:5"><time>03:01:30</time><span class="chip lane-runtime">runtime</span><p>Agent 调用 list_programs 检查可用程序</p></li>
+            </ol>
+          </section>
+          <section class="pane work-pane" aria-label="工作区交付件">
+            <div class="pane-head"><b>WORKSPACE</b><strong class="work-label">原始材料</strong></div>
+            <ul class="checks"><li>尚无渲染版本</li><li>尚无验收标准</li></ul>
+            <div class="rail-row"><ol class="rail">
+              <li class="current">SOURCE</li>
+              <li class="">v001</li>
+              <li class="">v003</li>
+              <li class="">v004</li>
+              <li class="">deck.html</li>
+            </ol></div>
+            <div class="sheet-box"><figure class="sheet source-sheet"><div class="source-doc"><i></i><i></i><i></i><i></i><i></i><i></i></div><figcaption><span>JPMorgan Chase 3Q21 earnings release</span><span>目标：15 页、带来源引用的 HTML 演示稿</span></figcaption></figure></div>
+          </section>
+          <section class="pane tree-pane" aria-label="Harness 文件树">
+            <div class="pane-head"><b>HARNESS</b><span>harness/ · 当前组件</span></div>
+            <ul class="tree">
+              <li class="dir lane-prompts"><div class="dir-row"><span class="dot"></span><b>prompts/</b><small>Prompt · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-skills"><div class="dir-row"><span class="dot"></span><b>skills/</b><small>Skills · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-tools"><div class="dir-row"><span class="dot"></span><b>tools/</b><small>Tools · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-agents"><div class="dir-row"><span class="dot"></span><b>agents/</b><small>Subagents · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-memory"><div class="dir-row"><span class="dot"></span><b>memory/</b><small>审阅摘要 · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+            </ul>
+          </section>
+        </div>
+      </article>
+      <article class="stage-panel" id="stage-panel-1" role="tabpanel" aria-labelledby="stage-1">
+        <header class="stage-head">
+          <div class="stage-copy"><span class="stage-kicker">01 · BATCH 01</span><h3>把重复建页过程写成生成器</h3><p>Agent 先让 research 整理叙事，再把 15 页的构建过程写成 earnings_deck_builder。第一次调用失败后，它立即修改并生成首版渲染。</p></div>
+          <div class="stage-side">
+            <div class="stage-count"><b>0 → 1</b><span>Agent 组件 · 1 个变更 · 3 个被调用</span></div>
+            <div class="stage-used"><b>本阶段调用</b><span class="chip lane-agents">agents/research</span><span class="chip lane-agents">agents/visual_asset</span><span class="chip lane-tools">tools/earnings_deck_builder.py</span></div>
+          </div>
+        </header>
+        <div class="stage-grid">
+          <section class="pane trace-pane" aria-label="Agent 轨迹">
+            <div class="pane-head"><b>AGENT TRACE</b><span>一次 loop 的四步</span></div>
+            <ol class="loop-steps">
+              <li style="--i:0"><span>观察</span><p>research 给出 15 页叙事；图像角色未返回图片</p></li>
+              <li style="--i:1"><span>判断</span><p>页面结构重复，适合交给程序生成</p></li>
+              <li style="--i:2"><span>改 harness</span><p>新增 builder v1，失败后修订为 v2</p></li>
+              <li style="--i:3"><span>工作区结果</span><p>得到 v001：15 页，0 张插图，0 个边界告警</p></li>
+            </ol>
+            <div class="pane-head sub"><b>EVENTS</b><span>运行记录（UTC）</span></div>
+            <ol class="events">
+              <li style="--i:4"><time>03:02:23</time><span class="chip lane-agents">research</span><p>整理 15 页业绩叙事</p></li>
+              <li style="--i:5" class="fail"><time>03:03:35</time><span class="chip lane-agents">visual_asset</span><p>图像生成没有返回图片</p></li>
+              <li style="--i:6"><time>03:04:40</time><span class="chip lane-tools">save builder v1</span><p>新增 earnings_deck_builder</p></li>
+              <li style="--i:7" class="fail"><time>03:05:41</time><span class="chip lane-tools">builder v1</span><p>调用失败：run() 缺少 env 参数</p></li>
+              <li style="--i:8"><time>03:05:52</time><span class="chip lane-tools">builder v2</span><p>修订后调用成功，生成 15 页</p></li>
+            </ol>
+          </section>
+          <section class="pane work-pane" aria-label="工作区交付件">
+            <div class="pane-head"><b>WORKSPACE</b><strong class="work-label">v001 · 15 页总览</strong></div>
+            <ul class="checks"><li>15 页全部生成</li><li>0 张插图</li><li>0 个渲染边界告警</li></ul>
+            <div class="rail-row"><ol class="rail">
+              <li class="done">SOURCE</li>
+              <li class="current">v001</li>
+              <li class="">v003</li>
+              <li class="">v004</li>
+              <li class="">deck.html</li>
+            </ol></div>
+            <div class="sheet-box"><figure class="sheet"><img src="assets/demo1/v001-contact-sheet.png" alt="v001 · 15 页总览：全部幻灯片缩略图" loading="lazy" width="1440" height="1470"></figure></div>
+          </section>
+          <section class="pane tree-pane" aria-label="Harness 文件树">
+            <div class="pane-head"><b>HARNESS</b><span>harness/ · 当前组件</span></div>
+            <ul class="tree">
+              <li class="dir lane-prompts"><div class="dir-row"><span class="dot"></span><b>prompts/</b><small>Prompt · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-skills"><div class="dir-row"><span class="dot"></span><b>skills/</b><small>Skills · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-tools"><div class="dir-row"><span class="dot"></span><b>tools/</b><small>Tools · 1</small></div><ul>
+                <li class="file is-new is-used"><div class="file-row"><code><a href="components/tools/earnings_deck_builder.py" target="_blank" rel="noopener">earnings_deck_builder.py</a></code><span class="ver">v2</span><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 把业绩故事数据生成 15 页幻灯片场景</p></li>
+              </ul></li>
+              <li class="dir lane-agents"><div class="dir-row"><span class="dot"></span><b>agents/</b><small>Subagents · 3</small></div><ul>
+                <li class="file is-used"><div class="file-row"><code>research</code><em class="st-used">调用</em></div><p># 阅读业绩材料，提出 15 页叙事结构</p></li>
+                <li class="file is-used"><div class="file-row"><code>visual_asset</code><em class="st-used">调用</em></div><p># 构思插图并调用图像生成</p></li>
+                <li class="file "><div class="file-row"><code>design_review</code></div><p># 检查渲染页面中的视觉问题</p></li>
+              </ul></li>
+              <li class="dir lane-memory"><div class="dir-row"><span class="dot"></span><b>memory/</b><small>审阅摘要 · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+            </ul>
+          </section>
+        </div>
+      </article>
+      <article class="stage-panel" id="stage-panel-2" role="tabpanel" aria-labelledby="stage-2">
+        <header class="stage-head">
+          <div class="stage-copy"><span class="stage-kicker">02 · BATCH 02</span><h3>首版通过几何检查，但视觉叙事不足</h3><p>设计审阅指出第 14 页只依赖文字和 KPI 卡片，整套稿件也没有插图。Agent 决定修改可复用的版式与故事呈现方式。</p></div>
+          <div class="stage-side">
+            <div class="stage-count"><b>1 → 1</b><span>Agent 组件 · 1 个变更 · 1 个被调用</span></div>
+            <div class="stage-used"><b>本阶段调用</b><span class="chip lane-agents">agents/design_review</span></div>
+          </div>
+        </header>
+        <div class="stage-grid">
+          <section class="pane trace-pane" aria-label="Agent 轨迹">
+            <div class="pane-head"><b>AGENT TRACE</b><span>一次 loop 的四步</span></div>
+            <ol class="loop-steps">
+              <li style="--i:0"><span>观察</span><p>design_review：第 14 页缺少视觉叙事</p></li>
+              <li style="--i:1"><span>判断</span><p>问题来自可复用模板，应该修改生成方法</p></li>
+              <li style="--i:2"><span>改 harness</span><p>调用 design_review；审阅结论记入 memory</p></li>
+              <li style="--i:3"><span>工作区结果</span><p>v001 被标记为需要修订</p></li>
+            </ol>
+            <div class="pane-head sub"><b>EVENTS</b><span>运行记录（UTC）</span></div>
+            <ol class="events">
+              <li style="--i:4"><time>03:06:17</time><span class="chip lane-runtime">render</span><p>v001 渲染完成：15 页，0 张图片，无告警</p></li>
+              <li style="--i:5"><time>03:06:57</time><span class="chip lane-agents">design_review</span><p>指出第 14 页缺少图像与视觉变化</p></li>
+              <li style="--i:6"><time>03:06:57</time><span class="chip lane-runtime">decision</span><p>选择 revise，继续修改而非接受首版</p></li>
+            </ol>
+          </section>
+          <section class="pane work-pane" aria-label="工作区交付件">
+            <div class="pane-head"><b>WORKSPACE</b><strong class="work-label">v001 · 第 14 页被标记</strong></div>
+            <ul class="checks"><li>第 14 页：只有文字和 KPI 卡片</li><li>整套稿件：没有插图</li><li>决定：修改可复用生成方法</li></ul>
+            <div class="rail-row"><ol class="rail">
+              <li class="done">SOURCE</li>
+              <li class="current">v001</li>
+              <li class="">v003</li>
+              <li class="">v004</li>
+              <li class="">deck.html</li>
+            </ol></div>
+            <div class="sheet-box"><figure class="sheet"><img src="assets/demo1/v001-contact-sheet.png" alt="v001 · 第 14 页被标记：全部幻灯片缩略图" loading="lazy" width="1440" height="1470"><span class="slide-mark" style="left:33.333%;top:80.0%;width:33.333%;height:18.367%"><b>p14</b></span></figure></div>
+          </section>
+          <section class="pane tree-pane" aria-label="Harness 文件树">
+            <div class="pane-head"><b>HARNESS</b><span>harness/ · 当前组件</span></div>
+            <ul class="tree">
+              <li class="dir lane-prompts"><div class="dir-row"><span class="dot"></span><b>prompts/</b><small>Prompt · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-skills"><div class="dir-row"><span class="dot"></span><b>skills/</b><small>Skills · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-tools"><div class="dir-row"><span class="dot"></span><b>tools/</b><small>Tools · 1</small></div><ul>
+                <li class="file is-kept"><div class="file-row"><code><a href="components/tools/earnings_deck_builder.py" target="_blank" rel="noopener">earnings_deck_builder.py</a></code><span class="ver">v2</span><em class="st-kept">保留</em></div><p># 把业绩故事数据生成 15 页幻灯片场景</p></li>
+              </ul></li>
+              <li class="dir lane-agents"><div class="dir-row"><span class="dot"></span><b>agents/</b><small>Subagents · 3</small></div><ul>
+                <li class="file "><div class="file-row"><code>research</code></div><p># 阅读业绩材料，提出 15 页叙事结构</p></li>
+                <li class="file "><div class="file-row"><code>visual_asset</code></div><p># 构思插图并调用图像生成</p></li>
+                <li class="file is-used"><div class="file-row"><code>design_review</code><em class="st-used">调用</em></div><p># 检查渲染页面中的视觉问题</p></li>
+              </ul></li>
+              <li class="dir lane-memory"><div class="dir-row"><span class="dot"></span><b>memory/</b><small>审阅摘要 · 1</small></div><ul>
+                <li class="file mem is-new"><div class="file-row"><code>v001-review.md</code><em class="st-new">新增</em></div><ul class="notes"><li>p14 仅文字与 KPI 卡</li><li>版式问题</li><li>全稿无插图（需 2–4 张）</li></ul></li>
+              </ul></li>
+            </ul>
+          </section>
+        </div>
+      </article>
+      <article class="stage-panel" id="stage-panel-3" role="tabpanel" aria-labelledby="stage-3">
+        <header class="stage-head">
+          <div class="stage-copy"><span class="stage-kicker">03 · BATCH 03</span><h3>生成器学会插图，验收开始程序化</h3><p>Agent 将 builder 连续更新到 v5，放大标签与引用，并支持故事插图。随后它创建两个检查程序，用来判断新渲染是否满足要求。</p></div>
+          <div class="stage-side">
+            <div class="stage-count"><b>1 → 3</b><span>Agent 组件 · 4 个变更 · 3 个被调用</span></div>
+            <div class="stage-used"><b>本阶段调用</b><span class="chip lane-tools">tools/earnings_deck_builder.py</span><span class="chip lane-tools">tools/acceptance_check.py</span><span class="chip lane-tools">tools/deck_acceptance.py</span></div>
+          </div>
+        </header>
+        <div class="stage-grid">
+          <section class="pane trace-pane" aria-label="Agent 轨迹">
+            <div class="pane-head"><b>AGENT TRACE</b><span>一次 loop 的四步</span></div>
+            <ol class="loop-steps">
+              <li style="--i:0"><span>观察</span><p>审阅反馈：缺少插图，标签与引用偏小</p></li>
+              <li style="--i:1"><span>判断</span><p>修改生成方法，同时为质量判断建立工具</p></li>
+              <li style="--i:2"><span>改 harness</span><p>builder v2 → v5；新增两个验收工具</p></li>
+              <li style="--i:3"><span>工作区结果</span><p>v004：15 页，2 张内嵌插图，0 个告警</p></li>
+            </ol>
+            <div class="pane-head sub"><b>EVENTS</b><span>运行记录（UTC）</span></div>
+            <ol class="events">
+              <li style="--i:4"><time>03:08:15</time><span class="chip lane-tools">save builder v3</span><p>builder 加入插图位与更大的标签</p></li>
+              <li style="--i:5"><time>03:08:59</time><span class="chip lane-tools">save builder v5</span><p>builder 连续修订到 v5</p></li>
+              <li style="--i:6"><time>03:09:42</time><span class="chip lane-runtime">render</span><p>v003 渲染完成：15 页，2 张图片</p></li>
+              <li style="--i:7"><time>03:11:35</time><span class="chip lane-tools">save acceptance v1</span><p>新增 acceptance_check</p></li>
+              <li style="--i:8"><time>03:13:00</time><span class="chip lane-tools">save deck_acceptance</span><p>新增 deck_acceptance v1</p></li>
+              <li style="--i:9"><time>03:14:42</time><span class="chip lane-tools">acceptance v2</span><p>引用、告警、插图、导航与打印全部通过</p></li>
+            </ol>
+          </section>
+          <section class="pane work-pane" aria-label="工作区交付件">
+            <div class="pane-head"><b>WORKSPACE</b><strong class="work-label">v004 · 第 14 页加入插图</strong></div>
+            <ul class="checks"><li>v003 → v004 两次重渲染</li><li>第 14 页加入街区插图</li><li>acceptance_check 返回 PASS</li></ul>
+            <div class="rail-row"><ol class="rail">
+              <li class="done">SOURCE</li>
+              <li class="done">v001</li>
+              <li class="done">v003</li>
+              <li class="current">v004</li>
+              <li class="">deck.html</li>
+            </ol></div>
+            <div class="sheet-box"><figure class="sheet"><img src="assets/demo1/v004-contact-sheet.png" alt="v004 · 第 14 页加入插图：全部幻灯片缩略图" loading="lazy" width="1440" height="1470"><span class="slide-mark" style="left:33.333%;top:80.0%;width:33.333%;height:18.367%"><b>p14</b></span></figure></div>
+          </section>
+          <section class="pane tree-pane" aria-label="Harness 文件树">
+            <div class="pane-head"><b>HARNESS</b><span>harness/ · 当前组件</span></div>
+            <ul class="tree">
+              <li class="dir lane-prompts"><div class="dir-row"><span class="dot"></span><b>prompts/</b><small>Prompt · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-skills"><div class="dir-row"><span class="dot"></span><b>skills/</b><small>Skills · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-tools"><div class="dir-row"><span class="dot"></span><b>tools/</b><small>Tools · 3</small></div><ul>
+                <li class="file is-updated is-used"><div class="file-row"><code><a href="components/tools/earnings_deck_builder.py" target="_blank" rel="noopener">earnings_deck_builder.py</a></code><span class="ver">v5</span><em class="st-updated">更新</em><em class="st-used">调用</em></div><p># 把业绩故事数据生成 15 页幻灯片场景</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code><a href="components/tools/acceptance_check.py" target="_blank" rel="noopener">acceptance_check.py</a></code><span class="ver">v2</span><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 检查页数、引用、告警、插图、导航与打印</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code><a href="components/tools/deck_acceptance.py" target="_blank" rel="noopener">deck_acceptance.py</a></code><span class="ver">v1</span><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 对演示稿做一次独立的程序化检查</p></li>
+              </ul></li>
+              <li class="dir lane-agents"><div class="dir-row"><span class="dot"></span><b>agents/</b><small>Subagents · 3</small></div><ul>
+                <li class="file "><div class="file-row"><code>research</code></div><p># 阅读业绩材料，提出 15 页叙事结构</p></li>
+                <li class="file "><div class="file-row"><code>visual_asset</code></div><p># 构思插图并调用图像生成</p></li>
+                <li class="file "><div class="file-row"><code>design_review</code></div><p># 检查渲染页面中的视觉问题</p></li>
+              </ul></li>
+              <li class="dir lane-memory"><div class="dir-row"><span class="dot"></span><b>memory/</b><small>审阅摘要 · 2</small></div><ul>
+                <li class="file mem is-kept"><div class="file-row"><code>v001-review.md</code><em class="st-kept">保留</em></div><ul class="notes"><li>p14 仅文字与 KPI 卡</li><li>版式问题</li><li>全稿无插图（需 2–4 张）</li></ul></li>
+                <li class="file mem is-new"><div class="file-row"><code>v004-check.md</code><em class="st-new">新增</em></div><ul class="notes"><li>15 页均有引用</li><li>0 告警</li><li>2 张插图</li><li>键盘与打印可用</li></ul></li>
+              </ul></li>
+            </ul>
+          </section>
+        </div>
+      </article>
+      <article class="stage-panel" id="stage-panel-4" role="tabpanel" aria-labelledby="stage-4">
+        <header class="stage-head">
+          <div class="stage-copy"><span class="stage-kicker">04 · BATCH 04–06</span><h3>验收方法和 HTML 发布方法被保存下来</h3><p>Agent 将验收程序迭代到 v5，并保存为可复用 skill。随后它创建 publish_deck_html，从已验证的 v004 导出自包含 HTML，再次运行验收。</p></div>
+          <div class="stage-side">
+            <div class="stage-count"><b>3 → 5</b><span>Agent 组件 · 4 个变更 · 2 个被调用</span></div>
+            <div class="stage-used"><b>本阶段调用</b><span class="chip lane-tools">tools/acceptance_check.py</span><span class="chip lane-tools">tools/publish_deck_html.py</span></div>
+          </div>
+        </header>
+        <div class="stage-grid">
+          <section class="pane trace-pane" aria-label="Agent 轨迹">
+            <div class="pane-head"><b>AGENT TRACE</b><span>一次 loop 的四步</span></div>
+            <ol class="loop-steps">
+              <li style="--i:0"><span>观察</span><p>v004 已可读，需要可重复的放行标准</p></li>
+              <li style="--i:1"><span>判断</span><p>把检查过程保存为 skill，并补充发布工具</p></li>
+              <li style="--i:2"><span>改 harness</span><p>acceptance v3 → v5；新增 skill 与 publisher</p></li>
+              <li style="--i:3"><span>工作区结果</span><p>生成 deck.html，验收保持 PASS</p></li>
+            </ol>
+            <div class="pane-head sub"><b>EVENTS</b><span>运行记录（UTC）</span></div>
+            <ol class="events">
+              <li style="--i:4"><time>03:15:48</time><span class="chip lane-tools">save acceptance v3</span><p>验收项加入键盘导航与打印分页</p></li>
+              <li style="--i:5"><time>03:16:31</time><span class="chip lane-skills">self_component</span><p>保存 acceptance_check skill</p></li>
+              <li style="--i:6"><time>03:18:22</time><span class="chip lane-tools">save publisher v1</span><p>新增 publish_deck_html</p></li>
+              <li style="--i:7"><time>03:18:51</time><span class="chip lane-tools">publisher v1</span><p>从 v004 导出 131,364 字节的自包含 HTML</p></li>
+              <li style="--i:8"><time>03:20:48</time><span class="chip lane-tools">acceptance v5</span><p>deck.html 验收通过</p></li>
+            </ol>
+          </section>
+          <section class="pane work-pane" aria-label="工作区交付件">
+            <div class="pane-head"><b>WORKSPACE</b><strong class="work-label">deck.html · 来自 v004</strong></div>
+            <ul class="checks"><li>15 页来源引用：PASS</li><li>0 个渲染告警：PASS</li><li>2 张内嵌插图：PASS</li><li>键盘导航与打印分页：PASS</li></ul>
+            <div class="rail-row"><ol class="rail">
+              <li class="done">SOURCE</li>
+              <li class="done">v001</li>
+              <li class="done">v003</li>
+              <li class="done">v004</li>
+              <li class="current">deck.html</li>
+            </ol><a class="work-link" href="assets/demo1/deck.html" target="_blank" rel="noopener">打开 deck.html ↗</a></div>
+            <div class="sheet-box"><figure class="sheet"><img src="assets/demo1/v004-contact-sheet.png" alt="deck.html · 来自 v004：全部幻灯片缩略图" loading="lazy" width="1440" height="1470"></figure></div>
+          </section>
+          <section class="pane tree-pane" aria-label="Harness 文件树">
+            <div class="pane-head"><b>HARNESS</b><span>harness/ · 当前组件</span></div>
+            <ul class="tree">
+              <li class="dir lane-prompts"><div class="dir-row"><span class="dot"></span><b>prompts/</b><small>Prompt · 0</small></div><ul>
+                <li class="file empty"><code>（空）</code></li>
+              </ul></li>
+              <li class="dir lane-skills"><div class="dir-row"><span class="dot"></span><b>skills/</b><small>Skills · 1</small></div><ul>
+                <li class="file is-new"><div class="file-row"><code><a href="components/skills/acceptance_check.md" target="_blank" rel="noopener">acceptance_check/SKILL.md</a></code><span class="ver">v1</span><em class="st-new">新增</em></div><p># 保存可复用的交付验收流程</p></li>
+              </ul></li>
+              <li class="dir lane-tools"><div class="dir-row"><span class="dot"></span><b>tools/</b><small>Tools · 4</small></div><ul>
+                <li class="file is-kept"><div class="file-row"><code><a href="components/tools/earnings_deck_builder.py" target="_blank" rel="noopener">earnings_deck_builder.py</a></code><span class="ver">v5</span><em class="st-kept">保留</em></div><p># 把业绩故事数据生成 15 页幻灯片场景</p></li>
+                <li class="file is-updated is-used"><div class="file-row"><code><a href="components/tools/acceptance_check.py" target="_blank" rel="noopener">acceptance_check.py</a></code><span class="ver">v5</span><em class="st-updated">更新</em><em class="st-used">调用</em></div><p># 检查页数、引用、告警、插图、导航与打印</p></li>
+                <li class="file is-kept"><div class="file-row"><code><a href="components/tools/deck_acceptance.py" target="_blank" rel="noopener">deck_acceptance.py</a></code><span class="ver">v1</span><em class="st-kept">保留</em></div><p># 对演示稿做一次独立的程序化检查</p></li>
+                <li class="file is-new is-used"><div class="file-row"><code><a href="components/tools/publish_deck_html.py" target="_blank" rel="noopener">publish_deck_html.py</a></code><span class="ver">v1</span><em class="st-new">新增</em><em class="st-used">调用</em></div><p># 把已验证的渲染导出为自包含 deck.html</p></li>
+              </ul></li>
+              <li class="dir lane-agents"><div class="dir-row"><span class="dot"></span><b>agents/</b><small>Subagents · 3</small></div><ul>
+                <li class="file "><div class="file-row"><code>research</code></div><p># 阅读业绩材料，提出 15 页叙事结构</p></li>
+                <li class="file "><div class="file-row"><code>visual_asset</code></div><p># 构思插图并调用图像生成</p></li>
+                <li class="file "><div class="file-row"><code>design_review</code></div><p># 检查渲染页面中的视觉问题</p></li>
+              </ul></li>
+              <li class="dir lane-memory"><div class="dir-row"><span class="dot"></span><b>memory/</b><small>审阅摘要 · 3</small></div><ul>
+                <li class="file mem is-kept"><div class="file-row"><code>v001-review.md</code><em class="st-kept">保留</em></div><ul class="notes"><li>p14 仅文字与 KPI 卡</li><li>版式问题</li><li>全稿无插图（需 2–4 张）</li></ul></li>
+                <li class="file mem is-kept"><div class="file-row"><code>v004-check.md</code><em class="st-kept">保留</em></div><ul class="notes"><li>15 页均有引用</li><li>0 告警</li><li>2 张插图</li><li>键盘与打印可用</li></ul></li>
+                <li class="file mem is-new"><div class="file-row"><code>deck-check.md</code><em class="st-new">新增</em></div><ul class="notes"><li>PASS</li><li>0 告警 · 2 张插图</li><li>131 KB 自包含 HTML，源自 v004</li></ul></li>
+              </ul></li>
+            </ul>
+          </section>
+        </div>
+      </article>
+      <article class="stage-panel" id="stage-panel-5" role="tabpanel" aria-labelledby="stage-5">
+        <header class="stage-head">
+          <div class="stage-copy"><span class="stage-kicker">05 · BATCH 08–12</span><h3>加入只读审阅者，形成完整套件</h3><p>Agent 没有继续修改已批准的 deck，而是新增只读审阅角色和对应指令，并继续调用验收工具确认交付状态。</p></div>
+          <div class="stage-side">
+            <div class="stage-count"><b>5 → 7</b><span>Agent 组件 · 3 个变更 · 1 个被调用</span></div>
+            <div class="stage-used"><b>本阶段调用</b><span class="chip lane-tools">tools/acceptance_check.py</span></div>
+          </div>
+        </header>
+        <div class="stage-grid">
+          <section class="pane trace-pane" aria-label="Agent 轨迹">
+            <div class="pane-head"><b>AGENT TRACE</b><span>一次 loop 的四步</span></div>
+            <ol class="loop-steps">
+              <li style="--i:0"><span>观察</span><p>正式交付动作要求验收绑定</p></li>
+              <li style="--i:1"><span>判断</span><p>保持成品不变，增加独立证据审阅</p></li>
+              <li style="--i:2"><span>改 harness</span><p>新增 auditor agent 与 prompt</p></li>
+              <li style="--i:3"><span>工作区结果</span><p>成品保持 v004；验收工具继续返回结果</p></li>
+            </ol>
+            <div class="pane-head sub"><b>EVENTS</b><span>运行记录（UTC）</span></div>
+            <ol class="events">
+              <li style="--i:4"><time>03:22:36</time><span class="chip lane-runtime">lifecycle</span><p>说明不再修改已批准的 deck，转为独立审阅</p></li>
+              <li style="--i:5"><time>03:22:36</time><span class="chip lane-agents">save auditor</span><p>新增只读审阅角色与对应 prompt</p></li>
+              <li style="--i:6"><time>03:23:22</time><span class="chip lane-tools">acceptance v5</span><p>第 11 批再次检查交付物</p></li>
+              <li style="--i:7"><time>03:25:10</time><span class="chip lane-tools">acceptance v5</span><p>第 12 批再次检查交付物</p></li>
+            </ol>
+          </section>
+          <section class="pane work-pane" aria-label="工作区交付件">
+            <div class="pane-head"><b>WORKSPACE</b><strong class="work-label">v004 · 已批准，保持不变</strong></div>
+            <ul class="checks"><li>已批准的 deck 未再修改</li><li>新增只读交付审阅角色</li><li>第 11–12 批继续调用 acceptance_check v5</li></ul>
+            <div class="rail-row"><ol class="rail">
+              <li class="done">SOURCE</li>
+              <li class="done">v001</li>
+              <li class="done">v003</li>
+              <li class="done">v004</li>
+              <li class="current">deck.html</li>
+            </ol><a class="work-link" href="assets/demo1/deck.html" target="_blank" rel="noopener">打开 deck.html ↗</a></div>
+            <div class="sheet-box"><figure class="sheet"><img src="assets/demo1/v004-contact-sheet.png" alt="v004 · 已批准，保持不变：全部幻灯片缩略图" loading="lazy" width="1440" height="1470"></figure></div>
+          </section>
+          <section class="pane tree-pane" aria-label="Harness 文件树">
+            <div class="pane-head"><b>HARNESS</b><span>harness/ · 当前组件</span></div>
+            <ul class="tree">
+              <li class="dir lane-prompts"><div class="dir-row"><span class="dot"></span><b>prompts/</b><small>Prompt · 1</small></div><ul>
+                <li class="file is-new"><div class="file-row"><code><a href="components/prompts/acceptance_check.md" target="_blank" rel="noopener">acceptance_check.md</a></code><span class="ver">v1</span><em class="st-new">新增</em></div><p># 约束审阅角色只读取证据，给出 pass / fail</p></li>
+              </ul></li>
+              <li class="dir lane-skills"><div class="dir-row"><span class="dot"></span><b>skills/</b><small>Skills · 1</small></div><ul>
+                <li class="file is-kept"><div class="file-row"><code><a href="components/skills/acceptance_check.md" target="_blank" rel="noopener">acceptance_check/SKILL.md</a></code><span class="ver">v1</span><em class="st-kept">保留</em></div><p># 保存可复用的交付验收流程</p></li>
+              </ul></li>
+              <li class="dir lane-tools"><div class="dir-row"><span class="dot"></span><b>tools/</b><small>Tools · 4</small></div><ul>
+                <li class="file is-kept"><div class="file-row"><code><a href="components/tools/earnings_deck_builder.py" target="_blank" rel="noopener">earnings_deck_builder.py</a></code><span class="ver">v5</span><em class="st-kept">保留</em></div><p># 把业绩故事数据生成 15 页幻灯片场景</p></li>
+                <li class="file is-used"><div class="file-row"><code><a href="components/tools/acceptance_check.py" target="_blank" rel="noopener">acceptance_check.py</a></code><span class="ver">v5</span><em class="st-used">调用</em></div><p># 检查页数、引用、告警、插图、导航与打印</p></li>
+                <li class="file is-kept"><div class="file-row"><code><a href="components/tools/deck_acceptance.py" target="_blank" rel="noopener">deck_acceptance.py</a></code><span class="ver">v1</span><em class="st-kept">保留</em></div><p># 对演示稿做一次独立的程序化检查</p></li>
+                <li class="file is-kept"><div class="file-row"><code><a href="components/tools/publish_deck_html.py" target="_blank" rel="noopener">publish_deck_html.py</a></code><span class="ver">v1</span><em class="st-kept">保留</em></div><p># 把已验证的渲染导出为自包含 deck.html</p></li>
+              </ul></li>
+              <li class="dir lane-agents"><div class="dir-row"><span class="dot"></span><b>agents/</b><small>Subagents · 4</small></div><ul>
+                <li class="file "><div class="file-row"><code>research</code></div><p># 阅读业绩材料，提出 15 页叙事结构</p></li>
+                <li class="file "><div class="file-row"><code>visual_asset</code></div><p># 构思插图并调用图像生成</p></li>
+                <li class="file "><div class="file-row"><code>design_review</code></div><p># 检查渲染页面中的视觉问题</p></li>
+                <li class="file is-new"><div class="file-row"><code><a href="components/agents/acceptance_check.md" target="_blank" rel="noopener">acceptance_check.md</a></code><span class="ver">v1</span><em class="st-new">新增</em></div><p># 只读交付审阅角色，不修改已批准的 deck</p></li>
+              </ul></li>
+              <li class="dir lane-memory"><div class="dir-row"><span class="dot"></span><b>memory/</b><small>审阅摘要 · 4</small></div><ul>
+                <li class="file mem is-kept"><div class="file-row"><code>v001-review.md</code><em class="st-kept">保留</em></div><ul class="notes"><li>p14 仅文字与 KPI 卡</li><li>版式问题</li><li>全稿无插图（需 2–4 张）</li></ul></li>
+                <li class="file mem is-kept"><div class="file-row"><code>v004-check.md</code><em class="st-kept">保留</em></div><ul class="notes"><li>15 页均有引用</li><li>0 告警</li><li>2 张插图</li><li>键盘与打印可用</li></ul></li>
+                <li class="file mem is-kept"><div class="file-row"><code>deck-check.md</code><em class="st-kept">保留</em></div><ul class="notes"><li>PASS</li><li>0 告警 · 2 张插图</li><li>131 KB 自包含 HTML，源自 v004</li></ul></li>
+                <li class="file mem is-new"><div class="file-row"><code>batch11-12.md</code><em class="st-new">新增</em></div><ul class="notes"><li>已批准 deck 不再修改</li><li>v5 复查均正常返回</li></ul></li>
+              </ul></li>
+            </ul>
+          </section>
+        </div>
+      </article>
+    </div>
   </div>
+
+  <section class="proof-panel" aria-labelledby="proof-title">
+    <div class="proof-copy">
+      <span class="eyebrow dark">WORKSPACE RESULT</span>
+      <h3 id="proof-title">同一页，因 harness 改变而改变</h3>
+      <p>第 14 页从文字与 KPI 卡片，变为带内容插图的版本。成品保留 15 页、来源引用和零渲染告警。</p>
+      <a class="button dark-button" href="assets/demo1/deck.html" target="_blank" rel="noopener">打开 deck.html <span>↗</span></a>
+    </div>
+    <div class="proof-compare">
+      <figure><span>v001</span><img src="assets/demo1/v001-slide14.png" alt="v001 第 14 页，只有文字与 KPI 卡片" loading="lazy"></figure>
+      <i aria-hidden="true">→</i>
+      <figure class="after"><span>v004</span><img src="assets/demo1/v004-slide14.png" alt="v004 第 14 页，加入街区插图" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <p class="evo-footnote">research、visual_asset、design_review 三个角色由 demo 配置提供（demo/ppt-roles），不是 Agent 创建，页面从第 01 阶段起列在 agents/ 中。memory 栏按版本轮次整理 design_review 与 acceptance_check 的结论；本次运行没有保存 memory 组件。阶段说明依据 lifecycle、组件调用、审阅和渲染记录整理，是行动摘要，不是模型内部思维的逐字记录。本次运行共 328 批，页面只展示前 12 批；运行未调用正式交付动作，独立 HTML 交付包在运行结束后另行整理。</p>
+</section>
+<!-- DEMO1:END -->
+<section class="kaggle-demo section" id="demo-kaggle">
+  <div class="kaggle-heading">
+    <div><div class="eyebrow dark">DEMO 2 / KAGGLE · LIVE RUN SNAPSHOT</div><h2>从原始 loop，到<br><em>持续进化的竞赛工作流。</em></h2><p>按原始任务 loop、每个实验阶段和反馈窗口回放 agent 创建的 harness、Python 工具脚本与 workspace 交付件。工具代码按本 demo 口径包含 agent 写入并执行的 Python 脚本；正式登记的组件与实验脚本分开说明。</p></div>
+    <div class="kaggle-live"><span class="kaggle-live-dot"></span><b data-kaggle-status>正在运行</b><small data-kaggle-updated>更新于 2026-11-06 14:22（UTC+8）</small></div>
+  </div>
+  <div class="kaggle-stats" data-kaggle-stats></div>
+  <div class="kaggle-layout">
+    <nav class="kaggle-timeline" aria-label="Kaggle 运行阶段" data-kaggle-stages></nav>
+    <article class="kaggle-stage-detail" data-kaggle-detail aria-live="polite"></article>
+  </div>
+  <p class="kaggle-footnote">数据来自运行目录 `s6e11-agent-20261106-011741` 的提交账本、Python 执行账本、harness 组件文件与反思记录。CV 是本地交叉验证结果，LB 是 Kaggle public leaderboard 回执；未提交的 CV 不代表 Kaggle 分数。当前阶段显示最近一次有记录的执行状态，运行中结果会继续变化。</p>
 </section>
 
 <section class="video-demo section" id="demo-video">
-  <div class="video-heading"><div><div class="eyebrow dark">DEMO 2 / VIDEO · GPT-6.1 SOL</div><h2>基线 Codex 与 Agent 自进化方法</h2><p>两段均为 15 秒生成视频：左侧由基线 Codex 生成，右侧由 Agent 自进化方法生成，均使用 GPT-6.1 Sol。页面直接播放原始 1080p MP4，保留音轨，不二次压缩或转码。这是两种方法的成品展示，不是受控对照评测。</p></div><span class="video-spec">ORIGINAL FILES<br>1920 × 1080 · H.264 · AAC</span></div>
+  <div class="video-heading"><div><div class="eyebrow dark">DEMO 3 / VIDEO · GPT-6.1 SOL</div><h2>基线 Codex 与 Agent 自进化方法</h2><p>两段均为 15 秒生成视频：左侧由基线 Codex 生成，右侧由 Agent 自进化方法生成，均使用 GPT-6.1 Sol。页面直接播放原始 1080p MP4，保留音轨，不二次压缩或转码。这是两种方法的成品展示，不是受控对照评测。</p></div><span class="video-spec">ORIGINAL FILES<br>1920 × 1080 · H.264 · AAC</span></div>
   <div class="video-grid">
     <article class="video-card"><div class="video-card-head"><span class="video-index">A</span><div><span class="video-tag">BASELINE</span><h3>Codex</h3><small>GPT-6.1 Sol · 15 sec</small></div></div><div class="video-frame"><video controls preload="metadata" playsinline poster="assets/codex-baseline-poster.jpg" aria-label="基线 Codex GPT-6.1 Sol 原始视频"><source src="assets/codex-baseline-gpt-6.1-sol.mp4" type="video/mp4">浏览器不支持 MP4 播放，请<a href="assets/codex-baseline-gpt-6.1-sol.mp4">打开原视频</a>。</video></div><a class="video-file" href="assets/codex-baseline-gpt-6.1-sol.mp4" download>打开 / 下载原视频 ↗</a></article>
     <article class="video-card evolved"><div class="video-card-head"><span class="video-index">B</span><div><span class="video-tag">AGENT-NATIVE SELF-HARNESS</span><h3>Agent 自进化方法</h3><small>GPT-6.1 Sol · 15 sec</small></div></div><div class="video-frame"><video controls preload="metadata" playsinline poster="assets/agent-native-poster.jpg" aria-label="Agent 自进化方法 GPT-6.1 Sol 原始视频"><source src="assets/agent-native-gpt-6.1-sol.mp4" type="video/mp4">浏览器不支持 MP4 播放，请<a href="assets/agent-native-gpt-6.1-sol.mp4">打开原视频</a>。</video></div><a class="video-file" href="assets/agent-native-gpt-6.1-sol.mp4" download>打开 / 下载原视频 ↗</a></article>
   </div>
 </section>
 
-<section class="limits"><div class="eyebrow dark">SCOPE</div><p><b>Demo 1 展示 r2 的前 12 个执行批次，并以 v004 `deck.html` 为交付件。</b>页面呈现原始成品、选取的中间渲染与可复用组件沉淀；验收结论来自运行完成时的最终检查。</p><a href="https://github.com/tools-only/agent-native-self-harness" target="_blank" rel="noopener">源码与展示文件 ↗</a></section>
+<section class="limits"><div class="eyebrow dark">SCOPE</div><p><b>Demo 1 展示同一次 PPT 运行的前 12 个执行批次。</b>页面将这些批次归纳为 6 个阶段，并对齐 harness 组件变化与工作区渲染变化。</p><a href="https://github.com/tools-only/agent-native-self-harness" target="_blank" rel="noopener">源码与展示文件 ↗</a></section>
 </main>
 <footer><a class="brand" href="#top"><span class="brand-mark">A<span>↗</span></span><span>AGENT-NATIVE<br><b>SELF-HARNESS</b></span></a><span>Agent 塑造执行系统。Runtime 组装可复用能力。</span><a href="#top">回到顶部 ↑</a></footer>
 <script src="app.js"></script>
+<script src="demo1.js"></script>
+<script src="kaggle-demo.js"></script>
 </body>
 </html>
 
