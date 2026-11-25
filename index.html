@@ -51,6 +51,11 @@
       <article class="method-step"><div class="step-icon">＋</div><h3>能力沉淀为组件</h3><p>工具、skill、memory 与 subagent 可以被创建、修订、复用或退役，继续服务后续任务。</p><small>TOOLS · SKILLS · MEMORY · SUBAGENTS</small></article>
       <article class="method-step"><div class="step-icon">▦</div><h3>Runtime 组装可执行环境</h3><p>Runtime 将有效组件组织到 Agent 的执行上下文，让自建能力可调用并把运行证据返回给 Agent。</p><small>COMPOSE · EXPOSE · ROUTE</small></article>
     </div>
+    <div class="mechanism-diagrams">
+      <figure class="mechanism-diagram"><img src="assets/diagrams/01-dual-channel-architecture.png" alt="双通道架构图：Pi host、Agent loop 与 Python kernel 之间的文件与消息通道"><figcaption>双通道架构 · 状态在 kernel， billed context 在 host</figcaption></figure>
+      <figure class="mechanism-diagram"><img src="assets/diagrams/02-python-call-sequence.png" alt="Python 调用时序图：host rereads work 文件并在 kernel 中刷新状态"><figcaption>Python 调用时序 · 文件即自我，host 每次调用重新读取</figcaption></figure>
+      <figure class="mechanism-diagram"><img src="assets/diagrams/03-context-management.png" alt="一次 LLM 请求的上下文组成长条图：系统基底、段首状态、旧历史压缩、工具记录、steer 状态与当前轮"><figcaption>一次 LLM 请求的上下文组成 · 真正进入上下文的只有三条通道</figcaption></figure>
+    </div>
   </section>
 </section>
 
